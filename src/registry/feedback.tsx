@@ -18,7 +18,7 @@ function CommandDemo() {
   const [open, setOpen] = useState(false);
   return (
     <>
-      <Button variant="outline" onClick={() => setOpen(true)}>
+      <Button variant="secondary" onClick={() => setOpen(true)}>
         <Search className="size-4" /> Search… <Kbd>⌘</Kbd>
         <Kbd>K</Kbd>
       </Button>
@@ -62,18 +62,18 @@ export const feedback: RegistryEntry[] = [
         node: (
           <div className="flex flex-wrap gap-3">
             <Button
-              variant="outline"
+              variant="secondary"
               onClick={() => toast.success("Agent deployed", { description: "Reception · West is live." })}
             >
               Success
             </Button>
             <Button
-              variant="outline"
+              variant="secondary"
               onClick={() => toast.error("Call failed", { description: "No answer after 30s." })}
             >
               Error
             </Button>
-            <Button variant="outline" onClick={() => toast("Saved")}>
+            <Button variant="secondary" onClick={() => toast("Saved")}>
               Plain
             </Button>
           </div>
@@ -99,7 +99,7 @@ toast.success("Agent deployed", {
       {
         node: <CommandDemo />,
         code: `const [open, setOpen] = useState(false)
-<Button variant="outline" onClick={() => setOpen(true)}>Search… ⌘K</Button>
+<Button variant="secondary" onClick={() => setOpen(true)}>Search… ⌘K</Button>
 <CommandDialog open={open} onOpenChange={setOpen}>
   <CommandInput placeholder="Search agents, settings…" />
   <CommandList>

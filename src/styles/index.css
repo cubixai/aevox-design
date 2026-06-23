@@ -324,7 +324,7 @@
 :root {
   --train: #f9c652; /* dark: brighter, less muddy amber */
   --train-ghost: rgba(249, 198, 82, 0.14);
-  --stage: #090b0e; /* demo stage — a step below the cards so they pop off it */
+  --stage: #101319; /* demo preview surface — clean, between canvas and cards */
 }
 /* Light status palette — vivid + cohesive (same hues as dark, darkened just
    enough for white). Replaces the muddy/brown raw-export values. */
@@ -339,7 +339,7 @@
   --idle-ghost: rgba(99, 102, 241, 0.12);
   --pos: #13a06a;
   --neg: #e5486b;
-  --stage: #e3e8f0; /* light: a clear gray so white cards/components pop */
+  --stage: #f6f8fc; /* light: clean preview surface (cards pop via shadow) */
 }
 
 /* ============================================================
@@ -434,13 +434,17 @@
     background-color: var(--acc-ghost);
   }
 
-  /* ---- Badge → AeVox status tones (mono uppercase pills) + tag ---- */
+  /* ---- Badge → every variant is an AeVox mono-uppercase pill ---- */
   [data-slot="badge"][data-variant="live"],
   [data-slot="badge"][data-variant="training"],
   [data-slot="badge"][data-variant="idle"],
   [data-slot="badge"][data-variant="warn"],
   [data-slot="badge"][data-variant="accent"],
-  [data-slot="badge"][data-variant="neutral"] {
+  [data-slot="badge"][data-variant="neutral"],
+  [data-slot="badge"][data-variant="default"],
+  [data-slot="badge"][data-variant="secondary"],
+  [data-slot="badge"][data-variant="destructive"],
+  [data-slot="badge"][data-variant="outline"] {
     font-family: var(--f-mono);
     font-size: 10px;
     font-weight: 600;
@@ -448,6 +452,27 @@
     text-transform: uppercase;
     padding: 2px 7px;
     border-radius: var(--r-pill);
+  }
+  /* shadcn variants adopt the tone look (no more solid fills). */
+  [data-slot="badge"][data-variant="default"] {
+    background: var(--acc-ghost);
+    color: var(--acc);
+    border-color: var(--acc-line);
+  }
+  [data-slot="badge"][data-variant="secondary"] {
+    background: var(--bg-3);
+    color: var(--t2);
+    border-color: var(--border-2);
+  }
+  [data-slot="badge"][data-variant="destructive"] {
+    background: var(--warn-ghost);
+    color: var(--warn);
+    border-color: color-mix(in srgb, var(--warn) 28%, transparent);
+  }
+  [data-slot="badge"][data-variant="outline"] {
+    background: transparent;
+    color: var(--t2);
+    border-color: var(--border-3);
   }
   [data-slot="badge"][data-variant="live"] {
     background: var(--live-ghost);
@@ -663,14 +688,9 @@
    ============================================================ */
 .ae-scope {
   position: relative;
+  /* Clean preview surface — no dot texture (it drowned thin components like
+     separators). Components read; cards pop via their shadow. */
   background-color: var(--stage);
-  background-image: radial-gradient(
-    circle,
-    var(--border-3) 1px,
-    transparent 1px
-  );
-  background-size: 14px 14px;
-  background-position: center;
   box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.14);
 }
 

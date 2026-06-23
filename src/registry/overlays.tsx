@@ -123,7 +123,7 @@ import { Select, … } from "@/components/ui/select"`,
         node: (
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="outline">
+              <Button variant="secondary">
                 Actions <ChevronDown className="size-4" />
               </Button>
             </DropdownMenuTrigger>
@@ -145,7 +145,7 @@ import { Select, … } from "@/components/ui/select"`,
         ),
         code: `<DropdownMenu>
   <DropdownMenuTrigger asChild>
-    <Button variant="outline">Actions</Button>
+    <Button variant="secondary">Actions</Button>
   </DropdownMenuTrigger>
   <DropdownMenuContent align="start">
     <DropdownMenuItem>Test call</DropdownMenuItem>
@@ -166,7 +166,7 @@ import { Select, … } from "@/components/ui/select"`,
         node: (
           <Popover>
             <PopoverTrigger asChild>
-              <Button variant="outline">Edit hours</Button>
+              <Button variant="secondary">Edit hours</Button>
             </PopoverTrigger>
             <PopoverContent className="w-72">
               <div className="grid gap-3">
@@ -181,7 +181,7 @@ import { Select, … } from "@/components/ui/select"`,
           </Popover>
         ),
         code: `<Popover>
-  <PopoverTrigger asChild><Button variant="outline">Edit hours</Button></PopoverTrigger>
+  <PopoverTrigger asChild><Button variant="secondary">Edit hours</Button></PopoverTrigger>
   <PopoverContent className="w-72">…</PopoverContent>
 </Popover>`,
       },
@@ -247,7 +247,7 @@ import { Select, … } from "@/components/ui/select"`,
         node: (
           <Tooltip>
             <TooltipTrigger asChild>
-              <Button variant="outline" size="icon">
+              <Button variant="secondary" size="icon">
                 <Phone className="size-4" />
               </Button>
             </TooltipTrigger>
@@ -256,7 +256,7 @@ import { Select, … } from "@/components/ui/select"`,
         ),
         code: `<Tooltip>
   <TooltipTrigger asChild>
-    <Button variant="outline" size="icon"><Phone /></Button>
+    <Button variant="secondary" size="icon"><Phone /></Button>
   </TooltipTrigger>
   <TooltipContent>Start a test call</TooltipContent>
 </Tooltip>`,
