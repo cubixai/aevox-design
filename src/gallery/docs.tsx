@@ -116,8 +116,8 @@ const { theme, toggleTheme } = useTheme()`}
         </P>
         <CodeBlock
           code={`<div className="rounded-lg border border-line-2 bg-surface-2 p-5">
-  <h3 className="font-display text-t1">Reception · West</h3>
-  <p className="text-t2">Live · 3 active calls</p>
+  <h3 className="font-display text-t1">Acme Studio</h3>
+  <p className="text-t2">Live · 3 environments</p>
   <span className="font-mono tabular-nums text-acc">98.6%</span>
 </div>`}
         />

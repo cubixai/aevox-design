@@ -24,7 +24,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Sonar, Stat, StatusDot } from "@/components/aevox";
-import { ArrowRight, Phone, Plus, Settings, Trash2 } from "lucide-react";
+import { ArrowRight, Search, Plus, Settings, Trash2 } from "lucide-react";
 import type { RegistryEntry } from "./types";
 
 function SwitchDemo() {
@@ -79,26 +79,26 @@ export const components: RegistryEntry[] = [
         node: (
           <div className="flex flex-wrap items-center gap-3">
             <Button>
-              <Plus /> New agent
+              <Plus /> New project
             </Button>
             <Button variant="secondary">
-              <Phone /> Test call
+              <Search /> Search
             </Button>
             <Button variant="link">
               View all <ArrowRight />
             </Button>
           </div>
         ),
-        code: `<Button><Plus /> New agent</Button>
-<Button variant="secondary"><Phone /> Test call</Button>
+        code: `<Button><Plus /> New project</Button>
+<Button variant="secondary"><Search /> Search</Button>
 <Button variant="link">View all <ArrowRight /></Button>`,
       },
       {
         title: "Icon only",
         node: (
           <div className="flex flex-wrap items-center gap-3">
-            <Button size="icon" aria-label="Call">
-              <Phone />
+            <Button size="icon" aria-label="Search">
+              <Search />
             </Button>
             <Button size="icon" variant="secondary" aria-label="Settings">
               <Settings />
@@ -111,7 +111,7 @@ export const components: RegistryEntry[] = [
             </Button>
           </div>
         ),
-        code: `<Button size="icon"><Phone /></Button>
+        code: `<Button size="icon"><Search /></Button>
 <Button size="icon" variant="outline"><Trash2 /></Button>`,
       },
       {
@@ -178,12 +178,12 @@ export const components: RegistryEntry[] = [
             <Badge variant="tag">inbound</Badge>
             <Badge variant="tag">en-US</Badge>
             <span className="flex items-center gap-2 text-[14px] text-t2">
-              <StatusDot tone="live" /> Reception · West
+              <StatusDot tone="live" /> Acme Studio
             </span>
           </div>
         ),
         code: `<Badge variant="tag">inbound</Badge>
-<StatusDot tone="live" /> Reception · West`,
+<StatusDot tone="live" /> Acme Studio`,
       },
     ],
   },
@@ -200,11 +200,11 @@ export const components: RegistryEntry[] = [
         node: (
           <Card className="w-full max-w-sm">
             <CardHeader>
-              <CardTitle>Reception · West</CardTitle>
-              <CardDescription>Live · 3 active calls</CardDescription>
+              <CardTitle>Acme Studio</CardTitle>
+              <CardDescription>Live · 3 environments</CardDescription>
             </CardHeader>
             <CardContent className="text-[14px] text-t2">
-              Handling inbound for the western region. Avg. handle time 12.4s.
+              Production deploy from main. Avg. build time 12.4s.
             </CardContent>
             <CardFooter className="gap-2">
               <Button size="sm">Open</Button>
@@ -216,8 +216,8 @@ export const components: RegistryEntry[] = [
         ),
         code: `<Card>
   <CardHeader>
-    <CardTitle>Reception · West</CardTitle>
-    <CardDescription>Live · 3 active calls</CardDescription>
+    <CardTitle>Acme Studio</CardTitle>
+    <CardDescription>Live · 3 environments</CardDescription>
   </CardHeader>
   <CardContent>…</CardContent>
   <CardFooter><Button size="sm">Open</Button></CardFooter>
@@ -276,12 +276,12 @@ import { Label } from "@/components/ui/label"`,
       {
         node: (
           <div className="grid w-full max-w-sm gap-2">
-            <Label htmlFor="agent">Agent name</Label>
-            <Input id="agent" placeholder="e.g. Reception · West" />
+            <Label htmlFor="agent">Project name</Label>
+            <Input id="agent" placeholder="e.g. Acme Studio" />
           </div>
         ),
-        code: `<Label htmlFor="agent">Agent name</Label>
-<Input id="agent" placeholder="e.g. Reception · West" />`,
+        code: `<Label htmlFor="agent">Project name</Label>
+<Input id="agent" placeholder="e.g. Acme Studio" />`,
       },
     ],
   },
@@ -314,7 +314,7 @@ import { Label } from "@/components/ui/label"`,
               <SelectValue placeholder="Department" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="west">Reception · West</SelectItem>
+              <SelectItem value="west">Acme Studio</SelectItem>
               <SelectItem value="billing">Billing</SelectItem>
               <SelectItem value="support">Support</SelectItem>
             </SelectContent>
@@ -323,7 +323,7 @@ import { Label } from "@/components/ui/label"`,
         code: `<Select defaultValue="west">
   <SelectTrigger className="w-56"><SelectValue /></SelectTrigger>
   <SelectContent>
-    <SelectItem value="west">Reception · West</SelectItem>
+    <SelectItem value="west">Acme Studio</SelectItem>
   </SelectContent>
 </Select>`,
       },
@@ -340,7 +340,7 @@ import { Label } from "@/components/ui/label"`,
         node: (
           <div className="flex items-center gap-3">
             <SwitchDemo />
-            <Label>Record calls</Label>
+            <Label>Email updates</Label>
           </div>
         ),
         code: `const [on, setOn] = useState(true)
@@ -360,24 +360,24 @@ import { Label } from "@/components/ui/label"`,
           <Tabs defaultValue="overview" className="w-full max-w-md">
             <TabsList>
               <TabsTrigger value="overview">Overview</TabsTrigger>
-              <TabsTrigger value="calls">Calls</TabsTrigger>
+              <TabsTrigger value="calls">Activity</TabsTrigger>
               <TabsTrigger value="config">Config</TabsTrigger>
             </TabsList>
             <TabsContent value="overview" className="pt-3 text-[14px] text-t2">
-              Live performance for the selected agent.
+              A snapshot of the selected project.
             </TabsContent>
             <TabsContent value="calls" className="pt-3 text-[14px] text-t2">
-              Recent call log and transcripts.
+              Recent activity and history.
             </TabsContent>
             <TabsContent value="config" className="pt-3 text-[14px] text-t2">
-              Voice, prompts, and routing.
+              Theme, tokens, and layout.
             </TabsContent>
           </Tabs>
         ),
         code: `<Tabs defaultValue="overview">
   <TabsList>
     <TabsTrigger value="overview">Overview</TabsTrigger>
-    <TabsTrigger value="calls">Calls</TabsTrigger>
+    <TabsTrigger value="calls">Activity</TabsTrigger>
   </TabsList>
   <TabsContent value="overview">…</TabsContent>
 </Tabs>`,
@@ -390,7 +390,7 @@ import { Label } from "@/components/ui/label"`,
     slug: "sonar",
     name: "Sonar",
     group: "AeVox",
-    blurb: "The voice motif — concentric rings signalling active listening. The AeVox signature.",
+    blurb: "A pulsing radar ping — a live / active indicator.",
     importLine: `import { Sonar } from "@/components/aevox"`,
     demos: [
       {
@@ -414,13 +414,13 @@ import { Label } from "@/components/ui/label"`,
       {
         node: (
           <div className="flex flex-wrap gap-12">
-            <Stat label="Calls today" value="1,284" />
-            <Stat label="Containment" value="98.6" unit="%" />
-            <Stat label="Avg. handle" value="12.4" unit="s" />
+            <Stat label="Deploys today" value="1,284" />
+            <Stat label="Uptime" value="98.6" unit="%" />
+            <Stat label="Avg. build" value="12.4" unit="s" />
           </div>
         ),
-        code: `<Stat label="Calls today" value="1,284" />
-<Stat label="Containment" value="98.6" unit="%" />`,
+        code: `<Stat label="Deploys today" value="1,284" />
+<Stat label="Uptime" value="98.6" unit="%" />`,
       },
     ],
   },

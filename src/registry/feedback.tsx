@@ -23,12 +23,12 @@ function CommandDemo() {
         <Kbd>K</Kbd>
       </Button>
       <CommandDialog open={open} onOpenChange={setOpen}>
-        <CommandInput placeholder="Search agents, settings…" />
+        <CommandInput placeholder="Search projects, settings…" />
         <CommandList>
           <CommandEmpty>No results.</CommandEmpty>
-          <CommandGroup heading="Agents">
+          <CommandGroup heading="Projects">
             <CommandItem>
-              <Phone className="size-4" /> Reception · West
+              <Phone className="size-4" /> Acme Studio
             </CommandItem>
             <CommandItem>
               <Users className="size-4" /> Billing
@@ -37,7 +37,7 @@ function CommandDemo() {
           <CommandSeparator />
           <CommandGroup heading="Actions">
             <CommandItem>
-              <Search className="size-4" /> Search calls
+              <Search className="size-4" /> Search docs
             </CommandItem>
             <CommandItem>
               <Settings className="size-4" /> Open settings
@@ -63,13 +63,13 @@ export const feedback: RegistryEntry[] = [
           <div className="flex flex-wrap gap-3">
             <Button
               variant="secondary"
-              onClick={() => toast.success("Agent deployed", { description: "Reception · West is live." })}
+              onClick={() => toast.success("Project deployed", { description: "Acme Studio is live." })}
             >
               Success
             </Button>
             <Button
               variant="secondary"
-              onClick={() => toast.error("Call failed", { description: "No answer after 30s." })}
+              onClick={() => toast.error("Deploy failed", { description: "Build error on line 42." })}
             >
               Error
             </Button>
@@ -80,8 +80,8 @@ export const feedback: RegistryEntry[] = [
         ),
         code: `import { toast } from "sonner"
 
-toast.success("Agent deployed", {
-  description: "Reception · West is live.",
+toast.success("Project deployed", {
+  description: "Acme Studio is live.",
 })`,
       },
     ],
@@ -90,7 +90,7 @@ toast.success("Agent deployed", {
     slug: "command",
     name: "Command Palette",
     group: "Feedback",
-    blurb: "⌘K-style command menu — the AeVox cmdk surface for fast navigation.",
+    blurb: "⌘K-style command menu — fast keyboard navigation.",
     importLine: `import {
   Command, CommandEmpty, CommandGroup, CommandInput,
   CommandItem, CommandList, CommandSeparator,
@@ -101,10 +101,10 @@ toast.success("Agent deployed", {
         code: `const [open, setOpen] = useState(false)
 <Button variant="secondary" onClick={() => setOpen(true)}>Search… ⌘K</Button>
 <CommandDialog open={open} onOpenChange={setOpen}>
-  <CommandInput placeholder="Search agents, settings…" />
+  <CommandInput placeholder="Search projects, settings…" />
   <CommandList>
-    <CommandGroup heading="Agents">
-      <CommandItem>Reception · West</CommandItem>
+    <CommandGroup heading="Projects">
+      <CommandItem>Acme Studio</CommandItem>
     </CommandGroup>
   </CommandList>
 </CommandDialog>`,

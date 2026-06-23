@@ -9,7 +9,7 @@
  *   AeToggle          → <Switch>
  *   Kbd               → <Kbd>               (shadcn)
  *
- * What's left below is genuinely AeVox: the sonar voice motif, the metric
+ * What's left below is genuinely AeVox: the sonar pulse, the metric
  * stat pattern, and the inline status dot.
  */
 import { cn } from "@/lib/utils";
@@ -27,7 +27,7 @@ export function StatusDot({
   return <i className={cn("dot", tone, className)} {...rest} />;
 }
 
-/* ---- Sonar / voice motif (the AeVox signature) ---------------------------- */
+/* ---- Sonar — a live / active pulse indicator ---------------------------- */
 
 export function Sonar({
   size = 14,

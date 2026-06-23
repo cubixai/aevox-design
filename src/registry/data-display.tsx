@@ -27,9 +27,9 @@ import { Badge } from "@/components/ui/badge";
 import type { RegistryEntry } from "./types";
 
 const AGENTS = [
-  { name: "Reception · West", dept: "Front desk", calls: 1284, variant: "live" as const, status: "Live" },
-  { name: "Billing", dept: "Finance", calls: 642, variant: "training" as const, status: "Training" },
-  { name: "After-hours", dept: "Support", calls: 318, variant: "idle" as const, status: "Draft" },
+  { name: "Acme Studio", dept: "Design", calls: 1284, variant: "live" as const, status: "Live" },
+  { name: "Marketing Site", dept: "Marketing", calls: 642, variant: "training" as const, status: "Training" },
+  { name: "Docs Portal", dept: "Docs", calls: 318, variant: "idle" as const, status: "Draft" },
 ];
 
 export const dataDisplay: RegistryEntry[] = [
@@ -48,9 +48,9 @@ export const dataDisplay: RegistryEntry[] = [
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead>Agent</TableHead>
-                  <TableHead>Department</TableHead>
-                  <TableHead className="text-right">Calls</TableHead>
+                  <TableHead>Project</TableHead>
+                  <TableHead>Team</TableHead>
+                  <TableHead className="text-right">Deploys</TableHead>
                   <TableHead>Status</TableHead>
                 </TableRow>
               </TableHeader>
@@ -74,13 +74,13 @@ export const dataDisplay: RegistryEntry[] = [
         code: `<Table>
   <TableHeader>
     <TableRow>
-      <TableHead>Agent</TableHead>
-      <TableHead className="text-right">Calls</TableHead>
+      <TableHead>Project</TableHead>
+      <TableHead className="text-right">Deploys</TableHead>
     </TableRow>
   </TableHeader>
   <TableBody>
     <TableRow>
-      <TableCell>Reception · West</TableCell>
+      <TableCell>Acme Studio</TableCell>
       <TableCell className="text-right font-mono tabular-nums">1,284</TableCell>
     </TableRow>
   </TableBody>
@@ -93,7 +93,7 @@ export const dataDisplay: RegistryEntry[] = [
     name: "Avatar",
     group: "Data",
     blurb:
-      "Photo with an initials fallback — plus AeVox gradient orbs via the fallback tone (the agent/caller avatar).",
+      "Photo with an initials fallback — plus AeVox gradient orbs via the fallback tone (a member or workspace avatar).",
     importLine: `import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"`,
     demos: [
       {
@@ -187,22 +187,22 @@ export const dataDisplay: RegistryEntry[] = [
         node: (
           <Accordion type="single" collapsible className="w-full max-w-md">
             <AccordionItem value="a">
-              <AccordionTrigger>Voice & speech</AccordionTrigger>
+              <AccordionTrigger>Appearance</AccordionTrigger>
               <AccordionContent className="text-t2">
-                Model, language, barge-in, and latency settings.
+                Theme, density, and layout options.
               </AccordionContent>
             </AccordionItem>
             <AccordionItem value="b">
-              <AccordionTrigger>Telephony</AccordionTrigger>
+              <AccordionTrigger>Usage</AccordionTrigger>
               <AccordionContent className="text-t2">
-                Numbers, routing, and business hours.
+                Plan, invoices, and usage.
               </AccordionContent>
             </AccordionItem>
           </Accordion>
         ),
         code: `<Accordion type="single" collapsible>
   <AccordionItem value="a">
-    <AccordionTrigger>Voice & speech</AccordionTrigger>
+    <AccordionTrigger>Appearance</AccordionTrigger>
     <AccordionContent>…</AccordionContent>
   </AccordionItem>
 </Accordion>`,
@@ -224,11 +224,11 @@ export const dataDisplay: RegistryEntry[] = [
           <Breadcrumb>
             <BreadcrumbList>
               <BreadcrumbItem>
-                <BreadcrumbLink href="#">Agents</BreadcrumbLink>
+                <BreadcrumbLink href="#">Projects</BreadcrumbLink>
               </BreadcrumbItem>
               <BreadcrumbSeparator />
               <BreadcrumbItem>
-                <BreadcrumbLink href="#">Reception · West</BreadcrumbLink>
+                <BreadcrumbLink href="#">Acme Studio</BreadcrumbLink>
               </BreadcrumbItem>
               <BreadcrumbSeparator />
               <BreadcrumbItem>
@@ -239,7 +239,7 @@ export const dataDisplay: RegistryEntry[] = [
         ),
         code: `<Breadcrumb>
   <BreadcrumbList>
-    <BreadcrumbItem><BreadcrumbLink href="#">Agents</BreadcrumbLink></BreadcrumbItem>
+    <BreadcrumbItem><BreadcrumbLink href="#">Projects</BreadcrumbLink></BreadcrumbItem>
     <BreadcrumbSeparator />
     <BreadcrumbItem><BreadcrumbPage>Configure</BreadcrumbPage></BreadcrumbItem>
   </BreadcrumbList>

@@ -62,16 +62,16 @@ import { Select, … } from "@/components/ui/select"`,
         node: (
           <Card className="w-full max-w-sm">
             <CardHeader>
-              <CardTitle>New agent</CardTitle>
+              <CardTitle>New project</CardTitle>
               <CardDescription>
-                Spin up a voice agent for a department.
+                Create a project for your team.
               </CardDescription>
             </CardHeader>
             <form onSubmit={(e) => e.preventDefault()}>
               <CardContent className="grid gap-4">
                 <div className="grid gap-2">
-                  <Label htmlFor="f-name">Agent name</Label>
-                  <Input id="f-name" placeholder="e.g. Reception · West" />
+                  <Label htmlFor="f-name">Project name</Label>
+                  <Input id="f-name" placeholder="e.g. Acme Studio" />
                 </div>
                 <div className="grid gap-2">
                   <Label htmlFor="f-dept">Department</Label>
@@ -80,7 +80,7 @@ import { Select, … } from "@/components/ui/select"`,
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="west">Reception · West</SelectItem>
+                      <SelectItem value="west">Acme Studio</SelectItem>
                       <SelectItem value="billing">Billing</SelectItem>
                       <SelectItem value="support">Support</SelectItem>
                     </SelectContent>
@@ -91,19 +91,19 @@ import { Select, … } from "@/components/ui/select"`,
                 <Button type="button" variant="ghost">
                   Cancel
                 </Button>
-                <Button type="submit">Create agent</Button>
+                <Button type="submit">Create project</Button>
               </CardFooter>
             </form>
           </Card>
         ),
         code: `<div className="grid gap-2">
-  <Label htmlFor="name">Agent name</Label>
-  <Input id="name" placeholder="e.g. Reception · West" />
+  <Label htmlFor="name">Project name</Label>
+  <Input id="name" placeholder="e.g. Acme Studio" />
 </div>
 <Select defaultValue="west">
   <SelectTrigger><SelectValue /></SelectTrigger>
   <SelectContent>
-    <SelectItem value="west">Reception · West</SelectItem>
+    <SelectItem value="west">Acme Studio</SelectItem>
   </SelectContent>
 </Select>`,
       },
@@ -128,10 +128,10 @@ import { Select, … } from "@/components/ui/select"`,
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="start">
-              <DropdownMenuLabel>Reception · West</DropdownMenuLabel>
+              <DropdownMenuLabel>Acme Studio</DropdownMenuLabel>
               <DropdownMenuSeparator />
               <DropdownMenuItem>
-                <Phone className="size-4" /> Test call
+                <Phone className="size-4" /> Open
               </DropdownMenuItem>
               <DropdownMenuItem>
                 <Settings className="size-4" /> Configure
@@ -148,7 +148,7 @@ import { Select, … } from "@/components/ui/select"`,
     <Button variant="secondary">Actions</Button>
   </DropdownMenuTrigger>
   <DropdownMenuContent align="start">
-    <DropdownMenuItem>Test call</DropdownMenuItem>
+    <DropdownMenuItem>Open</DropdownMenuItem>
     <DropdownMenuItem variant="destructive">Delete</DropdownMenuItem>
   </DropdownMenuContent>
 </DropdownMenu>`,
@@ -201,18 +201,18 @@ import { Select, … } from "@/components/ui/select"`,
         node: (
           <Dialog>
             <DialogTrigger asChild>
-              <Button>New agent</Button>
+              <Button>New project</Button>
             </DialogTrigger>
             <DialogContent>
               <DialogHeader>
-                <DialogTitle>Create agent</DialogTitle>
+                <DialogTitle>Create project</DialogTitle>
                 <DialogDescription>
-                  Spin up a new voice agent for a department.
+                  Create a new project for your team.
                 </DialogDescription>
               </DialogHeader>
               <div className="grid gap-2 py-2">
                 <Label htmlFor="d-name">Name</Label>
-                <Input id="d-name" placeholder="Reception · West" />
+                <Input id="d-name" placeholder="Acme Studio" />
               </div>
               <DialogFooter>
                 <DialogClose asChild>
@@ -224,10 +224,10 @@ import { Select, … } from "@/components/ui/select"`,
           </Dialog>
         ),
         code: `<Dialog>
-  <DialogTrigger asChild><Button>New agent</Button></DialogTrigger>
+  <DialogTrigger asChild><Button>New project</Button></DialogTrigger>
   <DialogContent>
     <DialogHeader>
-      <DialogTitle>Create agent</DialogTitle>
+      <DialogTitle>Create project</DialogTitle>
     </DialogHeader>
     …
     <DialogFooter><Button>Create</Button></DialogFooter>
@@ -251,14 +251,14 @@ import { Select, … } from "@/components/ui/select"`,
                 <Phone className="size-4" />
               </Button>
             </TooltipTrigger>
-            <TooltipContent>Start a test call</TooltipContent>
+            <TooltipContent>Copy link</TooltipContent>
           </Tooltip>
         ),
         code: `<Tooltip>
   <TooltipTrigger asChild>
     <Button variant="secondary" size="icon"><Phone /></Button>
   </TooltipTrigger>
-  <TooltipContent>Start a test call</TooltipContent>
+  <TooltipContent>Copy link</TooltipContent>
 </Tooltip>`,
       },
     ],

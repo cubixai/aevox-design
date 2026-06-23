@@ -67,11 +67,11 @@ export const controls: RegistryEntry[] = [
         node: (
           <div className="flex items-center gap-3">
             <Checkbox id="cb" defaultChecked />
-            <Label htmlFor="cb">Record this call</Label>
+            <Label htmlFor="cb">Email me updates</Label>
           </div>
         ),
         code: `<Checkbox id="cb" defaultChecked />
-<Label htmlFor="cb">Record this call</Label>`,
+<Label htmlFor="cb">Email me updates</Label>`,
       },
     ],
   },
@@ -84,11 +84,11 @@ export const controls: RegistryEntry[] = [
     demos: [
       {
         node: (
-          <RadioGroup defaultValue="warm" className="gap-3">
+          <RadioGroup defaultValue="public" className="gap-3">
             {[
-              ["warm", "Warm transfer"],
-              ["cold", "Cold transfer"],
-              ["vm", "Voicemail"],
+              ["public", "Public"],
+              ["private", "Private"],
+              ["unlisted", "Unlisted"],
             ].map(([v, l]) => (
               <div key={v} className="flex items-center gap-3">
                 <RadioGroupItem value={v} id={`r-${v}`} />
@@ -97,10 +97,10 @@ export const controls: RegistryEntry[] = [
             ))}
           </RadioGroup>
         ),
-        code: `<RadioGroup defaultValue="warm">
+        code: `<RadioGroup defaultValue="public">
   <div className="flex items-center gap-3">
-    <RadioGroupItem value="warm" id="r-warm" />
-    <Label htmlFor="r-warm">Warm transfer</Label>
+    <RadioGroupItem value="public" id="r-public" />
+    <Label htmlFor="r-public">Public</Label>
   </div>
 </RadioGroup>`,
       },
