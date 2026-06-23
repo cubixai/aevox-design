@@ -637,16 +637,17 @@
    ============================================================ */
 .ae-scope {
   position: relative;
-  /* A real surface (not the canvas void) so trigger-only demos read; cards
-     still pop because they carry a stronger shadow than the stage. */
-  background-color: var(--bg-2);
+  /* The canvas — distinct from card surfaces (--bg-2), so cards pop AND the
+     measurement dots read. Recessed inset sells it as an inspection canvas. */
+  background-color: var(--bg-0);
   background-image: radial-gradient(
     circle,
-    var(--border-2) 0.75px,
-    transparent 0.75px
+    var(--border-3) 1px,
+    transparent 1px
   );
-  background-size: 15px 15px;
+  background-size: 14px 14px;
   background-position: center;
+  box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.12);
 }
 .ae-scope::after {
   content: "";
