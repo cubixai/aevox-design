@@ -1,10 +1,10 @@
 import { Link } from "react-router-dom";
 import { Moon, Sun, Menu } from "lucide-react";
 import { useTheme } from "@/lib/theme";
-import logo from "@/assets/logo.png";
+import logo from "@/assets/logo-mark.png";
 
 function BrandMark() {
-  return <img src={logo} alt="AeVox" className="size-10 object-contain" />;
+  return <img src={logo} alt="AeVox" className="size-11 object-contain" />;
 }
 
 function IconButton({
