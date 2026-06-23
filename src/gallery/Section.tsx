@@ -2,7 +2,7 @@ import { cn } from "@/lib/utils";
 import { CodeBlock } from "./CodeBlock";
 import type { Demo, RegistryEntry } from "@/registry/types";
 
-function DemoBlock({ demo, label }: { demo: Demo; label: string }) {
+function DemoBlock({ demo }: { demo: Demo }) {
   return (
     <div className="space-y-3">
       {demo.title ? (
@@ -11,7 +11,6 @@ function DemoBlock({ demo, label }: { demo: Demo; label: string }) {
         </h3>
       ) : null}
       <div className="ae-scope flex min-h-[156px] flex-wrap items-center gap-4 rounded-lg border border-line-2 p-9">
-        <span className="ae-scope-label">{label}</span>
         {demo.node}
       </div>
       {demo.code ? <CodeBlock code={demo.code} /> : null}
@@ -46,7 +45,7 @@ export function Section({
       </header>
       <div className="space-y-8">
         {entry.demos.map((demo, i) => (
-          <DemoBlock key={i} demo={demo} label={entry.slug} />
+          <DemoBlock key={i} demo={demo} />
         ))}
       </div>
     </section>

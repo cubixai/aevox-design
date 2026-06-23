@@ -1,4 +1,12 @@
 import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
@@ -52,31 +60,41 @@ import { Select, … } from "@/components/ui/select"`,
     demos: [
       {
         node: (
-          <form className="grid w-full max-w-sm gap-4" onSubmit={(e) => e.preventDefault()}>
-            <div className="grid gap-2">
-              <Label htmlFor="f-name">Agent name</Label>
-              <Input id="f-name" placeholder="e.g. Reception · West" />
-            </div>
-            <div className="grid gap-2">
-              <Label htmlFor="f-dept">Department</Label>
-              <Select defaultValue="west">
-                <SelectTrigger id="f-dept">
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="west">Reception · West</SelectItem>
-                  <SelectItem value="billing">Billing</SelectItem>
-                  <SelectItem value="support">Support</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-            <div className="flex justify-end gap-2 pt-1">
-              <Button type="button" variant="ghost">
-                Cancel
-              </Button>
-              <Button type="submit">Create agent</Button>
-            </div>
-          </form>
+          <Card className="w-full max-w-sm">
+            <CardHeader>
+              <CardTitle>New agent</CardTitle>
+              <CardDescription>
+                Spin up a voice agent for a department.
+              </CardDescription>
+            </CardHeader>
+            <form onSubmit={(e) => e.preventDefault()}>
+              <CardContent className="grid gap-4">
+                <div className="grid gap-2">
+                  <Label htmlFor="f-name">Agent name</Label>
+                  <Input id="f-name" placeholder="e.g. Reception · West" />
+                </div>
+                <div className="grid gap-2">
+                  <Label htmlFor="f-dept">Department</Label>
+                  <Select defaultValue="west">
+                    <SelectTrigger id="f-dept">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="west">Reception · West</SelectItem>
+                      <SelectItem value="billing">Billing</SelectItem>
+                      <SelectItem value="support">Support</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+              </CardContent>
+              <CardFooter className="justify-end gap-2 pt-2">
+                <Button type="button" variant="ghost">
+                  Cancel
+                </Button>
+                <Button type="submit">Create agent</Button>
+              </CardFooter>
+            </form>
+          </Card>
         ),
         code: `<div className="grid gap-2">
   <Label htmlFor="name">Agent name</Label>
