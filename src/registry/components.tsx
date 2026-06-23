@@ -24,6 +24,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Sonar, Stat, StatusDot } from "@/components/aevox";
+import { ArrowRight, Phone, Plus, Settings, Trash2 } from "lucide-react";
 import type { RegistryEntry } from "./types";
 
 function SwitchDemo() {
@@ -61,15 +62,72 @@ export const components: RegistryEntry[] = [
       {
         title: "Sizes",
         node: (
-          <div className="flex flex-wrap items-center gap-3">
+          <div className="flex flex-wrap items-end gap-3">
+            <Button size="xs">Extra small</Button>
             <Button size="sm">Small</Button>
             <Button>Default</Button>
             <Button size="lg">Large</Button>
           </div>
         ),
-        code: `<Button size="sm">Small</Button>
+        code: `<Button size="xs">Extra small</Button>
+<Button size="sm">Small</Button>
 <Button>Default</Button>
 <Button size="lg">Large</Button>`,
+      },
+      {
+        title: "With icons",
+        node: (
+          <div className="flex flex-wrap items-center gap-3">
+            <Button>
+              <Plus /> New agent
+            </Button>
+            <Button variant="secondary">
+              <Phone /> Test call
+            </Button>
+            <Button variant="link">
+              View all <ArrowRight />
+            </Button>
+          </div>
+        ),
+        code: `<Button><Plus /> New agent</Button>
+<Button variant="secondary"><Phone /> Test call</Button>
+<Button variant="link">View all <ArrowRight /></Button>`,
+      },
+      {
+        title: "Icon only",
+        node: (
+          <div className="flex flex-wrap items-center gap-3">
+            <Button size="icon" aria-label="Call">
+              <Phone />
+            </Button>
+            <Button size="icon" variant="secondary" aria-label="Settings">
+              <Settings />
+            </Button>
+            <Button size="icon" variant="outline" aria-label="Delete">
+              <Trash2 />
+            </Button>
+            <Button size="icon-sm" variant="secondary" aria-label="Add">
+              <Plus />
+            </Button>
+          </div>
+        ),
+        code: `<Button size="icon"><Phone /></Button>
+<Button size="icon" variant="outline"><Trash2 /></Button>`,
+      },
+      {
+        title: "Disabled",
+        node: (
+          <div className="flex flex-wrap items-center gap-3">
+            <Button disabled>Primary</Button>
+            <Button variant="secondary" disabled>
+              Secondary
+            </Button>
+            <Button variant="outline" disabled>
+              Outline
+            </Button>
+          </div>
+        ),
+        code: `<Button disabled>Primary</Button>`,
       },
     ],
   },
