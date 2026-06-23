@@ -1,0 +1,96 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry.json",
+  "name": "aevox",
+  "homepage": "https://aevox.design",
+  "items": [
+    {
+      "name": "aevox-theme",
+      "type": "registry:style",
+      "title": "AeVox theme",
+      "description": "The single drop-in stylesheet — AeVox tokens (light + dark), Tailwind v4 @theme, shadcn aliases, the aevox-overrides layer, primitive classes, scope/hero motifs, depth + scrollbar. Themes every stock shadcn component.",
+      "dependencies": [
+        "tw-animate-css",
+        "class-variance-authority",
+        "clsx",
+        "tailwind-merge",
+        "lucide-react"
+      ],
+      "files": [
+        {
+          "path": "src/styles/index.css",
+          "type": "registry:file",
+          "target": "src/styles/global.css"
+        }
+      ]
+    },
+    {
+      "name": "theme-provider",
+      "type": "registry:file",
+      "title": "AeVox theme provider",
+      "description": "ThemeProvider + useTheme() — light/dark + density, persisted, sets data-theme on <html>.",
+      "files": [
+        {
+          "path": "src/lib/theme.tsx",
+          "type": "registry:file",
+          "target": "src/lib/theme.tsx"
+        }
+      ]
+    },
+    {
+      "name": "aevox-primitives",
+      "type": "registry:component",
+      "title": "AeVox primitives",
+      "description": "Sonar (voice motif), Stat (mono metric), StatusDot — the parts with no shadcn equivalent.",
+      "dependencies": ["clsx", "tailwind-merge"],
+      "files": [
+        {
+          "path": "src/components/aevox/index.tsx",
+          "type": "registry:component",
+          "target": "components/aevox/index.tsx"
+        }
+      ]
+    },
+    {
+      "name": "button",
+      "type": "registry:ui",
+      "title": "Button (AeVox)",
+      "description": "shadcn Button + AeVox: cyan primary with depth, cyan outline, bordered secondary, press feedback.",
+      "dependencies": ["radix-ui", "class-variance-authority"],
+      "files": [
+        {
+          "path": "src/components/ui/button.tsx",
+          "type": "registry:ui",
+          "target": "components/ui/button.tsx"
+        }
+      ]
+    },
+    {
+      "name": "badge",
+      "type": "registry:ui",
+      "title": "Badge (AeVox)",
+      "description": "shadcn Badge + AeVox status tones (live/training/idle/warn/accent/neutral) and tag variant.",
+      "dependencies": ["radix-ui", "class-variance-authority"],
+      "files": [
+        {
+          "path": "src/components/ui/badge.tsx",
+          "type": "registry:ui",
+          "target": "components/ui/badge.tsx"
+        }
+      ]
+    },
+    {
+      "name": "avatar",
+      "type": "registry:ui",
+      "title": "Avatar (AeVox)",
+      "description": "shadcn Avatar + AeVox gradient orb tones on the fallback.",
+      "dependencies": ["radix-ui"],
+      "files": [
+        {
+          "path": "src/components/ui/avatar.tsx",
+          "type": "registry:ui",
+          "target": "components/ui/avatar.tsx"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,754 @@
+/* Cascade-layer order: AeVox sits below Tailwind's components/utilities so its
+   global reset (`* { margin:0; padding:0 }`) and component classes never outrank
+   Tailwind utilities. Unlayered CSS would otherwise beat every utility. */
+@layer theme, base, aevox, components, utilities, aevox-overrides;
+
+@import "tailwindcss";
+@import "tw-animate-css";
+/* Fonts load via <link> in index.html (Google Fonts) — keeps @import order
+   valid under Tailwind v4. */
+
+/* AeVox tokens + native primitive classes, inlined so this is ONE drop-in file. */
+@layer aevox {
+/* ---- AeVox design tokens (dark = default) ---- */
+:root {
+  /* Surfaces — layered elevation ladder.
+     The content canvas is the DEEPEST plane; chrome (sidebar+topbar) sits a
+     clear step above it; cards lift highest off the canvas. */
+  --bg-0: #0c0e12;   /* app canvas / content area (deepest) — neutral-cool */
+  --bg-1: #17191e;   /* chrome: sidebar + topbar (lifted above canvas) */
+  --bg-2: #1c1f25;   /* cards / panels (raised highest) */
+  --bg-3: #23262d;   /* raised / hover */
+  --bg-4: #2c3037;   /* active / input */
+
+  /* Borders */
+  --border: #24272e;
+  --border-2: #313640;
+  --border-3: #434954;
+
+  /* Card elevation — lit-from-above highlight + cast shadow */
+  --card-edge: rgba(255,255,255,.03);
+  --sh-card: 0 1px 2px rgba(0,0,0,.22), 0 2px 6px rgba(0,0,0,.14);
+  --sh-card-hi: 0 2px 6px rgba(0,0,0,.28), 0 8px 22px rgba(0,0,0,.22);
+
+  /* Text */
+  --t1: #eceef2;
+  --t2: #9aa0a9;
+  --t3: #646a73;
+  --t4: #474c54;
+
+  /* Accent — cyan */
+  --acc: #22d3ee;
+  --acc-2: #0bb6d6;
+  --acc-deep: #0891b2;
+  --acc-ghost: rgba(34, 211, 238, 0.12);
+  --acc-ghost-2: rgba(34, 211, 238, 0.20);
+  --acc-line: rgba(34, 211, 238, 0.35);
+  --glow: rgba(34, 211, 238, 0.45);
+
+  /* Status */
+  --live: #34e0c4;     /* live / active */
+  --live-ghost: rgba(52, 224, 196, 0.13);
+  --train: #f5b544;    /* training */
+  --train-ghost: rgba(245, 181, 68, 0.13);
+  --warn: #f87171;     /* error / failed */
+  --warn-ghost: rgba(248, 113, 113, 0.13);
+  --idle: #7c89f0;     /* secondary / draft */
+  --idle-ghost: rgba(124, 137, 240, 0.13);
+  --pos: #34d399;
+  --neg: #fb7185;
+
+  /* Radii */
+  --r-xs: 6px;
+  --r-sm: 9px;
+  --r-md: 13px;
+  --r-lg: 18px;
+  --r-xl: 26px;
+  --r-pill: 999px;
+
+  /* Type */
+  --f-display: 'Bricolage Grotesque', sans-serif;
+  --f-sans: 'Hanken Grotesk', sans-serif;
+  --f-mono: 'IBM Plex Mono', monospace;
+
+  /* Shadows */
+  --sh-1: 0 1px 3px rgba(0,0,0,.5);
+  --sh-2: 0 8px 28px rgba(0,0,0,.55);
+  --sh-3: 0 24px 60px rgba(0,0,0,.62);
+  --sh-glow: 0 0 0 1px rgba(34,211,238,.25), 0 8px 30px rgba(34,211,238,.18);
+
+  /* layout */
+  --nav-w: 264px;
+  --topbar-h: 60px;
+
+  --topbar-bg: var(--bg-1);
+  --overlay-bg: rgba(3,5,9,.78);
+  color-scheme: dark;
+
+  --glow-on: 1;
+}
+
+/* ---- Light theme tokens ---- */
+:root[data-theme="light"] {
+  --bg-0: #eef1f6;
+  --bg-1: #ffffff;
+  --bg-2: #ffffff;
+  --bg-3: #f1f4f9;
+  --bg-4: #e7ecf3;
+
+  --border: #e7ebf1;
+  --border-2: #d8dee7;
+  --border-3: #bcc6d2;
+
+  --t1: #1f2a38;
+  --t2: #4c5a6c;
+  --t3: #8a97a7;
+  --t4: #aab3c1;
+
+  --acc: #0891b2;
+  --acc-2: #0a7c9a;
+  --acc-deep: #0c6178;
+  --acc-ghost: rgba(8,145,178,.10);
+  --acc-ghost-2: rgba(8,145,178,.17);
+  --acc-line: rgba(8,145,178,.30);
+  --glow: rgba(8,145,178,.30);
+
+  --live: #0b9b86;     --live-ghost: rgba(11,155,134,.12);
+  --train: #b07d12;    --train-ghost: rgba(176,125,18,.13);
+  --warn: #d14343;     --warn-ghost: rgba(209,67,67,.12);
+  --idle: #5560d4;     --idle-ghost: rgba(85,96,212,.12);
+  --pos: #0e9c68;      --neg: #d6455f;
+
+  --sh-1: 0 1px 2px rgba(16,28,42,.06);
+  --sh-2: 0 6px 22px rgba(16,28,42,.10);
+  --sh-3: 0 18px 50px rgba(16,28,42,.16);
+  --sh-glow: 0 0 0 1px rgba(8,145,178,.22), 0 8px 30px rgba(8,145,178,.15);
+  --sh-card: 0 1px 2px rgba(16,28,42,.05);
+  --sh-card-hi: 0 2px 8px rgba(16,28,42,.08);
+
+  --topbar-bg: var(--bg-1);
+  --overlay-bg: rgba(22,30,42,.40);
+  color-scheme: light;
+}
+:root[data-density="compact"] { --row-h: 46px; --pad-card: 16px; }
+:root { --row-h: 56px; --pad-card: 24px; }
+@keyframes skel { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
+@keyframes fadein { from { opacity: .55; } to { opacity: 1; } }
+
+/* ---- AeVox-native primitive classes (Sonar / Stat / StatusDot) ---- */
+.dot { width: 7px; height: 7px; border-radius: 50%; flex: none; }
+.dot.live { background: var(--live); }
+.dot.train { background: var(--train); }
+.dot.idle { background: var(--idle); }
+.dot.warn { background: var(--warn); }
+.dot.off { background: var(--t3); }
+.sonar { position: relative; }
+.sonar .ring {
+  position: absolute; inset: 0; border-radius: 50%; border: 1.5px solid var(--acc);
+  opacity: .16;
+}
+.sonar .ring:nth-child(1) { transform: scale(1.35); }
+.sonar .ring:nth-child(2) { transform: scale(1.75); opacity: .1; }
+.sonar .ring:nth-child(3) { transform: scale(2.15); opacity: .06; }
+.stat { display: flex; flex-direction: column; gap: 6px; }
+.stat .k { font-size: 12.5px; color: var(--t2); font-weight: 500; display: flex; align-items: center; gap: 7px; }
+.stat .v { font-family: var(--f-display); font-size: 30px; font-weight: 600; letter-spacing: -0.02em; line-height: 1; }
+.stat .v small { font-size: 15px; color: var(--t3); font-weight: 500; }
+.stat .v.mono-stat, .stat .v { font-family: var(--f-mono) !important; font-feature-settings: "tnum" 1; font-size: 36px; font-weight: 600; letter-spacing: -.03em; }
+}
+
+/* ============================================================
+   AeVox ↔ Tailwind v4 ↔ shadcn bridge
+   - AeVox tokens (the @layer aevox block above) are the source of truth.
+   - Dark is the DEFAULT theme. `[data-theme="light"]` flips it.
+   - shadcn semantic vars alias AeVox tokens, so shadcn components
+     adopt the AeVox look with zero per-component overrides.
+   ============================================================ */
+
+/* Variants driven off data-theme (dark = default, no attribute needed). */
+@custom-variant light (&:where([data-theme="light"], [data-theme="light"] *));
+@custom-variant dark (&:where(:root:not([data-theme="light"]), :root:not([data-theme="light"]) *));
+
+/* shadcn semantic tokens → AeVox tokens. These reference AeVox vars, so
+   they switch automatically when [data-theme] changes. */
+:root {
+  --background: var(--bg-0);
+  --foreground: var(--t1);
+
+  --card: var(--bg-2);
+  --card-foreground: var(--t1);
+
+  --popover: var(--bg-2);
+  --popover-foreground: var(--t1);
+
+  --primary: var(--acc);
+  --primary-foreground: #06222b; /* dark ink on bright cyan (dark theme) */
+
+  --secondary: var(--bg-3);
+  --secondary-foreground: var(--t1);
+
+  --muted: var(--bg-3);
+  --muted-foreground: var(--t2);
+
+  --accent: var(--bg-3);
+  --accent-foreground: var(--t1);
+
+  --destructive: var(--warn);
+  --destructive-foreground: #2a0c0c;
+
+  --input: var(--border-2);
+  --ring: var(--acc);
+
+  --radius: var(--r-md);
+}
+
+/* Light theme: cyan is deeper, so primary/destructive want light ink. */
+:root[data-theme="light"] {
+  --primary-foreground: #ffffff;
+  --destructive-foreground: #ffffff;
+}
+
+@theme inline {
+  /* shadcn semantic palette */
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  /* AeVox raw palette → utilities: bg-surface-2, text-t2, text-acc, border-line-2 … */
+  --color-surface-0: var(--bg-0);
+  --color-surface-1: var(--bg-1);
+  --color-surface-2: var(--bg-2);
+  --color-surface-3: var(--bg-3);
+  --color-surface-4: var(--bg-4);
+  --color-line: var(--border);
+  --color-line-2: var(--border-2);
+  --color-line-3: var(--border-3);
+  --color-t1: var(--t1);
+  --color-t2: var(--t2);
+  --color-t3: var(--t3);
+  --color-t4: var(--t4);
+  --color-acc: var(--acc);
+  --color-acc-2: var(--acc-2);
+  --color-acc-deep: var(--acc-deep);
+  --color-acc-ghost: var(--acc-ghost);
+  --color-acc-line: var(--acc-line);
+  --color-glow: var(--glow);
+  --color-live: var(--live);
+  --color-train: var(--train);
+  --color-warn: var(--warn);
+  --color-idle: var(--idle);
+  --color-pos: var(--pos);
+  --color-neg: var(--neg);
+
+  /* Type */
+  --font-display: var(--f-display);
+  --font-sans: var(--f-sans);
+  --font-mono: var(--f-mono);
+
+  /* Radii (override Tailwind defaults with the AeVox scale) */
+  --radius-xs: var(--r-xs);
+  --radius-sm: var(--r-sm);
+  --radius-md: var(--r-md);
+  --radius-lg: var(--r-lg);
+  --radius-xl: var(--r-xl);
+
+  /* Shadows */
+  --shadow-card: var(--sh-card);
+  --shadow-card-hi: var(--sh-card-hi);
+  --shadow-1: var(--sh-1);
+  --shadow-2: var(--sh-2);
+  --shadow-3: var(--sh-3);
+  --shadow-glow: var(--sh-glow);
+}
+
+@layer base {
+  * {
+    border-color: var(--border);
+  }
+  body {
+    background: var(--bg-0);
+    color: var(--t1);
+    font-family: var(--f-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+}
+
+/* Quality floor: respect reduced motion (skeleton shimmer, sonar, smooth scroll). */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ============================================================
+   Token refinements — cleaner amber than the raw export.
+   (Overrides aevox.css :root values; unlayered wins over layer(aevox).)
+   ============================================================ */
+:root {
+  --train: #f9c652; /* dark: brighter, less muddy amber */
+  --train-ghost: rgba(249, 198, 82, 0.14);
+}
+/* Light status palette — vivid + cohesive (same hues as dark, darkened just
+   enough for white). Replaces the muddy/brown raw-export values. */
+:root[data-theme="light"] {
+  --live: #0fae9a;
+  --live-ghost: rgba(15, 174, 154, 0.12);
+  --train: #e0930f;
+  --train-ghost: rgba(224, 147, 15, 0.13);
+  --warn: #e54848;
+  --warn-ghost: rgba(229, 72, 72, 0.11);
+  --idle: #6366f1;
+  --idle-ghost: rgba(99, 102, 241, 0.12);
+  --pos: #13a06a;
+  --neg: #e5486b;
+}
+
+/* ============================================================
+   AeVox shadcn overrides — sits ABOVE Tailwind utilities so it can
+   replace shadcn's transparent/base-looking form controls with the
+   AeVox surface language (solid --bg-1 fields, cyan focus glow,
+   raised modal surface). data-slot attributes are set by shadcn.
+   ============================================================ */
+@layer aevox-overrides {
+  [data-slot="input"],
+  [data-slot="textarea"],
+  [data-slot="select-trigger"] {
+    background-color: var(--bg-1);
+    border-color: var(--border-2);
+    border-radius: var(--r-sm);
+    color: var(--t1);
+  }
+  [data-slot="input"]:hover,
+  [data-slot="textarea"]:hover,
+  [data-slot="select-trigger"]:hover {
+    border-color: var(--border-3);
+  }
+  [data-slot="input"]:focus-visible,
+  [data-slot="textarea"]:focus-visible,
+  [data-slot="select-trigger"]:focus-visible {
+    border-color: var(--acc-line);
+    box-shadow: 0 0 0 3px var(--acc-ghost);
+  }
+
+  /* Floating surfaces sit ABOVE cards — one surface step up (--bg-3) plus a
+     cast shadow, so a menu/popover never blends into the card it opens over. */
+  [data-slot="select-content"],
+  [data-slot="dropdown-menu-content"],
+  [data-slot="popover-content"],
+  [data-slot="command"] {
+    background-color: var(--bg-3);
+    border-color: var(--border-3);
+    box-shadow: var(--sh-2);
+  }
+  [data-slot="select-item"]:focus,
+  [data-slot="dropdown-menu-item"]:focus,
+  [data-slot="command-item"][data-selected="true"] {
+    background-color: var(--bg-4);
+    color: var(--t1);
+  }
+
+  /* Modals are a raised plane, not the deepest canvas. */
+  [data-slot="dialog-content"] {
+    background-color: var(--bg-2);
+    border-color: var(--border-2);
+    box-shadow: var(--sh-3);
+  }
+  [data-slot="dialog-overlay"] {
+    background-color: var(--overlay-bg);
+  }
+
+  /* Tabs → AeVox segmented control: square-rounded, active tab carries the
+     brand cyan (shadcn's default active:bg-background reads as a hole). */
+  [data-slot="tabs-list"] {
+    background-color: var(--bg-2);
+    border: 1px solid var(--border-2);
+    border-radius: var(--r-sm);
+  }
+  [data-slot="tabs-trigger"] {
+    border-radius: var(--r-xs);
+  }
+  [data-slot="tabs-trigger"][data-state="active"] {
+    background-color: var(--acc-ghost);
+    color: var(--acc);
+    box-shadow: inset 0 0 0 1px var(--acc-line);
+  }
+
+  /* Kbd gets a subtle fill so it reads on any surface. */
+  .kbd {
+    background-color: var(--bg-3);
+    color: var(--t2);
+  }
+
+  /* Table → AeVox .tbl language: mono uppercase heads, hairline rows. */
+  [data-slot="table-head"] {
+    font-family: var(--f-mono);
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: var(--t3);
+  }
+  [data-slot="table-row"] {
+    border-color: var(--border);
+  }
+  [data-slot="table-row"][data-state="selected"] {
+    background-color: var(--acc-ghost);
+  }
+
+  /* ---- Badge → AeVox status tones (mono uppercase pills) + tag ---- */
+  [data-slot="badge"][data-variant="live"],
+  [data-slot="badge"][data-variant="training"],
+  [data-slot="badge"][data-variant="idle"],
+  [data-slot="badge"][data-variant="warn"],
+  [data-slot="badge"][data-variant="accent"],
+  [data-slot="badge"][data-variant="neutral"] {
+    font-family: var(--f-mono);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 2px 7px;
+    border-radius: var(--r-pill);
+  }
+  [data-slot="badge"][data-variant="live"] {
+    background: var(--live-ghost);
+    color: var(--live);
+    border-color: color-mix(in srgb, var(--live) 28%, transparent);
+  }
+  [data-slot="badge"][data-variant="training"] {
+    background: var(--train-ghost);
+    color: var(--train);
+    border-color: color-mix(in srgb, var(--train) 28%, transparent);
+  }
+  [data-slot="badge"][data-variant="idle"] {
+    background: var(--idle-ghost);
+    color: var(--idle);
+    border-color: color-mix(in srgb, var(--idle) 28%, transparent);
+  }
+  [data-slot="badge"][data-variant="warn"] {
+    background: var(--warn-ghost);
+    color: var(--warn);
+    border-color: color-mix(in srgb, var(--warn) 28%, transparent);
+  }
+  [data-slot="badge"][data-variant="accent"] {
+    background: var(--acc-ghost);
+    color: var(--acc);
+    border-color: var(--acc-line);
+  }
+  [data-slot="badge"][data-variant="neutral"] {
+    background: var(--bg-3);
+    color: var(--t2);
+    border-color: var(--border-2);
+  }
+  [data-slot="badge"][data-variant="tag"] {
+    font-family: var(--f-mono);
+    font-size: 10.5px;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    padding: 2px 8px;
+    border-radius: var(--r-xs);
+    background: var(--bg-3);
+    color: var(--t2);
+    border-color: var(--border-2);
+  }
+
+  /* ---- Avatar fallback → AeVox gradient orbs ---- */
+  [data-slot="avatar-fallback"][data-tone="violet"] {
+    background: radial-gradient(circle at 32% 28%, #b3aef9, #7c89f0 70%);
+    color: #1a1640;
+  }
+  [data-slot="avatar-fallback"][data-tone="green"] {
+    background: radial-gradient(circle at 32% 28%, #6ef0d8, #1fb89b 70%);
+    color: #042820;
+  }
+  [data-slot="avatar-fallback"][data-tone="amber"] {
+    background: radial-gradient(circle at 32% 28%, #ffd680, #e09a1f 70%);
+    color: #2e1d00;
+  }
+  [data-slot="avatar-fallback"][data-tone="gray"] {
+    background: radial-gradient(circle at 32% 28%, var(--border-2), var(--border-3) 75%);
+    color: var(--t1);
+  }
+  [data-slot="avatar-fallback"][data-tone="accent"] {
+    background: radial-gradient(circle at 32% 28%, #7ef0ff, var(--acc-deep) 75%);
+    color: #042b33;
+  }
+
+  /* ---- ToggleGroup → AeVox segmented control ---- */
+  [data-slot="toggle-group"] {
+    background: var(--bg-2);
+    border: 1px solid var(--border-2);
+    border-radius: var(--r-sm);
+    padding: 3px;
+    gap: 2px;
+  }
+  [data-slot="toggle-group-item"] {
+    border: 0 !important;
+    border-radius: var(--r-xs) !important;
+    background: transparent;
+    color: var(--t2);
+    font-size: 12.5px;
+    font-weight: 600;
+  }
+  [data-slot="toggle-group-item"]:hover {
+    background: transparent;
+    color: var(--t1);
+  }
+  [data-slot="toggle-group-item"][data-state="on"] {
+    background: var(--acc-ghost);
+    color: var(--acc);
+    box-shadow: inset 0 0 0 1px var(--acc-line);
+  }
+
+  /* ---- Standalone Toggle → AeVox chip (pill) ---- */
+  [data-slot="toggle"] {
+    border: 1px solid var(--border-2);
+    border-radius: var(--r-pill);
+    background: transparent;
+    color: var(--t2);
+    font-size: 12.5px;
+    font-weight: 500;
+  }
+  [data-slot="toggle"]:hover {
+    background: transparent;
+    color: var(--t1);
+    border-color: var(--border-3);
+  }
+  [data-slot="toggle"][data-state="on"] {
+    background: var(--acc-ghost);
+    color: var(--acc);
+    border-color: var(--acc-line);
+  }
+
+  /* ---- Structural labels → AeVox mono uppercase eyebrows ---- */
+  [data-slot="command-group"] [cmdk-group-heading],
+  [data-slot="select-label"],
+  [data-slot="dropdown-menu-label"] {
+    font-family: var(--f-mono);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--t3);
+  }
+
+  /* ---- Kbd → AeVox mono ---- */
+  [data-slot="kbd"] {
+    font-family: var(--f-mono);
+    background: var(--bg-3);
+    color: var(--t2);
+  }
+
+  /* ---- Skeleton → AeVox shimmer, with enough contrast to read on any
+     surface (shadcn's bg-accent ≈ the canvas in light theme = invisible). ---- */
+  [data-slot="skeleton"] {
+    background: linear-gradient(
+      90deg,
+      var(--bg-3),
+      var(--border-2),
+      var(--bg-3)
+    );
+    background-size: 200% 100%;
+    animation: skel 1.4s linear infinite;
+    /* radius left to the element's own className (e.g. rounded-full) */
+  }
+
+  /* ---- Elevation & depth (so the system doesn't read flat) ----
+     Cards get a lit-from-above edge highlight + a cast shadow, and lift
+     gently on hover. This is the AeVox elevation language, system-wide. */
+  [data-slot="card"] {
+    background-color: var(--bg-2);
+    border: 1px solid var(--border-2);
+    box-shadow:
+      var(--sh-card-hi),
+      inset 0 1px 0 var(--card-edge);
+    transition:
+      box-shadow 0.18s ease,
+      transform 0.18s ease,
+      border-color 0.18s ease;
+  }
+  [data-slot="card"]:hover {
+    box-shadow:
+      var(--sh-2),
+      inset 0 1px 0 var(--card-edge);
+    border-color: var(--border-3);
+    transform: translateY(-1px);
+  }
+
+  /* Table rows respond to hover (one consistent interaction language). */
+  [data-slot="table-row"]:hover {
+    background-color: var(--bg-3);
+  }
+}
+
+/* ============================================================
+   Scrollbars — themed to the surface, thin, token-driven.
+   ============================================================ */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--border-3) transparent;
+}
+::-webkit-scrollbar {
+  width: 11px;
+  height: 11px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border-3);
+  border-radius: var(--r-pill);
+  border: 3px solid transparent;
+  background-clip: content-box;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--t3);
+  background-clip: content-box;
+}
+::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+/* ============================================================
+   Component "scope" — each demo sits on a faint measurement canvas
+   (a voice/signal product inspects waveforms on a scope). Quiet
+   texture + a cyan corner tick; the hero stays the bold moment.
+   ============================================================ */
+.ae-scope {
+  position: relative;
+  /* A real surface (not the canvas void) so trigger-only demos read; cards
+     still pop because they carry a stronger shadow than the stage. */
+  background-color: var(--bg-2);
+  background-image: radial-gradient(
+    circle,
+    var(--border-2) 0.75px,
+    transparent 0.75px
+  );
+  background-size: 15px 15px;
+  background-position: center;
+}
+.ae-scope::after {
+  content: "";
+  position: absolute;
+  inset: 10px auto auto 10px;
+  width: 9px;
+  height: 9px;
+  border-top: 1.5px solid var(--acc-line);
+  border-left: 1.5px solid var(--acc-line);
+  opacity: 0.7;
+}
+.ae-scope::before {
+  content: "";
+  position: absolute;
+  inset: auto 10px 10px auto;
+  width: 9px;
+  height: 9px;
+  border-bottom: 1.5px solid var(--acc-line);
+  border-right: 1.5px solid var(--acc-line);
+  opacity: 0.7;
+}
+.ae-scope-label {
+  position: absolute;
+  top: 9px;
+  right: 14px;
+  font-family: var(--f-mono);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--t4);
+  pointer-events: none;
+}
+
+/* ============================================================
+   Gallery hero — the AeVox signature: a sonar "ping" (the voice /
+   listening motif). This is the one orchestrated motion moment;
+   everything else in the gallery stays still.
+   ============================================================ */
+.ae-hero-sonar {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 152px;
+  height: 152px;
+}
+.ae-hero-sonar .core {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--acc);
+  box-shadow:
+    0 0 26px var(--glow),
+    0 0 0 7px var(--acc-ghost);
+}
+.ae-hero-sonar .ring {
+  position: absolute;
+  width: 152px;
+  height: 152px;
+  border-radius: 50%;
+  border: 1.5px solid var(--acc);
+}
+/* Persistent rings — the sonar form is always legible. */
+.ae-hero-sonar .base {
+  opacity: 0.2;
+}
+.ae-hero-sonar .base.b1 {
+  transform: scale(0.42);
+  opacity: 0.4;
+}
+.ae-hero-sonar .base.b2 {
+  transform: scale(0.72);
+}
+/* Animated pings — the one orchestrated motion moment. */
+.ae-hero-sonar .ping {
+  opacity: 0;
+  animation: ae-ping 3.2s cubic-bezier(0.2, 0.55, 0.3, 1) infinite;
+}
+.ae-hero-sonar .ping.p2 {
+  animation-delay: 1.06s;
+}
+.ae-hero-sonar .ping.p3 {
+  animation-delay: 2.13s;
+}
+@keyframes ae-ping {
+  0% {
+    transform: scale(0.28);
+    opacity: 0.55;
+  }
+  70% {
+    opacity: 0.08;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ae-hero-sonar .ping {
+    animation: none;
+    opacity: 0;
+  }
+  .ae-hero-sonar .base {
+    opacity: 0.32;
+  }
+}
