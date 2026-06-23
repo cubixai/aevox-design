@@ -17,20 +17,16 @@ system with `npx shadcn add` — no manual file copying.
 
 Prereqs: the app is Vite/Next + React + **Tailwind v4** + **shadcn** (`components.json` present).
 
-`https://cubixai.github.io/aevox-design` = where this repo is served. Locally while `npm run dev` runs that's
-`http://localhost:5173`; deployed it's your site (GH Pages / Vercel).
+**1.** Theme + AeVox-enhanced components + primitives + provider:
 
 ```bash
-# 1. theme + the AeVox-enhanced components + primitives + provider
-npx shadcn@latest add https://cubixai.github.io/aevox-design/r/aevox-theme.json \
-  https://cubixai.github.io/aevox-design/r/theme-provider.json \
-  https://cubixai.github.io/aevox-design/r/aevox-primitives.json \
-  https://cubixai.github.io/aevox-design/r/button.json https://cubixai.github.io/aevox-design/r/badge.json https://cubixai.github.io/aevox-design/r/avatar.json
+npx shadcn@latest add https://cubixai.github.io/aevox-design/r/aevox-theme.json https://cubixai.github.io/aevox-design/r/theme-provider.json https://cubixai.github.io/aevox-design/r/aevox-primitives.json https://cubixai.github.io/aevox-design/r/button.json https://cubixai.github.io/aevox-design/r/badge.json https://cubixai.github.io/aevox-design/r/avatar.json
+```
 
-# 2. the stock shadcn components you need — the theme css styles them automatically
-npx shadcn@latest add input label textarea card tabs switch select separator \
-  dropdown-menu popover dialog tooltip table checkbox skeleton progress slider \
-  sonner breadcrumb command accordion radio-group toggle toggle-group kbd
+**2.** The stock shadcn components you need — the theme styles them automatically:
+
+```bash
+npx shadcn@latest add input label textarea card tabs switch select separator dropdown-menu popover dialog tooltip table checkbox skeleton progress slider sonner breadcrumb command accordion radio-group toggle toggle-group kbd
 ```
 
 Then:

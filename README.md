@@ -17,17 +17,16 @@ npm run build    # typecheck + production build (Pages base /aevox-design/)
 A fresh React + Tailwind v4 + shadcn project pulls the whole system from the
 registry (see `REGISTRY.md` for the full walkthrough):
 
-```bash
-# theme + enhanced components + primitives + provider
-npx shadcn@latest add https://cubixai.github.io/aevox-design/r/aevox-theme.json \
-  https://cubixai.github.io/aevox-design/r/theme-provider.json \
-  https://cubixai.github.io/aevox-design/r/aevox-primitives.json \
-  https://cubixai.github.io/aevox-design/r/button.json \
-  https://cubixai.github.io/aevox-design/r/badge.json \
-  https://cubixai.github.io/aevox-design/r/avatar.json
+Theme + AeVox components + primitives + provider:
 
-# the stock shadcn components you need — the theme css styles them automatically
-npx shadcn@latest add input card tabs dialog dropdown-menu table select toggle-group …
+```bash
+npx shadcn@latest add https://cubixai.github.io/aevox-design/r/aevox-theme.json https://cubixai.github.io/aevox-design/r/theme-provider.json https://cubixai.github.io/aevox-design/r/aevox-primitives.json https://cubixai.github.io/aevox-design/r/button.json https://cubixai.github.io/aevox-design/r/badge.json https://cubixai.github.io/aevox-design/r/avatar.json
+```
+
+Then the stock shadcn components you need (the theme styles them automatically):
+
+```bash
+npx shadcn@latest add input label textarea card tabs switch select separator dropdown-menu popover dialog tooltip table checkbox skeleton progress slider sonner breadcrumb command accordion radio-group toggle toggle-group kbd
 ```
 
 Then import `global.css`, add the fonts `<link>`, wrap the app in `<ThemeProvider>`,

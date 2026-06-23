@@ -40,18 +40,25 @@ export const docs: DocSection[] = [
 
         <H>From the registry</H>
         <P>
-          AeVox ships as a shadcn registry. Pull the theme, the enhanced
-          components, and the primitives, then add the stock components you need —
-          the theme styles them automatically.
+          AeVox ships as a shadcn registry. First, the theme + enhanced
+          components + primitives + provider:
         </P>
         <CodeBlock
           lang="bash"
-          code={`# theme + enhanced components + primitives + provider
-npx shadcn@latest add https://cubixai.github.io/aevox-design/r/aevox-theme.json https://cubixai.github.io/aevox-design/r/theme-provider.json \\
-  https://cubixai.github.io/aevox-design/r/aevox-primitives.json https://cubixai.github.io/aevox-design/r/button.json https://cubixai.github.io/aevox-design/r/badge.json https://cubixai.github.io/aevox-design/r/avatar.json
-
-# the stock shadcn components (auto-themed)
-npx shadcn@latest add input card tabs dialog dropdown-menu table select toggle-group …`}
+          code={`npx shadcn@latest add https://cubixai.github.io/aevox-design/r/aevox-theme.json \\
+  https://cubixai.github.io/aevox-design/r/theme-provider.json \\
+  https://cubixai.github.io/aevox-design/r/aevox-primitives.json \\
+  https://cubixai.github.io/aevox-design/r/button.json \\
+  https://cubixai.github.io/aevox-design/r/badge.json \\
+  https://cubixai.github.io/aevox-design/r/avatar.json`}
+        />
+        <P>
+          Then the stock shadcn components you need — the theme styles them
+          automatically:
+        </P>
+        <CodeBlock
+          lang="bash"
+          code={`npx shadcn@latest add input label textarea card tabs switch select separator dropdown-menu popover dialog tooltip table checkbox skeleton progress slider sonner breadcrumb command accordion radio-group toggle toggle-group kbd`}
         />
 
         <H>Fonts</H>
