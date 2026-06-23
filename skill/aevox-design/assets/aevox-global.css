@@ -368,6 +368,18 @@
     border-color: var(--acc-line);
     box-shadow: 0 0 0 3px var(--acc-ghost);
   }
+  /* Error state — red border + ring, overriding the token border above. */
+  [data-slot="input"][aria-invalid="true"],
+  [data-slot="textarea"][aria-invalid="true"],
+  [data-slot="select-trigger"][aria-invalid="true"] {
+    border-color: var(--warn);
+  }
+  [data-slot="input"][aria-invalid="true"]:focus-visible,
+  [data-slot="textarea"][aria-invalid="true"]:focus-visible,
+  [data-slot="select-trigger"][aria-invalid="true"]:focus-visible {
+    border-color: var(--warn);
+    box-shadow: 0 0 0 3px var(--warn-ghost);
+  }
 
   /* Floating surfaces sit ABOVE cards — one surface step up (--bg-3) plus a
      cast shadow, so a menu/popover never blends into the card it opens over. */

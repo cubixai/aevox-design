@@ -97,6 +97,22 @@ export const dataDisplay: RegistryEntry[] = [
     importLine: `import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"`,
     demos: [
       {
+        title: "Sizes",
+        node: (
+          <div className="flex items-end gap-4">
+            {(["sm", "default", "lg"] as const).map((s) => (
+              <Avatar key={s} size={s}>
+                <AvatarImage src="https://i.pravatar.cc/80?img=12" alt="" />
+                <AvatarFallback>AR</AvatarFallback>
+              </Avatar>
+            ))}
+          </div>
+        ),
+        code: `<Avatar size="sm">…</Avatar>
+<Avatar>…</Avatar>           {/* default */}
+<Avatar size="lg">…</Avatar>`,
+      },
+      {
         title: "Photo & initials",
         node: (
           <div className="flex items-center gap-4">

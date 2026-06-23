@@ -276,12 +276,35 @@ import { Label } from "@/components/ui/label"`,
       {
         node: (
           <div className="grid w-full max-w-sm gap-2">
-            <Label htmlFor="agent">Project name</Label>
-            <Input id="agent" placeholder="e.g. Acme Studio" />
+            <Label htmlFor="proj">Project name</Label>
+            <Input id="proj" placeholder="e.g. Acme Studio" />
           </div>
         ),
-        code: `<Label htmlFor="agent">Project name</Label>
-<Input id="agent" placeholder="e.g. Acme Studio" />`,
+        code: `<Label htmlFor="proj">Project name</Label>
+<Input id="proj" placeholder="e.g. Acme Studio" />`,
+      },
+      {
+        title: "States",
+        node: (
+          <div className="grid w-full max-w-sm gap-3">
+            <Input placeholder="Default" />
+            <Input defaultValue="Filled" />
+            <Input placeholder="Disabled" disabled />
+            <div className="grid gap-1.5">
+              <Input
+                defaultValue="bad-slug!"
+                aria-invalid
+                aria-describedby="err"
+              />
+              <span id="err" className="text-[12.5px] text-warn">
+                Slug can only contain letters, numbers, and dashes.
+              </span>
+            </div>
+          </div>
+        ),
+        code: `<Input placeholder="Default" />
+<Input disabled placeholder="Disabled" />
+<Input aria-invalid defaultValue="bad-slug!" />   {/* error */}`,
       },
     ],
   },
@@ -408,19 +431,31 @@ import { Label } from "@/components/ui/label"`,
     slug: "stat",
     name: "Stat",
     group: "AeVox",
-    blurb: "Headline metric — mono numerals with a labelled key.",
+    blurb:
+      "Headline metric — mono numerals with a labelled key. Pass `count` to animate 0 → value on mount (respects reduced motion).",
     importLine: `import { Stat } from "@/components/aevox"`,
     demos: [
       {
+        title: "Count-up (animates on mount)",
         node: (
           <div className="flex flex-wrap gap-12">
-            <Stat label="Deploys today" value="1,284" />
-            <Stat label="Uptime" value="98.6" unit="%" />
-            <Stat label="Avg. build" value="12.4" unit="s" />
+            <Stat label="Deploys today" count={1284} />
+            <Stat label="Uptime" count={98.6} decimals={1} unit="%" />
+            <Stat label="Avg. build" count={12.4} decimals={1} unit="s" />
           </div>
         ),
-        code: `<Stat label="Deploys today" value="1,284" />
-<Stat label="Uptime" value="98.6" unit="%" />`,
+        code: `<Stat label="Deploys today" count={1284} />
+<Stat label="Uptime" count={98.6} decimals={1} unit="%" />`,
+      },
+      {
+        title: "Static value",
+        node: (
+          <div className="flex flex-wrap gap-12">
+            <Stat label="Plan" value="Pro" />
+            <Stat label="Region" value="us-east" />
+          </div>
+        ),
+        code: `<Stat label="Plan" value="Pro" />`,
       },
     ],
   },

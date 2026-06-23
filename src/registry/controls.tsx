@@ -73,6 +73,37 @@ export const controls: RegistryEntry[] = [
         code: `<Checkbox id="cb" defaultChecked />
 <Label htmlFor="cb">Email me updates</Label>`,
       },
+      {
+        title: "States",
+        node: (
+          <div className="flex flex-wrap items-center gap-6">
+            <div className="flex items-center gap-2">
+              <Checkbox id="s1" />
+              <Label htmlFor="s1">Off</Label>
+            </div>
+            <div className="flex items-center gap-2">
+              <Checkbox id="s2" defaultChecked />
+              <Label htmlFor="s2">On</Label>
+            </div>
+            <div className="flex items-center gap-2">
+              <Checkbox id="s3" disabled />
+              <Label htmlFor="s3" className="opacity-50">
+                Disabled
+              </Label>
+            </div>
+            <div className="flex items-center gap-2">
+              <Checkbox id="s4" disabled defaultChecked />
+              <Label htmlFor="s4" className="opacity-50">
+                Disabled on
+              </Label>
+            </div>
+          </div>
+        ),
+        code: `<Checkbox />
+<Checkbox defaultChecked />
+<Checkbox disabled />
+<Checkbox disabled defaultChecked />`,
+      },
     ],
   },
   {
