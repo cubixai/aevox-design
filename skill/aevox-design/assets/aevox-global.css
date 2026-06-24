@@ -1,6 +1,5 @@
 /* Cascade-layer order: AeVox sits below Tailwind's components/utilities so its
-   global reset (`* { margin:0; padding:0 }`) and component classes never outrank
-   Tailwind utilities. Unlayered CSS would otherwise beat every utility. */
+   global reset and component classes never outrank Tailwind utilities. */
 @layer theme, base, aevox, components, utilities, aevox-overrides;
 
 @import "tailwindcss";
@@ -8,134 +7,68 @@
 /* Fonts load via <link> in index.html (Google Fonts) — keeps @import order
    valid under Tailwind v4. */
 
-/* AeVox tokens + native primitive classes, inlined so this is ONE drop-in file. */
+/* AeVox tokens — ONE drop-in file. Tokens are stored as HSL channels (e.g.
+   `214 29% 17%`) so Tailwind's alpha modifiers work (text-ink-2/40). Light is
+   the DEFAULT (:root); `.dark` flips it (the shadcn/Tailwind v4 convention). */
 @layer aevox {
-/* ---- AeVox design tokens — DARK (light is the default; this flips on
-       data-theme="dark"). Agnostic vars (radii/type/layout) live on :root below. ---- */
-:root[data-theme="dark"] {
-  /* Surfaces — layered elevation ladder.
-     The content canvas is the DEEPEST plane; chrome (sidebar+topbar) sits a
-     clear step above it; cards lift highest off the canvas. */
-  --bg-0: #0c0e12;   /* app canvas / content area (deepest) — neutral-cool */
-  --bg-1: #17191e;   /* chrome: sidebar + topbar (lifted above canvas) */
-  --bg-2: #1c1f25;   /* cards / panels (raised highest) */
-  --bg-3: #23262d;   /* raised / hover */
-  --bg-4: #2c3037;   /* active / input */
+/* ---- LIGHT (the default) ---- */
+:root {
+  /* Surfaces — elevation ladder (canvas → cards). */
+  --surface-0: 218 31% 95%;   /* #eef1f6 app canvas */
+  --surface-1: 0 0% 100%;     /* #ffffff chrome */
+  --surface-2: 0 0% 100%;     /* #ffffff cards */
+  --surface-3: 217 40% 96%;   /* #f1f4f9 raised / hover */
+  --surface-4: 215 33% 93%;   /* #e7ecf3 active / input */
 
   /* Borders */
-  --border: #24272e;
-  --border-2: #313640;
-  --border-3: #434954;
+  --line: 216 26% 93%;        /* #e7ebf1 */
+  --line-2: 216 24% 88%;      /* #d8dee7 */
+  --line-3: 213 20% 78%;      /* #bcc6d2 */
 
-  /* Card elevation — lit-from-above highlight + cast shadow */
-  --card-edge: rgba(255,255,255,.03);
-  --sh-card: 0 1px 2px rgba(0,0,0,.22), 0 2px 6px rgba(0,0,0,.14);
-  --sh-card-hi: 0 2px 6px rgba(0,0,0,.28), 0 8px 22px rgba(0,0,0,.22);
+  /* Text ladder */
+  --ink-1: 214 29% 17%;       /* #1f2a38 */
+  --ink-2: 214 17% 36%;       /* #4c5a6c */
+  --ink-3: 213 14% 60%;       /* #8a97a7 */
+  --ink-4: 217 16% 71%;       /* #aab3c1 */
 
-  /* Text */
-  --t1: #eceef2;
-  --t2: #9aa0a9;
-  --t3: #646a73;
-  --t4: #474c54;
+  /* Accent — cyan (single brand accent) */
+  --accent: 190 90% 38%;      /* #0a9cb8 */
+  --accent-2: 190 88% 33%;    /* #0a87a0 */
+  --accent-deep: 190 86% 27%; /* #0a6d82 */
+  --accent-ghost: rgba(10, 156, 184, 0.1);
+  --accent-ghost-2: rgba(10, 156, 184, 0.18);
+  --accent-line: rgba(10, 156, 184, 0.32);
+  --accent-glow: rgba(10, 156, 184, 0.3);
 
-  /* Accent — cyan */
-  --acc: #22d3ee;
-  --acc-2: #10bcd8;
-  --acc-deep: #0a9cba;
-  --acc-ghost: rgba(34, 211, 238, 0.12);
-  --acc-ghost-2: rgba(34, 211, 238, 0.2);
-  --acc-line: rgba(34, 211, 238, 0.35);
-  --glow: rgba(34, 211, 238, 0.45);
+  /* Status (light, vivid + AA on white) */
+  --live: 172 84% 37%;        /* #0fae9a */
+  --live-ghost: rgba(15, 174, 154, 0.12);
+  --train: 38 87% 47%;        /* #e0930f */
+  --train-ghost: rgba(224, 147, 15, 0.13);
+  --warn: 0 75% 59%;          /* #e54848 */
+  --warn-ghost: rgba(229, 72, 72, 0.11);
+  --idle: 239 84% 67%;        /* #6366f1 */
+  --idle-ghost: rgba(99, 102, 241, 0.12);
+  --pos: 157 79% 35%;         /* #13a06a */
+  --pos-ghost: rgba(19, 160, 106, 0.12);
+  --neg: 347 75% 59%;         /* #e5486b */
+  --neg-ghost: rgba(229, 72, 107, 0.12);
 
-  /* Status */
-  --live: #34e0c4;     /* live / active */
-  --live-ghost: rgba(52, 224, 196, 0.13);
-  --train: #f5b544;    /* training */
-  --train-ghost: rgba(245, 181, 68, 0.13);
-  --warn: #f87171;     /* error / failed */
-  --warn-ghost: rgba(248, 113, 113, 0.13);
-  --idle: #7c89f0;     /* secondary / draft */
-  --idle-ghost: rgba(124, 137, 240, 0.13);
-  --pos: #34d399;
-  --neg: #fb7185;
+  /* Demo preview surface */
+  --stage: 220 50% 98%;       /* #f6f8fc */
 
-  /* Radii */
-  --r-xs: 6px;
-  --r-sm: 9px;
-  --r-md: 13px;
-  --r-lg: 18px;
-  --r-xl: 26px;
-  --r-pill: 999px;
+  /* Card elevation — lit-from-above edge + cast shadow */
+  --edge: rgba(255, 255, 255, 0.03);
+  --sh-card: 0 1px 2px rgba(16, 28, 42, 0.05);
+  --sh-card-hi: 0 2px 8px rgba(16, 28, 42, 0.08);
 
-  /* Type */
-  --f-display: 'Bricolage Grotesque', sans-serif;
-  --f-sans: 'Hanken Grotesk', sans-serif;
-  --f-mono: 'IBM Plex Mono', monospace;
+  /* Ambient shadows (light) */
+  --sh-1: 0 1px 2px rgba(16, 28, 42, 0.06);
+  --sh-2: 0 6px 22px rgba(16, 28, 42, 0.1);
+  --sh-3: 0 18px 50px rgba(16, 28, 42, 0.16);
+  --sh-glow: 0 0 0 1px rgba(10, 156, 184, 0.22), 0 8px 30px rgba(10, 156, 184, 0.15);
 
-  /* Shadows */
-  --sh-1: 0 1px 3px rgba(0,0,0,.5);
-  --sh-2: 0 8px 28px rgba(0,0,0,.55);
-  --sh-3: 0 24px 60px rgba(0,0,0,.62);
-  --sh-glow: 0 0 0 1px rgba(34,211,238,.25), 0 8px 30px rgba(34,211,238,.18);
-
-  /* layout */
-  --nav-w: 264px;
-  --topbar-h: 60px;
-
-  --topbar-bg: var(--bg-1);
-  --overlay-bg: rgba(3,5,9,.78);
-  color-scheme: dark;
-
-  --glow-on: 1;
-}
-
-/* ---- Light theme tokens — the DEFAULT (no attribute) ---- */
-:root {
-  --bg-0: #eef1f6;
-  --bg-1: #ffffff;
-  --bg-2: #ffffff;
-  --bg-3: #f1f4f9;
-  --bg-4: #e7ecf3;
-
-  --border: #e7ebf1;
-  --border-2: #d8dee7;
-  --border-3: #bcc6d2;
-
-  --t1: #1f2a38;
-  --t2: #4c5a6c;
-  --t3: #8a97a7;
-  --t4: #aab3c1;
-
-  --acc: #0a9cb8;
-  --acc-2: #0a87a0;
-  --acc-deep: #0a6d82;
-  --acc-ghost: rgba(10,156,184,.1);
-  --acc-ghost-2: rgba(10,156,184,.18);
-  --acc-line: rgba(10,156,184,.32);
-  --glow: rgba(10,156,184,.3);
-
-  --live: #0b9b86;     --live-ghost: rgba(11,155,134,.12);
-  --train: #b07d12;    --train-ghost: rgba(176,125,18,.13);
-  --warn: #d14343;     --warn-ghost: rgba(209,67,67,.12);
-  --idle: #5560d4;     --idle-ghost: rgba(85,96,212,.12);
-  --pos: #0e9c68;      --neg: #d6455f;
-
-  --sh-1: 0 1px 2px rgba(16,28,42,.06);
-  --sh-2: 0 6px 22px rgba(16,28,42,.10);
-  --sh-3: 0 18px 50px rgba(16,28,42,.16);
-  --sh-glow: 0 0 0 1px rgba(10,156,184,.22), 0 8px 30px rgba(10,156,184,.15);
-  --sh-card: 0 1px 2px rgba(16,28,42,.05);
-  --sh-card-hi: 0 2px 8px rgba(16,28,42,.08);
-
-  /* Theme-agnostic (radii, type, layout) — live on the default :root so they
-     exist in both themes. */
-  --card-edge: rgba(255,255,255,.03);
-  --r-xs: 6px;
-  --r-sm: 9px;
-  --r-md: 13px;
-  --r-lg: 18px;
-  --r-xl: 26px;
-  --r-pill: 999px;
+  /* Type / layout (theme-agnostic; radii live in @theme below) */
   --f-display: 'Bricolage Grotesque', sans-serif;
   --f-sans: 'Hanken Grotesk', sans-serif;
   --f-mono: 'IBM Plex Mono', monospace;
@@ -143,12 +76,67 @@
   --topbar-h: 60px;
   --glow-on: 1;
 
-  --topbar-bg: var(--bg-1);
-  --overlay-bg: rgba(22,30,42,.40);
+  --topbar-bg: hsl(var(--surface-1));
+  --overlay-bg: rgba(22, 30, 42, 0.4);
   color-scheme: light;
 }
+
+/* ---- DARK (.dark) ---- */
+.dark {
+  --surface-0: 220 20% 6%;    /* #0c0e12 */
+  --surface-1: 223 13% 10%;   /* #17191e */
+  --surface-2: 220 14% 13%;   /* #1c1f25 */
+  --surface-3: 222 12% 16%;   /* #23262d */
+  --surface-4: 218 11% 19%;   /* #2c3037 */
+
+  --line: 222 12% 16%;        /* #24272e */
+  --line-2: 220 13% 22%;      /* #313640 */
+  --line-3: 219 11% 30%;      /* #434954 */
+
+  --ink-1: 220 19% 94%;       /* #eceef2 */
+  --ink-2: 216 8% 63%;        /* #9aa0a9 */
+  --ink-3: 216 7% 42%;        /* #646a73 */
+  --ink-4: 217 8% 30%;        /* #474c54 */
+
+  --accent: 188 86% 53%;      /* #22d3ee */
+  --accent-2: 188 86% 45%;    /* #10bcd8 */
+  --accent-deep: 190 90% 38%; /* #0a9cba */
+  --accent-ghost: rgba(34, 211, 238, 0.12);
+  --accent-ghost-2: rgba(34, 211, 238, 0.2);
+  --accent-line: rgba(34, 211, 238, 0.35);
+  --accent-glow: rgba(34, 211, 238, 0.45);
+
+  --live: 170 74% 54%;        /* #34e0c4 */
+  --live-ghost: rgba(52, 224, 196, 0.13);
+  --train: 42 93% 65%;        /* #f9c652 */
+  --train-ghost: rgba(249, 198, 82, 0.14);
+  --warn: 0 91% 71%;          /* #f87171 */
+  --warn-ghost: rgba(248, 113, 113, 0.13);
+  --idle: 233 79% 71%;        /* #7c89f0 */
+  --idle-ghost: rgba(124, 137, 240, 0.13);
+  --pos: 158 64% 52%;         /* #34d399 */
+  --pos-ghost: rgba(52, 211, 153, 0.13);
+  --neg: 351 95% 71%;         /* #fb7185 */
+  --neg-ghost: rgba(251, 113, 133, 0.13);
+
+  --stage: 220 22% 8%;        /* #101319 */
+
+  --edge: rgba(255, 255, 255, 0.03);
+  --sh-card: 0 1px 2px rgba(0, 0, 0, 0.22), 0 2px 6px rgba(0, 0, 0, 0.14);
+  --sh-card-hi: 0 2px 6px rgba(0, 0, 0, 0.28), 0 8px 22px rgba(0, 0, 0, 0.22);
+
+  --sh-1: 0 1px 3px rgba(0, 0, 0, 0.5);
+  --sh-2: 0 8px 28px rgba(0, 0, 0, 0.55);
+  --sh-3: 0 24px 60px rgba(0, 0, 0, 0.62);
+  --sh-glow: 0 0 0 1px rgba(34, 211, 238, 0.25), 0 8px 30px rgba(34, 211, 238, 0.18);
+
+  --overlay-bg: rgba(3, 5, 9, 0.78);
+  color-scheme: dark;
+}
+
 :root[data-density="compact"] { --row-h: 46px; --pad-card: 16px; }
 :root { --row-h: 56px; --pad-card: 24px; }
+
 @keyframes skel { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
 @keyframes fadein { from { opacity: .55; } to { opacity: 1; } }
 @keyframes ae-rise { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
@@ -161,20 +149,20 @@
 
 /* ---- AeVox-native primitive classes (Sonar / Stat / StatusDot) ---- */
 .dot { width: 7px; height: 7px; border-radius: 50%; flex: none; }
-.dot.live { background: var(--live); }
-.dot.train { background: var(--train); }
-.dot.idle { background: var(--idle); }
-.dot.warn { background: var(--warn); }
-.dot.off { background: var(--t3); }
+.dot.live { background: hsl(var(--live)); }
+.dot.train { background: hsl(var(--train)); }
+.dot.idle { background: hsl(var(--idle)); }
+.dot.warn { background: hsl(var(--warn)); }
+.dot.off { background: hsl(var(--ink-3)); }
 .sonar { position: relative; display: grid; place-items: center; }
 .sonar .core {
   width: 24%; height: 24%; border-radius: 50%;
-  background: var(--acc); box-shadow: 0 0 12px var(--glow);
+  background: hsl(var(--accent)); box-shadow: 0 0 12px var(--accent-glow);
 }
 /* Expanding ping rings — scale 0.28 → 1, so they stay inside the box. */
 .sonar .ping {
   position: absolute; width: 100%; height: 100%;
-  border-radius: 50%; border: 1.5px solid var(--acc); opacity: 0;
+  border-radius: 50%; border: 1.5px solid hsl(var(--accent)); opacity: 0;
   animation: ae-ping 3s cubic-bezier(0.2, 0.55, 0.3, 1) infinite;
 }
 .sonar .ping.p2 { animation-delay: 1s; }
@@ -183,110 +171,102 @@
   .sonar .ping { animation: none; opacity: 0.16; transform: scale(0.7); }
 }
 .stat { display: flex; flex-direction: column; gap: 6px; }
-.stat .k { font-size: 12.5px; color: var(--t2); font-weight: 500; display: flex; align-items: center; gap: 7px; }
+.stat .k { font-size: 12.5px; color: hsl(var(--ink-2)); font-weight: 500; display: flex; align-items: center; gap: 7px; }
 .stat .v { font-family: var(--f-display); font-size: 30px; font-weight: 600; letter-spacing: -0.02em; line-height: 1; }
-.stat .v small { font-size: 15px; color: var(--t3); font-weight: 500; }
+.stat .v small { font-size: 15px; color: hsl(var(--ink-3)); font-weight: 500; }
 .stat .v.mono-stat, .stat .v { font-family: var(--f-mono) !important; font-feature-settings: "tnum" 1; font-size: 36px; font-weight: 600; letter-spacing: -.03em; }
 }
 
 /* ============================================================
    AeVox ↔ Tailwind v4 ↔ shadcn bridge
-   - AeVox tokens (the @layer aevox block above) are the source of truth.
-   - Light is the DEFAULT theme. `[data-theme="dark"]` flips it.
-   - shadcn semantic vars alias AeVox tokens, so shadcn components
-     adopt the AeVox look with zero per-component overrides.
+   - Tokens (the @layer aevox block above) are the source of truth, stored as
+     HSL channels. The shadcn semantic vars pass the channels through; @theme
+     wraps them in hsl() so utilities + alpha modifiers both work.
+   - Light is the DEFAULT; `.dark` flips it.
    ============================================================ */
 
-/* Variants driven off data-theme (light = default, no attribute needed). */
-@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
-@custom-variant light (&:where(:root:not([data-theme="dark"]), :root:not([data-theme="dark"]) *));
+@custom-variant dark (&:where(.dark, .dark *));
 
-/* shadcn semantic tokens → AeVox tokens. These reference AeVox vars, so
-   they switch automatically when [data-theme] changes. */
+/* shadcn semantic tokens → AeVox channel tokens (passthrough; @theme wraps). */
 :root {
-  --background: var(--bg-0);
-  --foreground: var(--t1);
+  --background: var(--surface-0);
+  --foreground: var(--ink-1);
 
-  --card: var(--bg-2);
-  --card-foreground: var(--t1);
+  --card: var(--surface-2);
+  --card-foreground: var(--ink-1);
 
-  --popover: var(--bg-2);
-  --popover-foreground: var(--t1);
+  --popover: var(--surface-2);
+  --popover-foreground: var(--ink-1);
 
-  --primary: var(--acc);
-  --primary-foreground: #ffffff; /* light default: white on deep cyan */
+  --primary: var(--accent);
+  --primary-foreground: 0 0% 100%; /* light: white on deep cyan */
 
-  --secondary: var(--bg-3);
-  --secondary-foreground: var(--t1);
+  --secondary: var(--surface-3);
+  --secondary-foreground: var(--ink-1);
 
-  --muted: var(--bg-3);
-  --muted-foreground: var(--t2);
-
-  --accent: var(--bg-3);
-  --accent-foreground: var(--t1);
+  --muted: var(--surface-3);
+  --muted-foreground: var(--ink-2);
 
   --destructive: var(--warn);
-  --destructive-foreground: #ffffff;
+  --destructive-foreground: 0 0% 100%;
 
-  --input: var(--border-2);
-  --ring: var(--acc);
+  --input: var(--line-2);
+  --ring: var(--accent);
 
-  --radius: var(--r-md);
+  --radius: var(--radius-md);
 }
 
 /* Dark theme: bright cyan / soft red want DARK ink. */
-:root[data-theme="dark"] {
-  --primary-foreground: #06222b;
-  --destructive-foreground: #2a0c0c;
+.dark {
+  --primary-foreground: 195 76% 10%;   /* #06222b */
+  --destructive-foreground: 0 55% 11%; /* #2a0c0c */
 }
 
 @theme inline {
-  /* shadcn semantic palette */
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --color-card: var(--card);
-  --color-card-foreground: var(--card-foreground);
-  --color-popover: var(--popover);
-  --color-popover-foreground: var(--popover-foreground);
-  --color-primary: var(--primary);
-  --color-primary-foreground: var(--primary-foreground);
-  --color-secondary: var(--secondary);
-  --color-secondary-foreground: var(--secondary-foreground);
-  --color-muted: var(--muted);
-  --color-muted-foreground: var(--muted-foreground);
-  --color-accent: var(--accent);
-  --color-accent-foreground: var(--accent-foreground);
-  --color-destructive: var(--destructive);
-  --color-destructive-foreground: var(--destructive-foreground);
-  --color-border: var(--border);
-  --color-input: var(--input);
-  --color-ring: var(--ring);
+  /* shadcn semantic palette (channels → hsl) */
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+  --color-card: hsl(var(--card));
+  --color-card-foreground: hsl(var(--card-foreground));
+  --color-popover: hsl(var(--popover));
+  --color-popover-foreground: hsl(var(--popover-foreground));
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+  --color-secondary: hsl(var(--secondary));
+  --color-secondary-foreground: hsl(var(--secondary-foreground));
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+  --color-destructive: hsl(var(--destructive));
+  --color-destructive-foreground: hsl(var(--destructive-foreground));
+  --color-border: hsl(var(--line));
+  --color-input: hsl(var(--input));
+  --color-ring: hsl(var(--ring));
 
-  /* AeVox raw palette → utilities: bg-surface-2, text-t2, text-acc, border-line-2 … */
-  --color-surface-0: var(--bg-0);
-  --color-surface-1: var(--bg-1);
-  --color-surface-2: var(--bg-2);
-  --color-surface-3: var(--bg-3);
-  --color-surface-4: var(--bg-4);
-  --color-line: var(--border);
-  --color-line-2: var(--border-2);
-  --color-line-3: var(--border-3);
-  --color-t1: var(--t1);
-  --color-t2: var(--t2);
-  --color-t3: var(--t3);
-  --color-t4: var(--t4);
-  --color-acc: var(--acc);
-  --color-acc-2: var(--acc-2);
-  --color-acc-deep: var(--acc-deep);
-  --color-acc-ghost: var(--acc-ghost);
-  --color-acc-line: var(--acc-line);
-  --color-glow: var(--glow);
-  --color-live: var(--live);
-  --color-train: var(--train);
-  --color-warn: var(--warn);
-  --color-idle: var(--idle);
-  --color-pos: var(--pos);
-  --color-neg: var(--neg);
+  /* AeVox raw palette → utilities: bg-surface-2, text-ink-2, text-accent, border-line-2 … */
+  --color-surface-0: hsl(var(--surface-0));
+  --color-surface-1: hsl(var(--surface-1));
+  --color-surface-2: hsl(var(--surface-2));
+  --color-surface-3: hsl(var(--surface-3));
+  --color-surface-4: hsl(var(--surface-4));
+  --color-line: hsl(var(--line));
+  --color-line-2: hsl(var(--line-2));
+  --color-line-3: hsl(var(--line-3));
+  --color-ink-1: hsl(var(--ink-1));
+  --color-ink-2: hsl(var(--ink-2));
+  --color-ink-3: hsl(var(--ink-3));
+  --color-ink-4: hsl(var(--ink-4));
+  --color-accent: hsl(var(--accent));
+  --color-accent-2: hsl(var(--accent-2));
+  --color-accent-deep: hsl(var(--accent-deep));
+  --color-accent-ghost: var(--accent-ghost);
+  --color-accent-line: var(--accent-line);
+  --color-accent-glow: var(--accent-glow);
+  --color-live: hsl(var(--live));
+  --color-train: hsl(var(--train));
+  --color-warn: hsl(var(--warn));
+  --color-idle: hsl(var(--idle));
+  --color-pos: hsl(var(--pos));
+  --color-neg: hsl(var(--neg));
 
   /* Type */
   --font-display: var(--f-display);
@@ -294,11 +274,12 @@
   --font-mono: var(--f-mono);
 
   /* Radii (override Tailwind defaults with the AeVox scale) */
-  --radius-xs: var(--r-xs);
-  --radius-sm: var(--r-sm);
-  --radius-md: var(--r-md);
-  --radius-lg: var(--r-lg);
-  --radius-xl: var(--r-xl);
+  --radius-xs: 6px;
+  --radius-sm: 9px;
+  --radius-md: 13px;
+  --radius-lg: 18px;
+  --radius-xl: 26px;
+  --radius-pill: 999px;
 
   /* Shadows */
   --shadow-card: var(--sh-card);
@@ -311,11 +292,11 @@
 
 @layer base {
   * {
-    border-color: var(--border);
+    border-color: hsl(var(--line));
   }
   body {
-    background: var(--bg-0);
-    color: var(--t1);
+    background: hsl(var(--surface-0));
+    color: hsl(var(--ink-1));
     font-family: var(--f-sans);
     -webkit-font-smoothing: antialiased;
   }
@@ -337,7 +318,7 @@
   }
 }
 
-/* Quality floor: respect reduced motion (skeleton shimmer, sonar, smooth scroll). */
+/* Quality floor: respect reduced motion. */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -350,132 +331,103 @@
 }
 
 /* ============================================================
-   Token refinements — cleaner amber than the raw export.
-   (Overrides aevox.css :root values; unlayered wins over layer(aevox).)
-   ============================================================ */
-:root[data-theme="dark"] {
-  --train: #f9c652; /* dark: brighter, less muddy amber */
-  --train-ghost: rgba(249, 198, 82, 0.14);
-  --stage: #101319; /* demo preview surface — clean, between canvas and cards */
-}
-/* Light status palette (the DEFAULT) — vivid + cohesive, darkened just enough
-   for white. Replaces the muddy/brown raw-export values. */
-:root {
-  --live: #0fae9a;
-  --live-ghost: rgba(15, 174, 154, 0.12);
-  --train: #e0930f;
-  --train-ghost: rgba(224, 147, 15, 0.13);
-  --warn: #e54848;
-  --warn-ghost: rgba(229, 72, 72, 0.11);
-  --idle: #6366f1;
-  --idle-ghost: rgba(99, 102, 241, 0.12);
-  --pos: #13a06a;
-  --neg: #e5486b;
-  --stage: #f6f8fc; /* light: clean preview surface (cards pop via shadow) */
-}
-
-/* ============================================================
-   AeVox shadcn overrides — sits ABOVE Tailwind utilities so it can
-   replace shadcn's transparent/base-looking form controls with the
-   AeVox surface language (solid --bg-1 fields, cyan focus glow,
-   raised modal surface). data-slot attributes are set by shadcn.
+   AeVox shadcn overrides — sits ABOVE Tailwind utilities so it replaces
+   shadcn's transparent/base controls with the AeVox surface language.
    ============================================================ */
 @layer aevox-overrides {
   [data-slot="input"],
   [data-slot="textarea"],
   [data-slot="select-trigger"] {
-    background-color: var(--bg-1);
-    border-color: var(--border-2);
-    border-radius: var(--r-sm);
-    color: var(--t1);
+    background-color: hsl(var(--surface-1));
+    border-color: hsl(var(--line-2));
+    border-radius: var(--radius-sm);
+    color: hsl(var(--ink-1));
   }
   [data-slot="input"]:hover,
   [data-slot="textarea"]:hover,
   [data-slot="select-trigger"]:hover {
-    border-color: var(--border-3);
+    border-color: hsl(var(--line-3));
   }
   [data-slot="input"]:focus-visible,
   [data-slot="textarea"]:focus-visible,
   [data-slot="select-trigger"]:focus-visible {
-    border-color: var(--acc-line);
-    box-shadow: 0 0 0 3px var(--acc-ghost);
+    border-color: var(--accent-line);
+    box-shadow: 0 0 0 3px var(--accent-ghost);
   }
-  /* Error state — red border + ring, overriding the token border above. */
+  /* Error state — red border + ring. */
   [data-slot="input"][aria-invalid="true"],
   [data-slot="textarea"][aria-invalid="true"],
   [data-slot="select-trigger"][aria-invalid="true"] {
-    border-color: var(--warn);
+    border-color: hsl(var(--warn));
   }
   [data-slot="input"][aria-invalid="true"]:focus-visible,
   [data-slot="textarea"][aria-invalid="true"]:focus-visible,
   [data-slot="select-trigger"][aria-invalid="true"]:focus-visible {
-    border-color: var(--warn);
+    border-color: hsl(var(--warn));
     box-shadow: 0 0 0 3px var(--warn-ghost);
   }
 
-  /* Floating surfaces sit ABOVE cards — one surface step up (--bg-3) plus a
-     cast shadow, so a menu/popover never blends into the card it opens over. */
+  /* Floating surfaces sit ABOVE cards. */
   [data-slot="select-content"],
   [data-slot="dropdown-menu-content"],
   [data-slot="popover-content"],
   [data-slot="command"] {
-    background-color: var(--bg-3);
-    border-color: var(--border-3);
+    background-color: hsl(var(--surface-3));
+    border-color: hsl(var(--line-3));
     box-shadow: var(--sh-2);
   }
   [data-slot="select-item"]:focus,
   [data-slot="dropdown-menu-item"]:focus,
   [data-slot="command-item"][data-selected="true"] {
-    background-color: var(--bg-4);
-    color: var(--t1);
+    background-color: hsl(var(--surface-4));
+    color: hsl(var(--ink-1));
   }
 
-  /* Modals are a raised plane, not the deepest canvas. */
+  /* Modals are a raised plane. */
   [data-slot="dialog-content"] {
-    background-color: var(--bg-2);
-    border-color: var(--border-2);
+    background-color: hsl(var(--surface-2));
+    border-color: hsl(var(--line-2));
     box-shadow: var(--sh-3);
   }
   [data-slot="dialog-overlay"] {
     background-color: var(--overlay-bg);
   }
 
-  /* Tabs → AeVox segmented control: square-rounded, active tab carries the
-     brand cyan (shadcn's default active:bg-background reads as a hole). */
+  /* Tabs → AeVox segmented control. */
   [data-slot="tabs-list"] {
-    background-color: var(--bg-2);
-    border: 1px solid var(--border-2);
-    border-radius: var(--r-sm);
+    background-color: hsl(var(--surface-2));
+    border: 1px solid hsl(var(--line-2));
+    border-radius: var(--radius-sm);
   }
   [data-slot="tabs-trigger"] {
-    border-radius: var(--r-xs);
+    border-radius: var(--radius-xs);
   }
   [data-slot="tabs-trigger"][data-state="active"] {
-    background-color: var(--acc-ghost);
-    color: var(--acc);
-    box-shadow: inset 0 0 0 1px var(--acc-line);
+    background-color: var(--accent-ghost);
+    color: hsl(var(--accent));
+    box-shadow: inset 0 0 0 1px var(--accent-line);
   }
 
-  /* Kbd gets a subtle fill so it reads on any surface. */
+  /* Kbd subtle fill. */
   .kbd {
-    background-color: var(--bg-3);
-    color: var(--t2);
+    background-color: hsl(var(--surface-3));
+    color: hsl(var(--ink-2));
   }
 
-  /* Table → AeVox .tbl language: mono uppercase heads, hairline rows. */
+  /* Table → mono uppercase heads, hairline rows. */
   [data-slot="table-head"] {
     font-family: var(--f-mono);
     font-size: 10.5px;
     font-weight: 700;
     letter-spacing: 0.07em;
     text-transform: uppercase;
-    color: var(--t3);
+    color: hsl(var(--ink-3));
   }
   [data-slot="table-row"] {
-    border-color: var(--border);
+    border-color: hsl(var(--line));
   }
   [data-slot="table-row"][data-state="selected"] {
-    background-color: var(--acc-ghost);
+    background-color: var(--accent-ghost);
   }
 
   /* ---- Badge → every variant is an AeVox mono-uppercase pill ---- */
@@ -495,58 +447,57 @@
     letter-spacing: 0.06em;
     text-transform: uppercase;
     padding: 2px 7px;
-    border-radius: var(--r-pill);
+    border-radius: var(--radius-pill);
   }
-  /* shadcn variants adopt the tone look (no more solid fills). */
   [data-slot="badge"][data-variant="default"] {
-    background: var(--acc-ghost);
-    color: var(--acc);
-    border-color: var(--acc-line);
+    background: var(--accent-ghost);
+    color: hsl(var(--accent));
+    border-color: var(--accent-line);
   }
   [data-slot="badge"][data-variant="secondary"] {
-    background: var(--bg-3);
-    color: var(--t2);
-    border-color: var(--border-2);
+    background: hsl(var(--surface-3));
+    color: hsl(var(--ink-2));
+    border-color: hsl(var(--line-2));
   }
   [data-slot="badge"][data-variant="destructive"] {
     background: var(--warn-ghost);
-    color: var(--warn);
-    border-color: color-mix(in srgb, var(--warn) 28%, transparent);
+    color: hsl(var(--warn));
+    border-color: color-mix(in srgb, hsl(var(--warn)) 28%, transparent);
   }
   [data-slot="badge"][data-variant="outline"] {
     background: transparent;
-    color: var(--t2);
-    border-color: var(--border-3);
+    color: hsl(var(--ink-2));
+    border-color: hsl(var(--line-3));
   }
   [data-slot="badge"][data-variant="live"] {
     background: var(--live-ghost);
-    color: var(--live);
-    border-color: color-mix(in srgb, var(--live) 28%, transparent);
+    color: hsl(var(--live));
+    border-color: color-mix(in srgb, hsl(var(--live)) 28%, transparent);
   }
   [data-slot="badge"][data-variant="training"] {
     background: var(--train-ghost);
-    color: var(--train);
-    border-color: color-mix(in srgb, var(--train) 28%, transparent);
+    color: hsl(var(--train));
+    border-color: color-mix(in srgb, hsl(var(--train)) 28%, transparent);
   }
   [data-slot="badge"][data-variant="idle"] {
     background: var(--idle-ghost);
-    color: var(--idle);
-    border-color: color-mix(in srgb, var(--idle) 28%, transparent);
+    color: hsl(var(--idle));
+    border-color: color-mix(in srgb, hsl(var(--idle)) 28%, transparent);
   }
   [data-slot="badge"][data-variant="warn"] {
     background: var(--warn-ghost);
-    color: var(--warn);
-    border-color: color-mix(in srgb, var(--warn) 28%, transparent);
+    color: hsl(var(--warn));
+    border-color: color-mix(in srgb, hsl(var(--warn)) 28%, transparent);
   }
   [data-slot="badge"][data-variant="accent"] {
-    background: var(--acc-ghost);
-    color: var(--acc);
-    border-color: var(--acc-line);
+    background: var(--accent-ghost);
+    color: hsl(var(--accent));
+    border-color: var(--accent-line);
   }
   [data-slot="badge"][data-variant="neutral"] {
-    background: var(--bg-3);
-    color: var(--t2);
-    border-color: var(--border-2);
+    background: hsl(var(--surface-3));
+    color: hsl(var(--ink-2));
+    border-color: hsl(var(--line-2));
   }
   [data-slot="badge"][data-variant="tag"] {
     font-family: var(--f-mono);
@@ -554,10 +505,10 @@
     font-weight: 600;
     letter-spacing: 0.03em;
     padding: 2px 8px;
-    border-radius: var(--r-xs);
-    background: var(--bg-3);
-    color: var(--t2);
-    border-color: var(--border-2);
+    border-radius: var(--radius-xs);
+    background: hsl(var(--surface-3));
+    color: hsl(var(--ink-2));
+    border-color: hsl(var(--line-2));
   }
 
   /* ---- Avatar fallback → AeVox gradient orbs ---- */
@@ -574,58 +525,58 @@
     color: #2e1d00;
   }
   [data-slot="avatar-fallback"][data-tone="gray"] {
-    background: radial-gradient(circle at 32% 28%, var(--border-2), var(--border-3) 75%);
-    color: var(--t1);
+    background: radial-gradient(circle at 32% 28%, hsl(var(--line-2)), hsl(var(--line-3)) 75%);
+    color: hsl(var(--ink-1));
   }
   [data-slot="avatar-fallback"][data-tone="accent"] {
-    background: radial-gradient(circle at 32% 28%, #7ef0ff, var(--acc-deep) 75%);
+    background: radial-gradient(circle at 32% 28%, #7ef0ff, hsl(var(--accent-deep)) 75%);
     color: #042b33;
   }
 
   /* ---- ToggleGroup → AeVox segmented control ---- */
   [data-slot="toggle-group"] {
-    background: var(--bg-2);
-    border: 1px solid var(--border-2);
-    border-radius: var(--r-sm);
+    background: hsl(var(--surface-2));
+    border: 1px solid hsl(var(--line-2));
+    border-radius: var(--radius-sm);
     padding: 3px;
     gap: 2px;
   }
   [data-slot="toggle-group-item"] {
     border: 0 !important;
-    border-radius: var(--r-xs) !important;
+    border-radius: var(--radius-xs) !important;
     background: transparent;
-    color: var(--t2);
+    color: hsl(var(--ink-2));
     font-size: 12.5px;
     font-weight: 600;
   }
   [data-slot="toggle-group-item"]:hover {
     background: transparent;
-    color: var(--t1);
+    color: hsl(var(--ink-1));
   }
   [data-slot="toggle-group-item"][data-state="on"] {
-    background: var(--acc-ghost);
-    color: var(--acc);
-    box-shadow: inset 0 0 0 1px var(--acc-line);
+    background: var(--accent-ghost);
+    color: hsl(var(--accent));
+    box-shadow: inset 0 0 0 1px var(--accent-line);
   }
 
   /* ---- Standalone Toggle → AeVox chip (pill) ---- */
   [data-slot="toggle"] {
-    border: 1px solid var(--border-2);
-    border-radius: var(--r-pill);
+    border: 1px solid hsl(var(--line-2));
+    border-radius: var(--radius-pill);
     background: transparent;
-    color: var(--t2);
+    color: hsl(var(--ink-2));
     font-size: 12.5px;
     font-weight: 500;
   }
   [data-slot="toggle"]:hover {
     background: transparent;
-    color: var(--t1);
-    border-color: var(--border-3);
+    color: hsl(var(--ink-1));
+    border-color: hsl(var(--line-3));
   }
   [data-slot="toggle"][data-state="on"] {
-    background: var(--acc-ghost);
-    color: var(--acc);
-    border-color: var(--acc-line);
+    background: var(--accent-ghost);
+    color: hsl(var(--accent));
+    border-color: var(--accent-line);
   }
 
   /* ---- Structural labels → AeVox mono uppercase eyebrows ---- */
@@ -637,48 +588,44 @@
     font-weight: 700;
     letter-spacing: 0.08em;
     text-transform: uppercase;
-    color: var(--t3);
+    color: hsl(var(--ink-3));
   }
 
-  /* ---- Kbd → physical keycap (thick bottom edge + cast shadow) ---- */
+  /* ---- Kbd → physical keycap ---- */
   [data-slot="kbd"] {
     font-family: var(--f-mono);
     font-weight: 600;
     min-width: 1.5em;
     padding: 0.1em 0.45em;
-    color: var(--t1);
-    background: var(--bg-2);
-    border: 1px solid var(--border-2);
-    border-bottom: 2px solid var(--border-3);
-    border-radius: var(--r-xs);
+    color: hsl(var(--ink-1));
+    background: hsl(var(--surface-2));
+    border: 1px solid hsl(var(--line-2));
+    border-bottom: 2px solid hsl(var(--line-3));
+    border-radius: var(--radius-xs);
     box-shadow:
       0 1px 1.5px rgba(0, 0, 0, 0.16),
-      inset 0 1px 0 var(--card-edge);
+      inset 0 1px 0 var(--edge);
   }
 
-  /* ---- Skeleton → AeVox shimmer, with enough contrast to read on any
-     surface (shadcn's bg-accent ≈ the canvas in light theme = invisible). ---- */
+  /* ---- Skeleton → AeVox shimmer ---- */
   [data-slot="skeleton"] {
     background: linear-gradient(
       90deg,
-      var(--bg-3),
-      var(--border-2),
-      var(--bg-3)
+      hsl(var(--surface-3)),
+      hsl(var(--line-2)),
+      hsl(var(--surface-3))
     );
     background-size: 200% 100%;
     animation: skel 1.4s linear infinite;
-    /* radius left to the element's own className (e.g. rounded-full) */
   }
 
-  /* ---- Elevation & depth (so the system doesn't read flat) ----
-     Cards get a lit-from-above edge highlight + a cast shadow, and lift
-     gently on hover. This is the AeVox elevation language, system-wide. */
+  /* ---- Elevation & depth ---- */
   [data-slot="card"] {
-    background-color: var(--bg-2);
-    border: 1px solid var(--border-2);
+    background-color: hsl(var(--surface-2));
+    border: 1px solid hsl(var(--line-2));
     box-shadow:
       var(--sh-card-hi),
-      inset 0 1px 0 var(--card-edge);
+      inset 0 1px 0 var(--edge);
     transition:
       box-shadow 0.18s ease,
       transform 0.18s ease,
@@ -687,14 +634,13 @@
   [data-slot="card"]:hover {
     box-shadow:
       var(--sh-2),
-      inset 0 1px 0 var(--card-edge);
-    border-color: var(--border-3);
+      inset 0 1px 0 var(--edge);
+    border-color: hsl(var(--line-3));
     transform: translateY(-1px);
   }
 
-  /* Table rows respond to hover (one consistent interaction language). */
   [data-slot="table-row"]:hover {
-    background-color: var(--bg-3);
+    background-color: hsl(var(--surface-3));
   }
 }
 
@@ -703,7 +649,7 @@
    ============================================================ */
 * {
   scrollbar-width: thin;
-  scrollbar-color: var(--border-3) transparent;
+  scrollbar-color: hsl(var(--line-3)) transparent;
 }
 ::-webkit-scrollbar {
   width: 11px;
@@ -713,13 +659,13 @@
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: var(--border-3);
-  border-radius: var(--r-pill);
+  background: hsl(var(--line-3));
+  border-radius: var(--radius-pill);
   border: 3px solid transparent;
   background-clip: content-box;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--t3);
+  background: hsl(var(--ink-3));
   background-clip: content-box;
 }
 ::-webkit-scrollbar-corner {
@@ -727,21 +673,16 @@
 }
 
 /* ============================================================
-   Demo stage — a solid surface a step BELOW the cards/canvas, recessed,
-   so the components on it are the clear focus. No texture, no chrome.
+   Demo stage — a recessed surface below the cards/canvas.
    ============================================================ */
 .ae-scope {
   position: relative;
-  /* Clean preview surface — no dot texture (it drowned thin components like
-     separators). Components read; cards pop via their shadow. */
-  background-color: var(--stage);
+  background-color: hsl(var(--stage));
   box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.14);
 }
 
 /* ============================================================
-   Gallery hero — the AeVox signature: a sonar "ping" (the voice /
-   listening motif). This is the one orchestrated motion moment;
-   everything else in the gallery stays still.
+   Gallery hero — the AeVox sonar "ping" signature.
    ============================================================ */
 .ae-hero-sonar {
   position: relative;
@@ -754,19 +695,18 @@
   width: 22px;
   height: 22px;
   border-radius: 50%;
-  background: var(--acc);
+  background: hsl(var(--accent));
   box-shadow:
-    0 0 26px var(--glow),
-    0 0 0 7px var(--acc-ghost);
+    0 0 26px var(--accent-glow),
+    0 0 0 7px var(--accent-ghost);
 }
 .ae-hero-sonar .ring {
   position: absolute;
   width: 152px;
   height: 152px;
   border-radius: 50%;
-  border: 1.5px solid var(--acc);
+  border: 1.5px solid hsl(var(--accent));
 }
-/* Persistent rings — the sonar form is always legible. */
 .ae-hero-sonar .base {
   opacity: 0.2;
 }
@@ -777,7 +717,6 @@
 .ae-hero-sonar .base.b2 {
   transform: scale(0.72);
 }
-/* Animated pings — the one orchestrated motion moment. */
 .ae-hero-sonar .ping {
   opacity: 0;
   animation: ae-ping 3.2s cubic-bezier(0.2, 0.55, 0.3, 1) infinite;

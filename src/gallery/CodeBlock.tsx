@@ -5,13 +5,13 @@ import { cn } from "@/lib/utils";
 
 /* Prism theme wired to AeVox tokens — flips with light/dark automatically. */
 const aevoxPrism: PrismTheme = {
-  plain: { color: "var(--t1)", backgroundColor: "transparent" },
+  plain: { color: "hsl(var(--ink-1))", backgroundColor: "transparent" },
   styles: [
     {
       types: ["comment", "prolog", "cdata"],
-      style: { color: "var(--t3)", fontStyle: "italic" },
+      style: { color: "hsl(var(--ink-3))", fontStyle: "italic" },
     },
-    { types: ["punctuation", "operator"], style: { color: "var(--t2)" } },
+    { types: ["punctuation", "operator"], style: { color: "hsl(var(--ink-2))" } },
     {
       types: ["keyword", "module", "control-flow"],
       style: { color: "var(--idle)" },
@@ -20,13 +20,13 @@ const aevoxPrism: PrismTheme = {
       types: ["string", "char", "attr-value", "template-string", "inserted"],
       style: { color: "var(--live)" },
     },
-    { types: ["tag", "deleted"], style: { color: "var(--acc)" } },
+    { types: ["tag", "deleted"], style: { color: "hsl(var(--accent))" } },
     {
       types: ["class-name", "maybe-class-name", "constant", "symbol"],
-      style: { color: "var(--acc)" },
+      style: { color: "hsl(var(--accent))" },
     },
     { types: ["attr-name", "property"], style: { color: "var(--train)" } },
-    { types: ["function", "method"], style: { color: "var(--acc-2)" } },
+    { types: ["function", "method"], style: { color: "hsl(var(--accent-2))" } },
     { types: ["number", "boolean"], style: { color: "var(--pos)" } },
   ],
 };
@@ -51,7 +51,7 @@ export function CodeBlock({
           setCopied(true);
           setTimeout(() => setCopied(false), 1200);
         }}
-        className="absolute right-2 top-2 z-10 inline-flex h-7 items-center gap-1.5 rounded-xs border border-line-2 bg-surface-3 px-2 text-[11px] font-medium text-t2 opacity-0 transition hover:text-t1 group-hover:opacity-100"
+        className="absolute right-2 top-2 z-10 inline-flex h-7 items-center gap-1.5 rounded-xs border border-line-2 bg-surface-3 px-2 text-[11px] font-medium text-ink-2 opacity-0 transition hover:text-ink-1 group-hover:opacity-100"
       >
         {copied ? (
           <Check className="size-3.5 text-live" />

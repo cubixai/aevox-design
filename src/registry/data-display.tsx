@@ -57,9 +57,9 @@ export const dataDisplay: RegistryEntry[] = [
               <TableBody>
                 {AGENTS.map((a) => (
                   <TableRow key={a.name}>
-                    <TableCell className="font-medium text-t1">{a.name}</TableCell>
-                    <TableCell className="text-t2">{a.dept}</TableCell>
-                    <TableCell className="text-right font-mono tabular-nums text-t1">
+                    <TableCell className="font-medium text-ink-1">{a.name}</TableCell>
+                    <TableCell className="text-ink-2">{a.dept}</TableCell>
+                    <TableCell className="text-right font-mono tabular-nums text-ink-1">
                       {a.calls.toLocaleString()}
                     </TableCell>
                     <TableCell>
@@ -204,13 +204,13 @@ export const dataDisplay: RegistryEntry[] = [
           <Accordion type="single" collapsible className="w-full max-w-md">
             <AccordionItem value="a">
               <AccordionTrigger>Appearance</AccordionTrigger>
-              <AccordionContent className="text-t2">
+              <AccordionContent className="text-ink-2">
                 Theme, density, and layout options.
               </AccordionContent>
             </AccordionItem>
             <AccordionItem value="b">
               <AccordionTrigger>Usage</AccordionTrigger>
-              <AccordionContent className="text-t2">
+              <AccordionContent className="text-ink-2">
                 Plan, invoices, and usage.
               </AccordionContent>
             </AccordionItem>

@@ -11,12 +11,12 @@ export type DocSection = {
 
 function P({ children }: { children: ReactNode }) {
   return (
-    <p className="max-w-prose text-[15px] leading-relaxed text-t2">{children}</p>
+    <p className="max-w-prose text-[15px] leading-relaxed text-ink-2">{children}</p>
   );
 }
 function H({ children }: { children: ReactNode }) {
   return (
-    <h3 className="pt-2 text-[12px] font-semibold uppercase tracking-[0.1em] text-t3">
+    <h3 className="pt-2 text-[12px] font-semibold uppercase tracking-[0.1em] text-ink-3">
       {children}
     </h3>
   );
@@ -32,7 +32,7 @@ export const docs: DocSection[] = [
       <div className="space-y-5">
         <H>With the skill (recommended)</H>
         <P>
-          In your project, invoke the <code className="text-acc">aevox-design</code>{" "}
+          In your project, invoke the <code className="text-accent">aevox-design</code>{" "}
           skill. It detects your stack, bootstraps Tailwind v4 + shadcn if missing,
           drops the theme, installs the AeVox-enhanced components + primitives, and
           wires the provider and fonts.
@@ -64,7 +64,7 @@ export const docs: DocSection[] = [
 
         <H>Fonts</H>
         <P>
-          Load the three families via a <code className="text-acc">&lt;link&gt;</code>{" "}
+          Load the three families via a <code className="text-accent">&lt;link&gt;</code>{" "}
           in the document head (not a CSS import — Tailwind v4 hoists and drops it).
         </P>
         <CodeBlock
@@ -82,14 +82,15 @@ export const docs: DocSection[] = [
     slug: "theming",
     name: "Theming",
     blurb:
-      "Light is the default; dark is one attribute away. Everything routes through CSS variables, so the whole UI flips at once.",
+      "Light is the default; dark is one class away. Everything routes through CSS variables, so the whole UI flips at once.",
     body: (
       <div className="space-y-5">
         <P>
-          The system is light-default. Dark mode is{" "}
-          <code className="text-acc">data-theme="dark"</code> on{" "}
-          <code className="text-acc">&lt;html&gt;</code> — the bundled{" "}
-          <code className="text-acc">ThemeProvider</code> persists it and exposes a
+          The system is light-default. Dark mode is the{" "}
+          <code className="text-accent">.dark</code> class on{" "}
+          <code className="text-accent">&lt;html&gt;</code> (the shadcn / Tailwind
+          v4 convention) — the bundled{" "}
+          <code className="text-accent">ThemeProvider</code> persists it and exposes a
           hook.
         </P>
         <CodeBlock
@@ -107,19 +108,19 @@ const { theme, toggleTheme } = useTheme()`}
         <P>
           Never hardcode hex — go through a token utility so both themes track.
           Surfaces ladder from the canvas up: page{" "}
-          <code className="text-acc">bg-surface-0</code>, chrome{" "}
-          <code className="text-acc">bg-surface-1</code>, cards{" "}
-          <code className="text-acc">bg-surface-2</code>. Text{" "}
-          <code className="text-acc">text-t1/t2/t3</code>; accent{" "}
-          <code className="text-acc">text-acc</code> /{" "}
-          <code className="text-acc">bg-acc-ghost</code>. See the Foundations
+          <code className="text-accent">bg-surface-0</code>, chrome{" "}
+          <code className="text-accent">bg-surface-1</code>, cards{" "}
+          <code className="text-accent">bg-surface-2</code>. Text{" "}
+          <code className="text-accent">text-ink-1/2/3</code>; accent{" "}
+          <code className="text-accent">text-accent</code> /{" "}
+          <code className="text-accent">bg-accent-ghost</code>. See the Foundations
           section below for the full palette.
         </P>
         <CodeBlock
           code={`<div className="rounded-lg border border-line-2 bg-surface-2 p-5">
-  <h3 className="font-display text-t1">Acme Studio</h3>
-  <p className="text-t2">Live · 3 environments</p>
-  <span className="font-mono tabular-nums text-acc">98.6%</span>
+  <h3 className="font-display text-ink-1">Acme Studio</h3>
+  <p className="text-ink-2">Live · 3 environments</p>
+  <span className="font-mono tabular-nums text-accent">98.6%</span>
 </div>`}
         />
       </div>
@@ -134,8 +135,8 @@ const { theme, toggleTheme } = useTheme()`}
       <div className="space-y-5">
         <P>
           This one file themes every stock shadcn component. Save it as{" "}
-          <code className="text-acc">app/global.css</code> (or{" "}
-          <code className="text-acc">src/styles/global.css</code>), import it
+          <code className="text-accent">app/global.css</code> (or{" "}
+          <code className="text-accent">src/styles/global.css</code>), import it
           once at your app root, and every primitive picks up AeVox — no
           per-component patching. The registry and skill install this for you;
           the full source is here to copy or audit.
@@ -143,7 +144,7 @@ const { theme, toggleTheme } = useTheme()`}
         <CodeBlock lang="css" code={themeCss} scroll />
         <P>
           Layer order matters:{" "}
-          <code className="text-acc">
+          <code className="text-accent">
             theme, base, aevox, components, utilities, aevox-overrides
           </code>{" "}
           — the AeVox overrides sit above Tailwind utilities so the component

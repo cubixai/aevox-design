@@ -17,8 +17,8 @@ export function Sidebar({ onNavigate }: { onNavigate?: () => void }) {
     cn(
       "block rounded-sm px-2 py-1.5 text-[13.5px] transition",
       active === id
-        ? "bg-acc-ghost font-medium text-acc"
-        : "text-t2 hover:bg-surface-3 hover:text-t1",
+        ? "bg-accent-ghost font-medium text-accent"
+        : "text-ink-2 hover:bg-surface-3 hover:text-ink-1",
     );
 
   return (
@@ -32,7 +32,7 @@ export function Sidebar({ onNavigate }: { onNavigate?: () => void }) {
       </a>
 
       <div>
-        <div className="px-2 pb-2 text-[11px] font-bold uppercase tracking-[0.12em] text-t3">
+        <div className="px-2 pb-2 text-[11px] font-bold uppercase tracking-[0.12em] text-ink-3">
           Docs
         </div>
         <ul className="space-y-0.5">
@@ -52,7 +52,7 @@ export function Sidebar({ onNavigate }: { onNavigate?: () => void }) {
 
       {groups.map((group) => (
         <div key={group.name}>
-          <div className="px-2 pb-2 text-[11px] font-bold uppercase tracking-[0.12em] text-t3">
+          <div className="px-2 pb-2 text-[11px] font-bold uppercase tracking-[0.12em] text-ink-3">
             {group.name}
           </div>
           <ul className="space-y-0.5">

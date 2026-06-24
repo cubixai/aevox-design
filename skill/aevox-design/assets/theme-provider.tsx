@@ -23,10 +23,10 @@ const DENSITY_KEY = "aevox_density";
 
 function apply(theme: Theme, density: Density) {
   const root = document.documentElement;
-  // Light is the default — no attribute. Dark is opt-in via data-theme="dark".
-  // So an app that ships only the CSS (no JS) renders light, with no flash.
-  if (theme === "dark") root.setAttribute("data-theme", "dark");
-  else root.removeAttribute("data-theme");
+  // Light is the default — no class. Dark is opt-in via the `.dark` class
+  // (shadcn / Tailwind v4 convention). An app shipping only the CSS renders
+  // light with no flash.
+  root.classList.toggle("dark", theme === "dark");
   if (density === "compact") root.setAttribute("data-density", "compact");
   else root.removeAttribute("data-density");
 }

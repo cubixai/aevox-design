@@ -170,7 +170,7 @@ import { Select, … } from "@/components/ui/select"`,
             </PopoverTrigger>
             <PopoverContent className="w-72">
               <div className="grid gap-3">
-                <div className="font-medium text-t1">Business hours</div>
+                <div className="font-medium text-ink-1">Business hours</div>
                 <div className="grid gap-2">
                   <Label htmlFor="po-open">Opens</Label>
                   <Input id="po-open" defaultValue="08:00" />

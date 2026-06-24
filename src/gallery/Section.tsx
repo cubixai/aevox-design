@@ -6,7 +6,7 @@ function DemoBlock({ demo }: { demo: Demo }) {
   return (
     <div className="space-y-3">
       {demo.title ? (
-        <h3 className="text-[12px] font-semibold uppercase tracking-[0.09em] text-t3">
+        <h3 className="text-[12px] font-semibold uppercase tracking-[0.09em] text-ink-3">
           {demo.title}
         </h3>
       ) : null}
@@ -31,14 +31,14 @@ export function Section({
       className={cn("scroll-mt-6 py-14", divider && "border-t border-line")}
     >
       <header className="mb-7">
-        <h2 className="font-display text-[30px] font-semibold leading-tight tracking-[-0.02em] text-t1">
+        <h2 className="font-display text-[30px] font-semibold leading-tight tracking-[-0.02em] text-ink-1">
           {entry.name}
         </h2>
-        <p className="mt-2 max-w-prose text-[15px] leading-relaxed text-t2">
+        <p className="mt-2 max-w-prose text-[15px] leading-relaxed text-ink-2">
           {entry.blurb}
         </p>
         {entry.importLine ? (
-          <pre className="mt-4 overflow-x-auto rounded-sm border border-line-2 bg-surface-1 px-3 py-2 font-mono text-[12px] text-t2">
+          <pre className="mt-4 overflow-x-auto rounded-sm border border-line-2 bg-surface-1 px-3 py-2 font-mono text-[12px] text-ink-2">
             <code>{entry.importLine}</code>
           </pre>
         ) : null}

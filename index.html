@@ -20,7 +20,7 @@
       (function () {
         try {
           if (localStorage.getItem("aevox_theme") === "dark")
-            document.documentElement.setAttribute("data-theme", "dark");
+            document.documentElement.classList.add("dark");
           if (localStorage.getItem("aevox_density") === "compact")
             document.documentElement.setAttribute("data-density", "compact");
         } catch (e) {}

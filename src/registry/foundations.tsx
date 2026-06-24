@@ -7,11 +7,11 @@ function Swatch({ token, note }: { token: string; note?: string }) {
     <div className="flex items-center gap-3">
       <div
         className="h-12 w-12 flex-none rounded-md border border-line-2"
-        style={{ background: `var(${token})` }}
+        style={{ background: `hsl(var(${token}))` }}
       />
       <div className="min-w-0">
-        <div className="font-mono text-[12.5px] text-t1">{token}</div>
-        {note ? <div className="text-[12px] text-t3">{note}</div> : null}
+        <div className="font-mono text-[12.5px] text-ink-1">{token}</div>
+        {note ? <div className="text-[12px] text-ink-3">{note}</div> : null}
       </div>
     </div>
   );
@@ -40,11 +40,11 @@ export const foundations: RegistryEntry[] = [
         node: (
           <SwatchGrid
             tokens={[
-              ["--bg-0", "app canvas (deepest)"],
-              ["--bg-1", "chrome: sidebar + topbar"],
-              ["--bg-2", "cards / panels"],
-              ["--bg-3", "raised / hover"],
-              ["--bg-4", "active / input"],
+              ["--surface-0", "app canvas (deepest)"],
+              ["--surface-1", "chrome: sidebar + topbar"],
+              ["--surface-2", "cards / panels"],
+              ["--surface-3", "raised / hover"],
+              ["--surface-4", "active / input"],
             ]}
           />
         ),
@@ -54,9 +54,9 @@ export const foundations: RegistryEntry[] = [
         node: (
           <SwatchGrid
             tokens={[
-              ["--acc", "primary accent"],
-              ["--acc-2", "hover"],
-              ["--acc-deep", "pressed / solid fill"],
+              ["--accent", "primary accent"],
+              ["--accent-2", "hover"],
+              ["--accent-deep", "pressed / solid fill"],
             ]}
           />
         ),
@@ -81,12 +81,12 @@ export const foundations: RegistryEntry[] = [
         node: (
           <SwatchGrid
             tokens={[
-              ["--t1", "primary text"],
-              ["--t2", "secondary text"],
-              ["--t3", "muted text"],
-              ["--border", "hairline"],
-              ["--border-2", "default"],
-              ["--border-3", "strong"],
+              ["--ink-1", "primary text"],
+              ["--ink-2", "secondary text"],
+              ["--ink-3", "muted text"],
+              ["--line", "hairline"],
+              ["--line-2", "default"],
+              ["--line-3", "strong"],
             ]}
           />
         ),
@@ -104,10 +104,10 @@ export const foundations: RegistryEntry[] = [
         title: "Display — Bricolage Grotesque",
         node: (
           <div className="space-y-2">
-            <div className="font-display text-4xl font-semibold tracking-tight text-t1">
+            <div className="font-display text-4xl font-semibold tracking-tight text-ink-1">
               Voice agents, supervised.
             </div>
-            <div className="font-mono text-[12px] text-t3">
+            <div className="font-mono text-[12px] text-ink-3">
               font-family: var(--f-display)
             </div>
           </div>
@@ -117,11 +117,11 @@ export const foundations: RegistryEntry[] = [
         title: "Sans — Hanken Grotesk",
         node: (
           <div className="space-y-2">
-            <p className="max-w-prose text-[15px] leading-relaxed text-t2">
+            <p className="max-w-prose text-[15px] leading-relaxed text-ink-2">
               The quick brown fox jumps over the lazy dog. Hanken Grotesk carries
               the interface — labels, body copy, table cells, and form fields.
             </p>
-            <div className="font-mono text-[12px] text-t3">
+            <div className="font-mono text-[12px] text-ink-3">
               font-family: var(--f-sans)
             </div>
           </div>
@@ -131,10 +131,10 @@ export const foundations: RegistryEntry[] = [
         title: "Mono — IBM Plex Mono",
         node: (
           <div className="space-y-2">
-            <div className="font-mono text-2xl font-semibold tabular-nums text-t1">
+            <div className="font-mono text-2xl font-semibold tabular-nums text-ink-1">
               1,284 calls · 98.6% · 12.4s
             </div>
-            <div className="font-mono text-[12px] text-t3">
+            <div className="font-mono text-[12px] text-ink-3">
               font-family: var(--f-mono)
             </div>
           </div>
@@ -152,18 +152,18 @@ export const foundations: RegistryEntry[] = [
         node: (
           <div className="flex flex-wrap items-end gap-5">
             {[
-              ["--r-xs", "6"],
-              ["--r-sm", "9"],
-              ["--r-md", "13"],
-              ["--r-lg", "18"],
-              ["--r-xl", "26"],
+              ["--radius-xs", "6"],
+              ["--radius-sm", "9"],
+              ["--radius-md", "13"],
+              ["--radius-lg", "18"],
+              ["--radius-xl", "26"],
             ].map(([t, px]) => (
               <div key={t} className="space-y-2 text-center">
                 <div
                   className="h-16 w-16 border border-line-3 bg-surface-3"
                   style={{ borderRadius: `var(${t})` }}
                 />
-                <div className="font-mono text-[11px] text-t3">
+                <div className="font-mono text-[11px] text-ink-3">
                   {t}
                   <br />
                   {px}px
@@ -193,7 +193,7 @@ export const foundations: RegistryEntry[] = [
             ].map(([t, label]) => (
               <div
                 key={t}
-                className="grid h-24 w-40 place-items-center rounded-lg border border-line-2 bg-surface-2 text-[13px] text-t2"
+                className="grid h-24 w-40 place-items-center rounded-lg border border-line-2 bg-surface-2 text-[13px] text-ink-2"
                 style={{ boxShadow: `var(${t})` }}
               >
                 {label}

@@ -77,7 +77,7 @@ export const animations: RegistryEntry[] = [
               {["Tokens", "Themed", "Shipped"].map((t, i) => (
                 <div
                   key={t}
-                  className="ae-rise rounded-md border border-line-2 bg-surface-1 px-4 py-3 text-[13px] font-medium text-t1 shadow-sm"
+                  className="ae-rise rounded-md border border-line-2 bg-surface-1 px-4 py-3 text-[13px] font-medium text-ink-1 shadow-sm"
                   style={{ animationDelay: `${i * 0.09}s` }}
                 >
                   {t}
@@ -144,7 +144,7 @@ export const animations: RegistryEntry[] = [
         node: (
           <div className="flex flex-wrap items-center gap-5">
             <Button>Press me</Button>
-            <div className="cursor-pointer rounded-lg border border-line-2 bg-surface-2 px-5 py-4 text-[13px] text-t2 shadow-[var(--sh-card)] transition hover:-translate-y-0.5 hover:text-t1 hover:shadow-[var(--sh-2)]">
+            <div className="cursor-pointer rounded-lg border border-line-2 bg-surface-2 px-5 py-4 text-[13px] text-ink-2 shadow-[var(--sh-card)] transition hover:-translate-y-0.5 hover:text-ink-1 hover:shadow-[var(--sh-2)]">
               Hover this card
             </div>
           </div>

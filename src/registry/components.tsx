@@ -177,7 +177,7 @@ export const components: RegistryEntry[] = [
           <div className="flex flex-wrap items-center gap-3">
             <Badge variant="tag">inbound</Badge>
             <Badge variant="tag">en-US</Badge>
-            <span className="flex items-center gap-2 text-[14px] text-t2">
+            <span className="flex items-center gap-2 text-[14px] text-ink-2">
               <StatusDot tone="live" /> Acme Studio
             </span>
           </div>
@@ -203,7 +203,7 @@ export const components: RegistryEntry[] = [
               <CardTitle>Acme Studio</CardTitle>
               <CardDescription>Live · 3 environments</CardDescription>
             </CardHeader>
-            <CardContent className="text-[14px] text-t2">
+            <CardContent className="text-[14px] text-ink-2">
               Production deploy from main. Avg. build time 12.4s.
             </CardContent>
             <CardFooter className="gap-2">
@@ -234,7 +234,7 @@ export const components: RegistryEntry[] = [
     demos: [
       {
         node: (
-          <div className="w-full max-w-xs text-[14px] text-t2">
+          <div className="w-full max-w-xs text-[14px] text-ink-2">
             <div className="pb-2">Profile</div>
             <Separator />
             <div className="py-2">Notifications</div>
@@ -255,7 +255,7 @@ export const components: RegistryEntry[] = [
     demos: [
       {
         node: (
-          <div className="flex items-center gap-2 text-[14px] text-t2">
+          <div className="flex items-center gap-2 text-[14px] text-ink-2">
             Open command bar <Kbd>⌘</Kbd> <Kbd>K</Kbd>
           </div>
         ),
@@ -269,7 +269,7 @@ export const components: RegistryEntry[] = [
     slug: "input",
     name: "Input & Label",
     group: "Forms",
-    blurb: "Solid field on --bg-1 with a cyan focus glow — the AeVox form language.",
+    blurb: "Solid field on --surface-1 with a cyan focus glow — the AeVox form language.",
     importLine: `import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"`,
     demos: [
@@ -410,13 +410,13 @@ import { Label } from "@/components/ui/label"`,
               <TabsTrigger value="calls">Activity</TabsTrigger>
               <TabsTrigger value="config">Config</TabsTrigger>
             </TabsList>
-            <TabsContent value="overview" className="pt-3 text-[14px] text-t2">
+            <TabsContent value="overview" className="pt-3 text-[14px] text-ink-2">
               A snapshot of the selected project.
             </TabsContent>
-            <TabsContent value="calls" className="pt-3 text-[14px] text-t2">
+            <TabsContent value="calls" className="pt-3 text-[14px] text-ink-2">
               Recent activity and history.
             </TabsContent>
-            <TabsContent value="config" className="pt-3 text-[14px] text-t2">
+            <TabsContent value="config" className="pt-3 text-[14px] text-ink-2">
               Theme, tokens, and layout.
             </TabsContent>
           </Tabs>
