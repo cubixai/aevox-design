@@ -29,6 +29,7 @@ Inspect `package.json` + the tree and report findings before acting:
 - Tailwind **v4**? (`tailwindcss` ^4 **and** `@tailwindcss/vite` or `@tailwindcss/postcss`).
 - shadcn? (`components.json` present, `@/lib/utils` `cn`).
 - Which `components/ui/*` already exist (so you don't clobber customized ones).
+- **CRITICAL — do existing `components/ui/*` carry `data-slot` attributes?** (`grep -rl data-slot src/components/ui`). The theme's `aevox-overrides` layer styles components *through* `data-slot` selectors. **Older shadcn components have none** → the theme is **inert** for them and they render shadcn-default (esp. the floating surfaces: `dropdown-menu`/`select`/`popover`/`command` fall back to flat `bg-popover`). If they lack `data-slot`, you MUST either (a) `npx shadcn@latest add <component> --overwrite` to pull the modern `data-slot` versions (then re-apply any local customizations), or (b) conform each component's styling by hand — floating Content surfaces → `bg-surface-3 border-line-3 shadow-[var(--sh-2)]`, items focus → `bg-surface-4`, section labels → mono uppercase. Report which existing components are pre-`data-slot`.
 
 ## 1 · Foundation (install only what's missing)
 - **Tailwind v3 detected → STOP.** This system is Tailwind **v4 only** (uses `@theme`,
