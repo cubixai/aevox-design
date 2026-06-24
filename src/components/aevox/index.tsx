@@ -39,18 +39,10 @@ export function Sonar({
 }) {
   return (
     <div className={cn("sonar", className)} style={{ width: size, height: size }}>
-      <span className="ring" />
-      <span className="ring" />
-      <span className="ring" />
-      <span
-        style={{
-          position: "absolute",
-          inset: 0,
-          borderRadius: "50%",
-          background: "var(--acc)",
-          boxShadow: "0 0 12px var(--glow)",
-        }}
-      />
+      <span className="ping" />
+      <span className="ping p2" />
+      <span className="ping p3" />
+      <span className="core" />
     </div>
   );
 }

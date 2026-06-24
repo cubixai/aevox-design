@@ -442,12 +442,14 @@ import { Label } from "@/components/ui/label"`,
     demos: [
       {
         node: (
-          <div className="flex items-center gap-10 py-6 pl-6">
-            <Sonar size={12} />
-            <Sonar size={18} />
+          <div className="flex items-center gap-12 py-4 pl-4">
+            <Sonar size={14} />
+            <Sonar size={28} />
+            <Sonar size={64} />
           </div>
         ),
-        code: `<Sonar size={18} />`,
+        code: `<Sonar />            {/* 14px inline "live" dot */}
+<Sonar size={64} />  {/* hero / empty-state pulse */}`,
       },
     ],
   },
