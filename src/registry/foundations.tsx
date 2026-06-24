@@ -1,4 +1,4 @@
-import { useState, type ReactNode } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import { RotateCcw } from "lucide-react";
 import { Stat, Sonar } from "@/components/aevox";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -7,12 +7,32 @@ import type { RegistryEntry } from "./types";
 
 /* ---- small presentational helpers (gallery-only) -------------------------- */
 
-/** Wraps a demo with a Replay button — remounts the subtree to re-fire mount
- *  animations (count-up, reveal) so they can be viewed on demand. */
+/** Wraps a demo with a Replay button + auto-plays when scrolled into view, so
+ *  mount animations (count-up, reveal) are actually visible — remounts the
+ *  subtree to re-fire them. */
 function Replay({ children }: { children: ReactNode }) {
   const [k, setK] = useState(0);
+  const ref = useRef<HTMLDivElement>(null);
+  const inView = useRef(false);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const io = new IntersectionObserver(
+      ([e]) => {
+        if (e.isIntersecting && !inView.current) {
+          inView.current = true;
+          setK((x) => x + 1); // re-fire on entry
+        } else if (!e.isIntersecting) {
+          inView.current = false; // re-arm for next time
+        }
+      },
+      { threshold: 0.6 },
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
   return (
-    <div className="flex flex-wrap items-center gap-5">
+    <div ref={ref} className="flex flex-wrap items-center gap-5">
       <div key={k}>{children}</div>
       <Button size="sm" variant="secondary" onClick={() => setK((x) => x + 1)}>
         <RotateCcw className="size-3.5" /> Replay
