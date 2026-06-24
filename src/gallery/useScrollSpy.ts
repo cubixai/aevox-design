@@ -15,6 +15,15 @@ export function useScrollSpy(ids: string[]) {
     const LINE = 130; // px from the top of the viewport
 
     const onScroll = () => {
+      // At (near) the bottom, the final sections can't scroll under the line —
+      // snap to the last id so the sidebar still reflects them.
+      if (
+        scroller.scrollTop + scroller.clientHeight >=
+        scroller.scrollHeight - 4
+      ) {
+        setActive(ids[ids.length - 1] ?? "");
+        return;
+      }
       let current = ids[0] ?? "";
       for (const id of ids) {
         const el = document.getElementById(id);

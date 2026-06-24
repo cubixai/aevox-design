@@ -116,14 +116,19 @@ export const controls: RegistryEntry[] = [
       {
         node: (
           <RadioGroup defaultValue="public" className="gap-3">
-            {[
-              ["public", "Public"],
-              ["private", "Private"],
-              ["unlisted", "Unlisted"],
-            ].map(([v, l]) => (
+            {(
+              [
+                ["public", "Public", false],
+                ["private", "Private", false],
+                ["unlisted", "Unlisted", false],
+                ["archived", "Archived (disabled)", true],
+              ] as const
+            ).map(([v, l, disabled]) => (
               <div key={v} className="flex items-center gap-3">
-                <RadioGroupItem value={v} id={`r-${v}`} />
-                <Label htmlFor={`r-${v}`}>{l}</Label>
+                <RadioGroupItem value={v} id={`r-${v}`} disabled={disabled} />
+                <Label htmlFor={`r-${v}`} className={disabled ? "opacity-50" : undefined}>
+                  {l}
+                </Label>
               </div>
             ))}
           </RadioGroup>

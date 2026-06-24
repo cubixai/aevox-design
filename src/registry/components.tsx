@@ -369,6 +369,30 @@ import { Label } from "@/components/ui/label"`,
         code: `const [on, setOn] = useState(true)
 <Switch checked={on} onCheckedChange={setOn} />`,
       },
+      {
+        title: "States",
+        node: (
+          <div className="flex flex-wrap items-center gap-6">
+            {[
+              { l: "Off", checked: false, disabled: false },
+              { l: "On", checked: true, disabled: false },
+              { l: "Disabled", checked: false, disabled: true },
+              { l: "Disabled on", checked: true, disabled: true },
+            ].map((s) => (
+              <div key={s.l} className="flex items-center gap-2">
+                <Switch defaultChecked={s.checked} disabled={s.disabled} />
+                <Label className={s.disabled ? "opacity-50" : undefined}>
+                  {s.l}
+                </Label>
+              </div>
+            ))}
+          </div>
+        ),
+        code: `<Switch />
+<Switch defaultChecked />
+<Switch disabled />
+<Switch disabled defaultChecked />`,
+      },
     ],
   },
   {

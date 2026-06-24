@@ -1,13 +1,15 @@
-import { groups, registry } from "@/registry";
+import { groups } from "@/registry";
 import { cn } from "@/lib/utils";
 import { useScrollSpy } from "./useScrollSpy";
 import { docs } from "./docs";
 
 export function Sidebar({ onNavigate }: { onNavigate?: () => void }) {
+  // Must match the on-page render order (groups), NOT the registry file order,
+  // or the scroll-spy picks the wrong section.
   const ids = [
     "getting-started",
     ...docs.map((d) => d.slug),
-    ...registry.map((e) => e.slug),
+    ...groups.flatMap((g) => g.entries.map((e) => e.slug)),
   ];
   const active = useScrollSpy(ids);
 

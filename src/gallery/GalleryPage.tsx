@@ -90,6 +90,10 @@ export function GalleryPage() {
           ))}
         </div>
       ))}
+
+      {/* Tail spacer: lets the final sections scroll under the spy line so the
+          sidebar can mark them active (scroll-spy bottom problem). */}
+      <div aria-hidden className="h-[60vh]" />
     </div>
   );
 }
