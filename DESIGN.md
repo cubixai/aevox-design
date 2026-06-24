@@ -1,0 +1,185 @@
+# AeVox Design System
+
+The canonical spec for the AeVox design language: React + shadcn/ui + Tailwind v4,
+cyan-accented, **light by default**. One `global.css` themes every stock shadcn
+component via `data-slot` overrides — ~95% of the system needs zero per-component work.
+
+Live gallery: https://cubixai.github.io/aevox-design/ · Install: `/aevox-design` skill or the shadcn registry.
+
+---
+
+## 1 · Principles
+
+- **One token source, two themes.** Every color routes through a CSS variable. Light is the base `:root`; dark is opt-in via `data-theme="dark"`. The whole UI flips at once.
+- **Elevation, lit from above.** Surfaces ladder from a deep canvas up to raised cards. Cards carry a lit top edge + a cast shadow and lift on hover. The UI never reads flat.
+- **Cyan is the one accent.** A single brand cyan for primary actions, focus, links, active states. No second hue competing.
+- **Mono for data + labels.** IBM Plex Mono for numerals, keycaps, status pills, and eyebrow labels — it signals "system."
+- **Motion is purposeful, never decorative.** Hover, press, skeleton shimmer, the sonar pulse, opt-in count-up/reveal. No scroll-fade-everything. Always respects `prefers-reduced-motion`.
+
+---
+
+## 2 · Theming model
+
+- **Light = default.** No attribute on `<html>` → light.
+- **Dark = opt-in.** `data-theme="dark"` on `<html>` → dark.
+- An app shipping only the CSS (no JS) renders light, with no flash.
+- Bundled `ThemeProvider` (`@/lib/theme`) persists the choice and exposes `useTheme()` (`theme`, `toggleTheme`).
+
+```tsx
+<ThemeProvider><App /></ThemeProvider>
+const { theme, toggleTheme } = useTheme()
+```
+
+---
+
+## 3 · Color
+
+### Surfaces — elevation ladder (deepest → highest)
+
+| Token | Utility | Role | Light | Dark |
+|---|---|---|---|---|
+| `--bg-0` | `bg-surface-0` | app canvas (deepest) | `#eef1f6` | `#0c0e12` |
+| `--bg-1` | `bg-surface-1` | chrome: sidebar + topbar | `#ffffff` | `#17191e` |
+| `--bg-2` | `bg-surface-2` | cards / panels | `#ffffff` | `#1c1f25` |
+| `--bg-3` | `bg-surface-3` | raised / hover | `#f1f4f9` | `#23262d` |
+| `--bg-4` | `bg-surface-4` | active / input | `#e7ecf3` | `#2c3037` |
+| `--stage` | — | recessed preview surface | `#f6f8fc` | `#101319` |
+
+### Borders
+
+| Token | Utility | Light | Dark |
+|---|---|---|---|
+| `--border` | `border-line` | `#e7ebf1` | `#24272e` |
+| `--border-2` | `border-line-2` | `#d8dee7` | `#313640` |
+| `--border-3` | `border-line-3` | `#bcc6d2` | `#434954` |
+
+### Text
+
+| Token | Utility | Role | Light | Dark |
+|---|---|---|---|---|
+| `--t1` | `text-t1` | primary | `#1f2a38` | `#eceef2` |
+| `--t2` | `text-t2` | secondary | `#4c5a6c` | `#9aa0a9` |
+| `--t3` | `text-t3` | tertiary / labels | `#8a97a7` | `#646a73` |
+| `--t4` | `text-t4` | faint | `#aab3c1` | `#474c54` |
+
+### Accent — cyan
+
+| Token | Utility | Role | Light | Dark |
+|---|---|---|---|---|
+| `--acc` | `text-acc` | accent | `#0a9cb8` | `#22d3ee` |
+| `--acc-2` | `text-acc-2` | hover | `#0a87a0` | `#10bcd8` |
+| `--acc-deep` | `text-acc-deep` | pressed / deep | `#0a6d82` | `#0a9cba` |
+| `--acc-ghost` | `bg-acc-ghost` | tinted fill (~10–12%) | — | — |
+| `--acc-line` | — | tinted border (~32–35%) | — | — |
+
+Note: light cyan is deeper (so white text reads on filled cyan); dark cyan is brighter (dark ink on filled cyan).
+
+### Status — six tones
+
+| Token | Utility | Meaning | Light | Dark |
+|---|---|---|---|---|
+| `--live` | `text-live` | live / active | `#0fae9a` | `#34e0c4` |
+| `--train` | `text-train` | training / pending | `#e0930f` | `#f9c652` |
+| `--warn` | `text-warn` | error / failed | `#e54848` | `#f87171` |
+| `--idle` | `text-idle` | secondary / draft | `#6366f1` | `#7c89f0` |
+| `--pos` | `text-pos` | positive | `#13a06a` | `#34d399` |
+| `--neg` | `text-neg` | negative | `#e5486b` | `#fb7185` |
+
+Each tone has a matching `--*-ghost` (≈12% tint) for pill backgrounds.
+
+---
+
+## 4 · Typography
+
+| Role | Variable | Utility | Family |
+|---|---|---|---|
+| Display | `--f-display` | `font-display` | Bricolage Grotesque |
+| Body / UI | `--f-sans` | `font-sans` | Hanken Grotesk |
+| Mono / data | `--f-mono` | `font-mono` | IBM Plex Mono |
+
+- Headlines: `font-display`, tight tracking (`-0.02em` to `-0.025em`).
+- Numerals/metrics, keycaps, status pills, eyebrow labels: `font-mono`, often uppercase with letter-spacing.
+- Load the three families via `<link>` in the document head (not a CSS `@import` — Tailwind v4 hoists/drops it).
+
+---
+
+## 5 · Radius
+
+| Token | Utility | Value |
+|---|---|---|
+| `--r-xs` | `rounded-xs` | 6px |
+| `--r-sm` | `rounded-sm` | 9px |
+| `--r-md` | `rounded-md` (`--radius`) | 13px |
+| `--r-lg` | `rounded-lg` | 18px |
+| `--r-xl` | `rounded-xl` | 26px |
+| `--r-pill` | `rounded-full` | 999px |
+
+---
+
+## 6 · Elevation & shadows
+
+Cards get a lit-from-above edge (`--card-edge`, `inset 0 1px 0`) plus a cast shadow, and lift `translateY(-1px)` on hover.
+
+| Token | Utility | Role |
+|---|---|---|
+| `--sh-card` / `--sh-card-hi` | `shadow-card` / `shadow-card-hi` | resting / raised card |
+| `--sh-1` `--sh-2` `--sh-3` | `shadow-1/2/3` | popover · modal · max |
+| `--sh-glow` | `shadow-glow` | cyan focus glow |
+
+Floating surfaces (select / dropdown / popover / command) sit one surface step up (`--bg-3`) + a cast shadow, so they never blend into the card beneath. Modals use `--bg-2` + `--sh-3`.
+
+---
+
+## 7 · Component theming (the `data-slot` model)
+
+The `aevox-overrides` cascade layer targets shadcn's `data-slot` attributes and sits **above** Tailwind utilities, so stock components adopt the AeVox look with no per-component edits. Highlights:
+
+- **Inputs / textarea / select-trigger** → solid `--bg-1` fill, cyan focus glow; `aria-invalid` → red border + ring.
+- **Tabs / toggle-group / toggle** → square-rounded segmented control; active carries cyan (`acc-ghost` + `acc-line`).
+- **Table** → mono uppercase headers, hairline rows, hover highlight.
+- **Kbd** → physical keycap (thick bottom edge + cast shadow).
+- **Skeleton** → cyan-aware shimmer with enough contrast on any surface.
+- **Card** → elevated, lit edge, hover lift.
+- **Dialog / overlay** → raised plane + dimmed overlay.
+
+### Three enhanced components (ship as files)
+
+- **Button** — variants: `default` (solid cyan gradient + white text, the one loud CTA), `secondary` (solid white/surface + border + shadow), `outline` (transparent + cyan border/text), `ghost`, `destructive` (soft tinted red), `link`. Sizes `xs · sm · default · lg` + icon sizes. **Gradient only on primary.**
+- **Badge** — every variant is a mono-uppercase ghost pill. Status tones: `live · training · idle · warn · accent · neutral`, plus `tag` (metadata).
+- **Avatar** — photo + initials; `AvatarFallback tone="violet|green|amber|gray|accent"` → gradient orbs.
+
+---
+
+## 8 · AeVox-native primitives
+
+No shadcn equivalent — `import { Sonar, Stat, StatusDot } from "@/components/aevox"`.
+
+- **Sonar** — expanding radar ping for live/active states. `<Sonar size={n} />`; rings scale `0.28 → 1` so they stay in the box at any size.
+- **Stat** — headline metric, mono numerals. Static `value`, or `count={n}` (+ `decimals`) to **animate 0 → value** on mount.
+- **StatusDot** — inline `<i class="dot {tone}">` indicator.
+- **`.ae-rise`** — opt-in entrance utility (`animation: ae-rise .5s … both`); stagger with inline `animation-delay`.
+
+---
+
+## 9 · Motion
+
+Ship list (all reduced-motion-safe):
+
+| Motion | Where | Trigger |
+|---|---|---|
+| Count-up | `Stat count={…}` | on mount |
+| Reveal | `.ae-rise` | on mount (opt-in) |
+| Shimmer | Skeleton | continuous |
+| Sonar pulse | `Sonar` | continuous |
+| Hover lift / press | cards, buttons | interactive |
+
+**Not shipped (deliberate):** scroll-fade-everything, typing text — reads as templated and slows a reference UI.
+
+---
+
+## 10 · Install
+
+- **Skill:** run `/aevox-design` in the target project (detects stack, fills gaps, drops theme + components + fonts). **Tailwind v4 + shadcn required** — v3→v4 migration is a separate, not-yet-automated step.
+- **Registry:** `npx shadcn@latest add https://cubixai.github.io/aevox-design/r/aevox-theme.json …` then `shadcn add` the stock components — the theme styles them automatically.
+
+Full token + utility reference + live previews: the gallery's **Foundations** and **Theme CSS** sections.
