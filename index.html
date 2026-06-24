@@ -15,16 +15,15 @@
   </head>
   <body>
     <script>
-      // No-FOUC: apply persisted theme/density before first paint. Light is default.
+      // No-FOUC: apply persisted theme/density before first paint. Light is the
+      // default (no attribute); only dark sets data-theme="dark".
       (function () {
         try {
-          var t = localStorage.getItem("aevox_theme") || "light";
-          document.documentElement.setAttribute("data-theme", t);
+          if (localStorage.getItem("aevox_theme") === "dark")
+            document.documentElement.setAttribute("data-theme", "dark");
           if (localStorage.getItem("aevox_density") === "compact")
             document.documentElement.setAttribute("data-density", "compact");
-        } catch (e) {
-          document.documentElement.setAttribute("data-theme", "light");
-        }
+        } catch (e) {}
       })();
     </script>
     <div id="root"></div>

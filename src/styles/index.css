@@ -10,8 +10,9 @@
 
 /* AeVox tokens + native primitive classes, inlined so this is ONE drop-in file. */
 @layer aevox {
-/* ---- AeVox design tokens (dark = default) ---- */
-:root {
+/* ---- AeVox design tokens — DARK (light is the default; this flips on
+       data-theme="dark"). Agnostic vars (radii/type/layout) live on :root below. ---- */
+:root[data-theme="dark"] {
   /* Surfaces — layered elevation ladder.
      The content canvas is the DEEPEST plane; chrome (sidebar+topbar) sits a
      clear step above it; cards lift highest off the canvas. */
@@ -88,8 +89,8 @@
   --glow-on: 1;
 }
 
-/* ---- Light theme tokens ---- */
-:root[data-theme="light"] {
+/* ---- Light theme tokens — the DEFAULT (no attribute) ---- */
+:root {
   --bg-0: #eef1f6;
   --bg-1: #ffffff;
   --bg-2: #ffffff;
@@ -125,6 +126,22 @@
   --sh-glow: 0 0 0 1px rgba(10,156,184,.22), 0 8px 30px rgba(10,156,184,.15);
   --sh-card: 0 1px 2px rgba(16,28,42,.05);
   --sh-card-hi: 0 2px 8px rgba(16,28,42,.08);
+
+  /* Theme-agnostic (radii, type, layout) — live on the default :root so they
+     exist in both themes. */
+  --card-edge: rgba(255,255,255,.03);
+  --r-xs: 6px;
+  --r-sm: 9px;
+  --r-md: 13px;
+  --r-lg: 18px;
+  --r-xl: 26px;
+  --r-pill: 999px;
+  --f-display: 'Bricolage Grotesque', sans-serif;
+  --f-sans: 'Hanken Grotesk', sans-serif;
+  --f-mono: 'IBM Plex Mono', monospace;
+  --nav-w: 264px;
+  --topbar-h: 60px;
+  --glow-on: 1;
 
   --topbar-bg: var(--bg-1);
   --overlay-bg: rgba(22,30,42,.40);
@@ -175,14 +192,14 @@
 /* ============================================================
    AeVox ↔ Tailwind v4 ↔ shadcn bridge
    - AeVox tokens (the @layer aevox block above) are the source of truth.
-   - Dark is the DEFAULT theme. `[data-theme="light"]` flips it.
+   - Light is the DEFAULT theme. `[data-theme="dark"]` flips it.
    - shadcn semantic vars alias AeVox tokens, so shadcn components
      adopt the AeVox look with zero per-component overrides.
    ============================================================ */
 
-/* Variants driven off data-theme (dark = default, no attribute needed). */
-@custom-variant light (&:where([data-theme="light"], [data-theme="light"] *));
-@custom-variant dark (&:where(:root:not([data-theme="light"]), :root:not([data-theme="light"]) *));
+/* Variants driven off data-theme (light = default, no attribute needed). */
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+@custom-variant light (&:where(:root:not([data-theme="dark"]), :root:not([data-theme="dark"]) *));
 
 /* shadcn semantic tokens → AeVox tokens. These reference AeVox vars, so
    they switch automatically when [data-theme] changes. */
@@ -197,7 +214,7 @@
   --popover-foreground: var(--t1);
 
   --primary: var(--acc);
-  --primary-foreground: #06222b; /* dark ink on bright cyan (dark theme) */
+  --primary-foreground: #ffffff; /* light default: white on deep cyan */
 
   --secondary: var(--bg-3);
   --secondary-foreground: var(--t1);
@@ -209,7 +226,7 @@
   --accent-foreground: var(--t1);
 
   --destructive: var(--warn);
-  --destructive-foreground: #2a0c0c;
+  --destructive-foreground: #ffffff;
 
   --input: var(--border-2);
   --ring: var(--acc);
@@ -217,10 +234,10 @@
   --radius: var(--r-md);
 }
 
-/* Light theme: cyan is deeper, so primary/destructive want light ink. */
-:root[data-theme="light"] {
-  --primary-foreground: #ffffff;
-  --destructive-foreground: #ffffff;
+/* Dark theme: bright cyan / soft red want DARK ink. */
+:root[data-theme="dark"] {
+  --primary-foreground: #06222b;
+  --destructive-foreground: #2a0c0c;
 }
 
 @theme inline {
@@ -336,14 +353,14 @@
    Token refinements — cleaner amber than the raw export.
    (Overrides aevox.css :root values; unlayered wins over layer(aevox).)
    ============================================================ */
-:root {
+:root[data-theme="dark"] {
   --train: #f9c652; /* dark: brighter, less muddy amber */
   --train-ghost: rgba(249, 198, 82, 0.14);
   --stage: #101319; /* demo preview surface — clean, between canvas and cards */
 }
-/* Light status palette — vivid + cohesive (same hues as dark, darkened just
-   enough for white). Replaces the muddy/brown raw-export values. */
-:root[data-theme="light"] {
+/* Light status palette (the DEFAULT) — vivid + cohesive, darkened just enough
+   for white. Replaces the muddy/brown raw-export values. */
+:root {
   --live: #0fae9a;
   --live-ghost: rgba(15, 174, 154, 0.12);
   --train: #e0930f;

@@ -23,10 +23,10 @@ const DENSITY_KEY = "aevox_density";
 
 function apply(theme: Theme, density: Density) {
   const root = document.documentElement;
-  // Light is the default. The attribute is always explicit: data-theme="light"
-  // gets the light overrides; data-theme="dark" falls through to the :root dark
-  // values defined in aevox.css.
-  root.setAttribute("data-theme", theme);
+  // Light is the default — no attribute. Dark is opt-in via data-theme="dark".
+  // So an app that ships only the CSS (no JS) renders light, with no flash.
+  if (theme === "dark") root.setAttribute("data-theme", "dark");
+  else root.removeAttribute("data-theme");
   if (density === "compact") root.setAttribute("data-density", "compact");
   else root.removeAttribute("data-density");
 }

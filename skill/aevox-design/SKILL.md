@@ -31,7 +31,11 @@ Inspect `package.json` + the tree and report findings before acting:
 - Which `components/ui/*` already exist (so you don't clobber customized ones).
 
 ## 1 · Foundation (install only what's missing)
-- **Tailwind v4 missing:**
+- **Tailwind v3 detected → STOP.** This system is Tailwind **v4 only** (uses `@theme`,
+  `@custom-variant`, CSS `@layer`). A v3→v4 upgrade is a real migration (config →
+  CSS-first, breaking utility changes) and is **NOT automated by this skill yet**
+  (TODO). Report it and let the user upgrade to v4 first, or scope to a v4 app.
+- **Tailwind v4 missing (no Tailwind at all):**
   - Vite: `npm i -D tailwindcss @tailwindcss/vite`; add `tailwindcss()` to `vite.config` plugins; ensure a CSS entry with `@import "tailwindcss";`.
   - Next: `npm i tailwindcss @tailwindcss/postcss postcss`; `postcss.config` with `@tailwindcss/postcss`; `@import "tailwindcss";` in `app/globals.css`.
 - **shadcn missing:** `npx shadcn@latest init` (base color neutral, CSS variables). Confirm `components.json` + `@/lib/utils` exist.
