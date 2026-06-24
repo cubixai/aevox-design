@@ -223,6 +223,7 @@ Use the design-system components + tokens. Never hand-roll a look-alike — that
 
 - **Badges carry no dot and no icon** — a tone-tinted mono pill *is* the badge. Need a live indicator? Put the `StatusDot` primitive *beside* the text, not inside a badge.
 - **Never nest a `<Card>` inside a `<Card>`** — use a `bg-surface-3` sub-panel for inner grouping.
+- **`className` is for layout/sizing only** (`w-full`, `gap-2`, `mb-4`, `max-w-sm`). **Never override a component's *appearance* with `className`** (`bg-accent`, `text-warn`, `border-line`, custom `hover:`) — pick the right **variant**. A `<Button className="bg-accent text-surface-0">` reinventing the primary → just `<Button>`; a warn-tinted outline → `variant="destructive"`; a custom-styled `SelectTrigger` → drop the color classes, keep the width. Overriding the variant defeats the system.
 
 ### Color
 
