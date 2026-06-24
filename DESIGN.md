@@ -202,3 +202,41 @@ Never use raw Tailwind palette colors (`bg-red-500`, `text-gray-500`, …). Map 
 | gray · slate · zinc · neutral · stone | `ink-*` / `surface-*` / `line-*` | text→`text-ink-2/3`, fills→`bg-surface-2/3`, borders→`border-line-2` |
 
 Shade conventions: light fills `bg-*-50/100` → `bg-*-ghost`; mid text `text-*-600/700` → `text-*`; borders `border-*-200/300` → `border-*/25`. If the markup is a badge/pill, prefer the canonical `<Badge variant="live|train|warn|idle|accent|neutral|success">` over ad-hoc color classes.
+
+---
+
+## 12 · Conventions — build *on* the system, not beside it
+
+Use the design-system components + tokens. Never hand-roll a look-alike — that is how drift starts.
+
+### Components — use them, don't recreate them
+
+| Need | Do | Don't |
+|---|---|---|
+| Panel / card | `<Card>` (+ `CardHeader/CardContent/CardFooter`) | a div styled `bg-card border rounded-lg p-6` |
+| Status / label | `<Badge variant="live\|train\|warn\|idle\|accent\|neutral\|success">` | `<Badge variant="outline" className="border-warn text-warn">` or a `<span className="rounded-full uppercase">` |
+| Button | `<Button variant=… size=…>` | raw `<button className="…">` |
+| Text field | `<Input>` / `<Textarea>` | raw `<input>` (except `type=file/color`/native pickers) |
+| Select / menu | `<Select>` / `<DropdownMenu>` | hand-built dropdown divs |
+| Table | `<Table>` (`TableHeader/Row/Cell`) | grid/flex divs faking a table |
+| Modal | `<Dialog>` | `fixed inset-0` overlay divs |
+
+- **Badges carry no dot and no icon** — a tone-tinted mono pill *is* the badge. Need a live indicator? Put the `StatusDot` primitive *beside* the text, not inside a badge.
+- **Never nest a `<Card>` inside a `<Card>`** — use a `bg-surface-3` sub-panel for inner grouping.
+
+### Color
+
+- **Never** raw Tailwind palette — `bg-red-500`, `text-gray-500`, `border-blue-200`. Map to tokens (§11).
+- **Do** use token utilities: `bg-surface-*`, `text-ink-*`, `border-line-*`, `text-accent`, status `text-warn/train/live/idle/pos/neg` (+ `bg-*-ghost`, `border-*/25`).
+- **Shadcn semantic classes are fine** — `text-muted-foreground`, `bg-muted`, `bg-card`, `bg-primary`, `text-primary`, `border-border` all map to tokens and flip with the theme. Use them freely. One caveat: `bg-background` is the **canvas** (surface-0), not a card surface — for a panel, use `<Card>`/`surface-2`.
+- **Legit hex exceptions** (not UI chrome — leave them): chart/data-viz series colors, brand logos, and color *data* the user chooses (e.g. a classification/role color).
+
+### Status tones — canonical mapping
+
+- Urgency / severity: `low → live`, `medium → train`, `high → warn`, `critical → warn` (or `destructive`).
+- State: resolved/done → `success`/`live`; pending/in-progress → `train`/`accent`; error/failed → `warn`; draft/secondary → `idle`/`neutral`.
+
+### Theme + motion
+
+- Dark mode is the `.dark` class on `<html>`. Reach for `dark:` variants only when a token can't express it — most things just flip via tokens.
+- Keep motion purposeful (hover, press, skeleton, sonar, opt-in count-up/reveal). No scroll-fade-everything, no typing text.
