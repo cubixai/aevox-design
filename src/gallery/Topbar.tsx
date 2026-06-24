@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Moon, Sun, Menu } from "lucide-react";
+import { Moon, Sun, Menu, Search } from "lucide-react";
 import { useTheme } from "@/lib/theme";
 import logo from "@/assets/logo-mark.png";
 
@@ -55,6 +55,18 @@ export function Topbar({ onMenu }: { onMenu: () => void }) {
         </Link>
       </div>
       <div className="flex items-center gap-2">
+        <button
+          type="button"
+          aria-label="Search sections"
+          onClick={() => window.dispatchEvent(new Event("aevox:cmdk"))}
+          className="flex h-9 items-center gap-2 rounded-sm border border-line-2 bg-surface-2 px-2.5 text-[13px] text-t3 transition hover:border-line-3 hover:text-t2"
+        >
+          <Search className="size-4" />
+          <span className="hidden sm:inline">Search</span>
+          <kbd className="ml-3 hidden rounded-xs border border-line-2 bg-surface-3 px-1.5 py-0.5 font-mono text-[10px] text-t3 sm:inline-block">
+            ⌘K
+          </kbd>
+        </button>
         <IconButton
           label={theme === "dark" ? "Switch to light" : "Switch to dark"}
           onClick={toggleTheme}

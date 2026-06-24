@@ -6,6 +6,7 @@ import { cn } from "@/lib/utils";
 import { Topbar } from "./Topbar";
 import { Sidebar } from "./Sidebar";
 import { GalleryPage } from "./GalleryPage";
+import { CommandMenu } from "./CommandMenu";
 
 export function GalleryLayout() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -41,6 +42,7 @@ export function GalleryLayout() {
             </main>
           </div>
         </div>
+        <CommandMenu />
         <Toaster position="bottom-right" />
       </TooltipProvider>
     </ThemeProvider>
