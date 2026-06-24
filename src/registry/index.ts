@@ -1,4 +1,5 @@
 import { foundations } from "./foundations";
+import { animations } from "./animations";
 import { components } from "./components";
 import { overlays } from "./overlays";
 import { controls } from "./controls";
@@ -8,6 +9,7 @@ import type { RegistryEntry, RegistryGroup } from "./types";
 
 export const registry: RegistryEntry[] = [
   ...foundations,
+  ...animations,
   ...components,
   ...overlays,
   ...controls,
@@ -17,6 +19,7 @@ export const registry: RegistryEntry[] = [
 
 const GROUP_ORDER = [
   "Foundations",
+  "Animations",
   "Primitives",
   "Forms",
   "Data",
