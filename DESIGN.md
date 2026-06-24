@@ -10,7 +10,7 @@ Live gallery: https://cubixai.github.io/aevox-design/ · Install: `/aevox-design
 
 ## 1 · Principles
 
-- **One token source, two themes.** Every color routes through a CSS variable. Light is the base `:root`; dark is opt-in via `data-theme="dark"`. The whole UI flips at once.
+- **One token source, two themes.** Every color routes through a CSS variable, stored as **HSL channels** (`--ink-1: 214 29% 17%`) so Tailwind alpha modifiers work (`text-ink-2/40`). Light is the base `:root`; dark is opt-in via the `.dark` class. The whole UI flips at once.
 - **Elevation, lit from above.** Surfaces ladder from a deep canvas up to raised cards. Cards carry a lit top edge + a cast shadow and lift on hover. The UI never reads flat.
 - **Cyan is the one accent.** A single brand cyan for primary actions, focus, links, active states. No second hue competing.
 - **Mono for data + labels.** IBM Plex Mono for numerals, keycaps, status pills, and eyebrow labels — it signals "system."
@@ -20,8 +20,8 @@ Live gallery: https://cubixai.github.io/aevox-design/ · Install: `/aevox-design
 
 ## 2 · Theming model
 
-- **Light = default.** No attribute on `<html>` → light.
-- **Dark = opt-in.** `data-theme="dark"` on `<html>` → dark.
+- **Light = default.** No class on `<html>` → light.
+- **Dark = opt-in.** The `.dark` class on `<html>` → dark (the standard shadcn / Tailwind v4 convention; `next-themes` defaults to it).
 - An app shipping only the CSS (no JS) renders light, with no flash.
 - Bundled `ThemeProvider` (`@/lib/theme`) persists the choice and exposes `useTheme()` (`theme`, `toggleTheme`).
 
@@ -38,39 +38,39 @@ const { theme, toggleTheme } = useTheme()
 
 | Token | Utility | Role | Light | Dark |
 |---|---|---|---|---|
-| `--bg-0` | `bg-surface-0` | app canvas (deepest) | `#eef1f6` | `#0c0e12` |
-| `--bg-1` | `bg-surface-1` | chrome: sidebar + topbar | `#ffffff` | `#17191e` |
-| `--bg-2` | `bg-surface-2` | cards / panels | `#ffffff` | `#1c1f25` |
-| `--bg-3` | `bg-surface-3` | raised / hover | `#f1f4f9` | `#23262d` |
-| `--bg-4` | `bg-surface-4` | active / input | `#e7ecf3` | `#2c3037` |
+| `--surface-0` | `bg-surface-0` | app canvas (deepest) | `#eef1f6` | `#0c0e12` |
+| `--surface-1` | `bg-surface-1` | chrome: sidebar + topbar | `#ffffff` | `#17191e` |
+| `--surface-2` | `bg-surface-2` | cards / panels | `#ffffff` | `#1c1f25` |
+| `--surface-3` | `bg-surface-3` | raised / hover | `#f1f4f9` | `#23262d` |
+| `--surface-4` | `bg-surface-4` | active / input | `#e7ecf3` | `#2c3037` |
 | `--stage` | — | recessed preview surface | `#f6f8fc` | `#101319` |
 
 ### Borders
 
 | Token | Utility | Light | Dark |
 |---|---|---|---|
-| `--border` | `border-line` | `#e7ebf1` | `#24272e` |
-| `--border-2` | `border-line-2` | `#d8dee7` | `#313640` |
-| `--border-3` | `border-line-3` | `#bcc6d2` | `#434954` |
+| `--line` | `border-line` | `#e7ebf1` | `#24272e` |
+| `--line-2` | `border-line-2` | `#d8dee7` | `#313640` |
+| `--line-3` | `border-line-3` | `#bcc6d2` | `#434954` |
 
 ### Text
 
 | Token | Utility | Role | Light | Dark |
 |---|---|---|---|---|
-| `--t1` | `text-t1` | primary | `#1f2a38` | `#eceef2` |
-| `--t2` | `text-t2` | secondary | `#4c5a6c` | `#9aa0a9` |
-| `--t3` | `text-t3` | tertiary / labels | `#8a97a7` | `#646a73` |
-| `--t4` | `text-t4` | faint | `#aab3c1` | `#474c54` |
+| `--ink-1` | `text-ink-1` | primary | `#1f2a38` | `#eceef2` |
+| `--ink-2` | `text-ink-2` | secondary | `#4c5a6c` | `#9aa0a9` |
+| `--ink-3` | `text-ink-3` | tertiary / labels | `#8a97a7` | `#646a73` |
+| `--ink-4` | `text-ink-4` | faint | `#aab3c1` | `#474c54` |
 
 ### Accent — cyan
 
 | Token | Utility | Role | Light | Dark |
 |---|---|---|---|---|
-| `--acc` | `text-acc` | accent | `#0a9cb8` | `#22d3ee` |
-| `--acc-2` | `text-acc-2` | hover | `#0a87a0` | `#10bcd8` |
-| `--acc-deep` | `text-acc-deep` | pressed / deep | `#0a6d82` | `#0a9cba` |
-| `--acc-ghost` | `bg-acc-ghost` | tinted fill (~10–12%) | — | — |
-| `--acc-line` | — | tinted border (~32–35%) | — | — |
+| `--accent` | `text-accent` | accent | `#0a9cb8` | `#22d3ee` |
+| `--accent-2` | `text-accent-2` | hover | `#0a87a0` | `#10bcd8` |
+| `--accent-deep` | `text-accent-deep` | pressed / deep | `#0a6d82` | `#0a9cba` |
+| `--accent-ghost` | `bg-accent-ghost` | tinted fill (~10–12%) | — | — |
+| `--accent-line` | — | tinted border (~32–35%) | — | — |
 
 Note: light cyan is deeper (so white text reads on filled cyan); dark cyan is brighter (dark ink on filled cyan).
 
@@ -107,18 +107,18 @@ Each tone has a matching `--*-ghost` (≈12% tint) for pill backgrounds.
 
 | Token | Utility | Value |
 |---|---|---|
-| `--r-xs` | `rounded-xs` | 6px |
-| `--r-sm` | `rounded-sm` | 9px |
-| `--r-md` | `rounded-md` (`--radius`) | 13px |
-| `--r-lg` | `rounded-lg` | 18px |
-| `--r-xl` | `rounded-xl` | 26px |
-| `--r-pill` | `rounded-full` | 999px |
+| `--radius-xs` | `rounded-xs` | 6px |
+| `--radius-sm` | `rounded-sm` | 9px |
+| `--radius-md` | `rounded-md` (`--radius`) | 13px |
+| `--radius-lg` | `rounded-lg` | 18px |
+| `--radius-xl` | `rounded-xl` | 26px |
+| `--radius-pill` | `rounded-full` | 999px |
 
 ---
 
 ## 6 · Elevation & shadows
 
-Cards get a lit-from-above edge (`--card-edge`, `inset 0 1px 0`) plus a cast shadow, and lift `translateY(-1px)` on hover.
+Cards get a lit-from-above edge (`--edge`, `inset 0 1px 0`) plus a cast shadow, and lift `translateY(-1px)` on hover.
 
 | Token | Utility | Role |
 |---|---|---|
@@ -126,7 +126,7 @@ Cards get a lit-from-above edge (`--card-edge`, `inset 0 1px 0`) plus a cast sha
 | `--sh-1` `--sh-2` `--sh-3` | `shadow-1/2/3` | popover · modal · max |
 | `--sh-glow` | `shadow-glow` | cyan focus glow |
 
-Floating surfaces (select / dropdown / popover / command) sit one surface step up (`--bg-3`) + a cast shadow, so they never blend into the card beneath. Modals use `--bg-2` + `--sh-3`.
+Floating surfaces (select / dropdown / popover / command) sit one surface step up (`--surface-3`) + a cast shadow, so they never blend into the card beneath. Modals use `--surface-2` + `--sh-3`.
 
 ---
 
@@ -134,8 +134,8 @@ Floating surfaces (select / dropdown / popover / command) sit one surface step u
 
 The `aevox-overrides` cascade layer targets shadcn's `data-slot` attributes and sits **above** Tailwind utilities, so stock components adopt the AeVox look with no per-component edits. Highlights:
 
-- **Inputs / textarea / select-trigger** → solid `--bg-1` fill, cyan focus glow; `aria-invalid` → red border + ring.
-- **Tabs / toggle-group / toggle** → square-rounded segmented control; active carries cyan (`acc-ghost` + `acc-line`).
+- **Inputs / textarea / select-trigger** → solid `--surface-1` fill, cyan focus glow; `aria-invalid` → red border + ring.
+- **Tabs / toggle-group / toggle** → square-rounded segmented control; active carries cyan (`accent-ghost` + `accent-line`).
 - **Table** → mono uppercase headers, hairline rows, hover highlight.
 - **Kbd** → physical keycap (thick bottom edge + cast shadow).
 - **Skeleton** → cyan-aware shimmer with enough contrast on any surface.
