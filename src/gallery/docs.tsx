@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import { CodeBlock } from "./CodeBlock";
+import themeCss from "@/styles/index.css?raw";
 
 export type DocSection = {
   slug: string;
@@ -121,6 +122,33 @@ const { theme, toggleTheme } = useTheme()`}
   <span className="font-mono tabular-nums text-acc">98.6%</span>
 </div>`}
         />
+      </div>
+    ),
+  },
+  {
+    slug: "theme-css",
+    name: "Theme CSS",
+    blurb:
+      "The single stylesheet behind everything — tokens, base, and every per-component override. Copy it as global.css and import once.",
+    body: (
+      <div className="space-y-5">
+        <P>
+          This one file themes every stock shadcn component. Save it as{" "}
+          <code className="text-acc">app/global.css</code> (or{" "}
+          <code className="text-acc">src/styles/global.css</code>), import it
+          once at your app root, and every primitive picks up AeVox — no
+          per-component patching. The registry and skill install this for you;
+          the full source is here to copy or audit.
+        </P>
+        <CodeBlock lang="css" code={themeCss} scroll />
+        <P>
+          Layer order matters:{" "}
+          <code className="text-acc">
+            theme, base, aevox, components, utilities, aevox-overrides
+          </code>{" "}
+          — the AeVox overrides sit above Tailwind utilities so the component
+          theming wins, while your own utility classes still override per-element.
+        </P>
       </div>
     ),
   },

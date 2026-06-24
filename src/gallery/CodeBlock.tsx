@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Check, Copy } from "lucide-react";
 import { Highlight, type PrismTheme } from "prism-react-renderer";
+import { cn } from "@/lib/utils";
 
 /* Prism theme wired to AeVox tokens — flips with light/dark automatically. */
 const aevoxPrism: PrismTheme = {
@@ -33,9 +34,12 @@ const aevoxPrism: PrismTheme = {
 export function CodeBlock({
   code,
   lang = "tsx",
+  scroll = false,
 }: {
   code: string;
   lang?: string;
+  /** Cap the height and scroll — for long files like the full theme CSS. */
+  scroll?: boolean;
 }) {
   const [copied, setCopied] = useState(false);
   return (
@@ -58,7 +62,12 @@ export function CodeBlock({
       </button>
       <Highlight theme={aevoxPrism} code={code.trim()} language={lang}>
         {({ tokens, getLineProps, getTokenProps }) => (
-          <pre className="overflow-x-auto p-4 font-mono text-[12.5px] leading-relaxed">
+          <pre
+            className={cn(
+              "overflow-x-auto p-4 font-mono text-[12.5px] leading-relaxed",
+              scroll && "max-h-[460px] overflow-y-auto",
+            )}
+          >
             {tokens.map((line, i) => (
               <div key={i} {...getLineProps({ line })}>
                 {line.map((token, key) => (

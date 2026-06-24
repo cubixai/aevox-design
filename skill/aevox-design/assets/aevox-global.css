@@ -134,6 +134,13 @@
 :root { --row-h: 56px; --pad-card: 24px; }
 @keyframes skel { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
 @keyframes fadein { from { opacity: .55; } to { opacity: 1; } }
+@keyframes ae-rise { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+
+/* Opt-in reveal — apply to one element deliberately, never the whole page. */
+.ae-rise { animation: ae-rise 0.5s cubic-bezier(0.2, 0.7, 0.3, 1) both; }
+@media (prefers-reduced-motion: reduce) {
+  .ae-rise { animation: none; }
+}
 
 /* ---- AeVox-native primitive classes (Sonar / Stat / StatusDot) ---- */
 .dot { width: 7px; height: 7px; border-radius: 50%; flex: none; }
