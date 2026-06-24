@@ -183,3 +183,22 @@ Ship list (all reduced-motion-safe):
 - **Registry:** `npx shadcn@latest add https://cubixai.github.io/aevox-design/r/aevox-theme.json …` then `shadcn add` the stock components — the theme styles them automatically.
 
 Full token + utility reference + live previews: the gallery's **Foundations** and **Theme CSS** sections.
+
+---
+
+## 11 · Migrating legacy colors → tokens
+
+Never use raw Tailwind palette colors (`bg-red-500`, `text-gray-500`, …). Map them to the token utilities. Standard mapping:
+
+| Legacy hue | Token | Notes |
+|---|---|---|
+| red · rose | `warn` | error / failed / critical |
+| orange | `warn` | high severity |
+| amber · yellow | `train` | pending / training / medium |
+| green · emerald · teal · lime | `live` | active; use `pos` for positive metrics, `success` Badge for "done" |
+| blue · sky | `idle` | info / secondary |
+| indigo · violet · purple · fuchsia | `idle` | use `accent` only if it's a brand-primary usage |
+| cyan | `accent` | the brand accent |
+| gray · slate · zinc · neutral · stone | `ink-*` / `surface-*` / `line-*` | text→`text-ink-2/3`, fills→`bg-surface-2/3`, borders→`border-line-2` |
+
+Shade conventions: light fills `bg-*-50/100` → `bg-*-ghost`; mid text `text-*-600/700` → `text-*`; borders `border-*-200/300` → `border-*/25`. If the markup is a badge/pill, prefer the canonical `<Badge variant="live|train|warn|idle|accent|neutral|success">` over ad-hoc color classes.
