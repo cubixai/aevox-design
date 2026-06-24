@@ -217,7 +217,8 @@ Use the design-system components + tokens. Never hand-roll a look-alike — that
 | Status / label | `<Badge variant="live\|train\|warn\|idle\|accent\|neutral\|success">` | `<Badge variant="outline" className="border-warn text-warn">` or a `<span className="rounded-full uppercase">` |
 | Button | `<Button variant=… size=…>` | raw `<button className="…">` |
 | Text field | `<Input>` / `<Textarea>` | raw `<input>` (except `type=file/color`/native pickers) |
-| Select / menu | `<Select>` / `<DropdownMenu>` | hand-built dropdown divs |
+| Choose a value (status/filter) | `<Select>` (trigger box + chevron + popover list) | a `<DropdownMenu>` + `<Button>` — reads as a button, not a select |
+| Menu of actions/commands | `<DropdownMenu>` ("More ⋯", row context menu) | hand-built dropdown divs |
 | Table | `<Table>` (`TableHeader/Row/Cell`) | grid/flex divs faking a table |
 | Modal | `<Dialog>` | `fixed inset-0` overlay divs |
 
