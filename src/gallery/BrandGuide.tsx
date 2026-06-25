@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import { cn } from "@/lib/utils";
+import { useTheme } from "@/lib/theme";
 import logoMark from "@/assets/aevox-logo.png";
 
 const COLORS = [
@@ -31,26 +32,22 @@ function Eyebrow({ children }: { children: ReactNode }) {
 
 function ColorRow({
   name,
-  light,
-  dark,
+  hex,
   use,
 }: {
   name: string;
-  light: string;
-  dark: string;
+  hex: string;
   use: string;
 }) {
   return (
     <div className="flex items-center gap-3 rounded-lg border border-line bg-surface-2 p-2.5">
-      <div className="flex shrink-0 overflow-hidden rounded-md border border-line-2">
-        <div className="size-11" style={{ backgroundColor: light }} title={`light ${light}`} />
-        <div className="size-11" style={{ backgroundColor: dark }} title={`dark ${dark}`} />
-      </div>
+      <div
+        className="size-11 shrink-0 rounded-md border border-line-2"
+        style={{ backgroundColor: hex }}
+      />
       <div className="min-w-0">
         <div className="text-[13px] font-medium text-ink-1">{name}</div>
-        <div className="font-mono text-[11px] uppercase text-ink-3">
-          {light} · {dark}
-        </div>
+        <div className="font-mono text-[11px] uppercase text-ink-3">{hex}</div>
         <div className="text-[12px] text-ink-3">{use}</div>
       </div>
     </div>
@@ -58,19 +55,30 @@ function ColorRow({
 }
 
 export function BrandGuide() {
+  const { theme } = useTheme();
   return (
     <div className="space-y-9">
       <p className="max-w-prose text-[15px] leading-relaxed text-ink-2">
-        The AeVox look for decks, social, print, Figma, or Canva — actual colours
-        (light + dark), the three fonts, and the spacing. Copy the hex, grab the
-        fonts. The one rule: <span className="text-ink-1">cyan is the only accent</span>.
+        The AeVox look for decks, social, print, Figma, or Canva — colours, the
+        three fonts, and the spacing. Copy the hex, grab the fonts. The one rule:{" "}
+        <span className="text-ink-1">cyan is the only accent</span>.
       </p>
 
       <section className="space-y-3">
-        <Eyebrow>Colour — light · dark</Eyebrow>
+        <Eyebrow>
+          Colour{" "}
+          <span className="font-normal normal-case text-ink-4">
+            — {theme} theme (toggle ☀ / ☾ up top to switch)
+          </span>
+        </Eyebrow>
         <div className="grid gap-2 sm:grid-cols-2">
           {COLORS.map((c) => (
-            <ColorRow key={c.name} {...c} />
+            <ColorRow
+              key={c.name}
+              name={c.name}
+              hex={theme === "dark" ? c.dark : c.light}
+              use={c.use}
+            />
           ))}
         </div>
       </section>
