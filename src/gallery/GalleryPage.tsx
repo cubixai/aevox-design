@@ -71,7 +71,29 @@ export function GalleryPage() {
               {d.blurb}
             </p>
           </header>
-          {d.body}
+          {d.collapsible ? (
+            <details className="group">
+              <summary className="flex w-fit cursor-pointer list-none items-center gap-2 rounded-md border border-line bg-surface-2 px-3 py-1.5 font-mono text-[12px] font-medium uppercase tracking-[0.06em] text-ink-2 transition-colors hover:bg-surface-3 [&::-webkit-details-marker]:hidden">
+                <svg
+                  className="size-3.5 transition-transform group-open:rotate-90"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  aria-hidden
+                >
+                  <path d="m9 6 6 6-6 6" />
+                </svg>
+                <span className="group-open:hidden">Show</span>
+                <span className="hidden group-open:inline">Hide</span>
+              </summary>
+              <div className="mt-6">{d.body}</div>
+            </details>
+          ) : (
+            d.body
+          )}
         </section>
       ))}
 

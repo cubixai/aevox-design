@@ -16,6 +16,8 @@ export type DocSection = {
   name: string;
   blurb: string;
   body: ReactNode;
+  /** Render the body inside a collapsed-by-default disclosure (long reference pages). */
+  collapsible?: boolean;
 };
 
 function P({ children }: { children: ReactNode }) {
@@ -37,6 +39,7 @@ export const docs: DocSection[] = [
     name: "Brand & style guide",
     blurb:
       "For slides, social, print, or any app — no code needed. Copy the hex values, grab the three fonts, follow the spacing. The one rule: cyan is the only accent.",
+    collapsible: true,
     body: (
       <div className="space-y-9">
         <P>
@@ -298,6 +301,7 @@ const { theme, toggleTheme } = useTheme()`}
     name: "Full design spec",
     blurb:
       "The complete technical reference (DESIGN.md) — tokens, theming, elevation, the data-slot component model, primitives, motion, and the §12 do/don't conventions. For developers extending the system.",
+    collapsible: true,
     body: <Markdown>{designSpec}</Markdown>,
   },
 ];
