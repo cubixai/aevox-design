@@ -2,7 +2,7 @@ import { cn } from "@/lib/utils";
 import { groups, registry } from "@/registry";
 import { Section } from "./Section";
 import { docs } from "./docs";
-import logo from "@/assets/logo-mark.png";
+import logo from "@/assets/aevox-logo.png";
 
 function groupId(name: string) {
   return "group-" + name.toLowerCase().replace(/\s+/g, "-");

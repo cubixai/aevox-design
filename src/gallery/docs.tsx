@@ -3,7 +3,7 @@ import { CodeBlock } from "./CodeBlock";
 import { Markdown, Swatch } from "./Markdown";
 import themeCss from "@/styles/index.css?raw";
 import designMd from "../../DESIGN.md?raw";
-import logoMark from "@/assets/logo-mark.png";
+import logoMark from "@/assets/aevox-logo.png";
 
 // The full DESIGN.md, minus its title + intro (the doc section header supplies those).
 const designSpec = (() => {
