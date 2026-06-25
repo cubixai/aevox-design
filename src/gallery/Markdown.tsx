@@ -1,6 +1,18 @@
-import type { ComponentPropsWithoutRef, ReactNode } from "react";
+import type { ReactNode } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+import { CopyButton, CopyCode } from "./copy";
+
+/** Recursively extract the plain text of a React node (to copy code blocks). */
+function nodeText(node: ReactNode): string {
+  if (node == null || typeof node === "boolean") return "";
+  if (typeof node === "string" || typeof node === "number") return String(node);
+  if (Array.isArray(node)) return node.map(nodeText).join("");
+  if (typeof node === "object" && "props" in node) {
+    return nodeText((node as { props?: { children?: ReactNode } }).props?.children);
+  }
+  return "";
+}
 
 /**
  * On-brand markdown renderer — maps each element onto the AeVox token set so a
@@ -53,18 +65,22 @@ export function Markdown({ children }: { children: string }) {
               {children}
             </li>
           ),
-          code: ({ children, ...props }: ComponentPropsWithoutRef<"code">) => (
-            <code
-              className="rounded-[5px] bg-surface-3 px-1.5 py-0.5 font-mono text-[0.85em] text-accent"
-              {...props}
-            >
-              {children}
-            </code>
-          ),
+          code: ({ className, children }) =>
+            className ? (
+              <code className={className}>{children}</code>
+            ) : (
+              <CopyCode>{children}</CopyCode>
+            ),
           pre: ({ children }) => (
-            <pre className="overflow-x-auto rounded-lg border border-line bg-surface-2 p-4 font-mono text-[13px] leading-relaxed text-ink-1 [&_code]:bg-transparent [&_code]:p-0 [&_code]:text-ink-1">
-              {children}
-            </pre>
+            <div className="group relative my-3">
+              <CopyButton
+                value={nodeText(children).replace(/\n+$/, "")}
+                className="absolute right-2 top-2 rounded-md border border-line bg-surface-3 p-1.5 opacity-0 transition-opacity group-hover:opacity-100"
+              />
+              <pre className="overflow-x-auto rounded-lg border border-line bg-surface-2 p-4 pr-12 font-mono text-[13px] leading-relaxed text-ink-1 [&_code]:bg-transparent [&_code]:p-0 [&_code]:text-ink-1">
+                {children}
+              </pre>
+            </div>
           ),
           hr: () => <hr className="my-8 border-line" />,
           blockquote: ({ children }) => (

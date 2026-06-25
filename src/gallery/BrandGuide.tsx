@@ -1,6 +1,8 @@
 import type { ReactNode } from "react";
+import { Check, Copy } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useTheme } from "@/lib/theme";
+import { useCopied } from "./copy";
 import logoMark from "@/assets/aevox-logo.png";
 
 const COLORS = [
@@ -39,18 +41,31 @@ function ColorRow({
   hex: string;
   use: string;
 }) {
+  const { copied, copy } = useCopied();
   return (
-    <div className="flex items-center gap-3 rounded-lg border border-line bg-surface-2 p-2.5">
+    <button
+      type="button"
+      onClick={() => copy(hex)}
+      title={`Copy ${hex}`}
+      className="group flex w-full items-center gap-3 rounded-lg border border-line bg-surface-2 p-2.5 text-left transition-colors hover:border-line-2 hover:bg-surface-3"
+    >
       <div
         className="size-11 shrink-0 rounded-md border border-line-2"
         style={{ backgroundColor: hex }}
       />
-      <div className="min-w-0">
+      <div className="min-w-0 flex-1">
         <div className="text-[13px] font-medium text-ink-1">{name}</div>
-        <div className="font-mono text-[11px] uppercase text-ink-3">{hex}</div>
-        <div className="text-[12px] text-ink-3">{use}</div>
+        <div className="flex items-center gap-1.5 font-mono text-[11px] uppercase text-ink-3">
+          {hex}
+          {copied ? (
+            <Check className="size-3 text-live" />
+          ) : (
+            <Copy className="size-3 opacity-0 transition-opacity group-hover:opacity-100" />
+          )}
+        </div>
+        <div className="text-[12px] normal-case text-ink-3">{use}</div>
       </div>
-    </div>
+    </button>
   );
 }
 
@@ -59,14 +74,14 @@ export function BrandGuide() {
   return (
     <div className="space-y-9">
       <p className="max-w-prose text-[15px] leading-relaxed text-ink-2">
-        The AeVox look for decks, social, print, Figma, or Canva — colours, the
+        The AeVox look for decks, social, print, Figma, or Canva — colors, the
         three fonts, and the spacing. Copy the hex, grab the fonts. The one rule:{" "}
         <span className="text-ink-1">cyan is the only accent</span>.
       </p>
 
       <section className="space-y-3">
         <Eyebrow>
-          Colour{" "}
+          Color{" "}
           <span className="font-normal normal-case text-ink-4">
             — {theme} theme (toggle ☀ / ☾ up top to switch)
           </span>
@@ -140,7 +155,7 @@ export function BrandGuide() {
         </div>
         <p className="max-w-prose text-[14px] leading-relaxed text-ink-2">
           Use the mark on a clean light or dark surface, with clear space ≈ its own
-          height. Never rotate, stretch, recolour, or add effects.
+          height. Never rotate, stretch, recolor, or add effects.
         </p>
       </section>
 
@@ -159,8 +174,8 @@ export function BrandGuide() {
           <div className="rounded-lg border border-warn/25 bg-warn-ghost p-4">
             <div className="font-mono text-[11px] font-bold uppercase tracking-wide text-warn">Don&apos;t</div>
             <ul className="mt-2 space-y-1.5 text-[14px] text-ink-2">
-              <li>Recolour, rotate, or stretch the logo.</li>
-              <li>Add a second accent or off-brand colours.</li>
+              <li>Recolor, rotate, or stretch the logo.</li>
+              <li>Add a second accent or off-brand colors.</li>
               <li>Swap in arbitrary fonts.</li>
               <li>Crowd elements in tight, hard-edged boxes.</li>
             </ul>

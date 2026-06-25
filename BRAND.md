@@ -2,13 +2,13 @@ A plain-language guide to the AeVox look — for decks, social posts, print, Fig
 or Canva. No code needed: copy the hex codes, grab the three fonts, follow the
 spacing. **One rule — cyan is the only accent.**
 
-## Colour
+## Color
 
 Cyan is the single accent: buttons, links, highlights. Inks are text. Surfaces are
-backgrounds. The status colours are for states only (success, pending, error,
+backgrounds. The status colors are for states only (success, pending, error,
 info) — never decoration. Copy the hex straight into Figma, Canva, or your slides.
 
-| Colour | Light | Dark | Use for |
+| Color | Light | Dark | Use for |
 |---|---|---|---|
 | Cyan / accent | `#0A9CB8` | `#22D3EE` | Primary buttons, links, highlights, focus |
 | Ink — text | `#1F2A38` | `#ECEEF2` | Headlines + body copy |
@@ -42,8 +42,8 @@ Download: [Bricolage Grotesque](https://fonts.google.com/specimen/Bricolage+Grot
 ## Logo
 
 Use the AeVox mark on a light or dark surface. Give it clear space (≈ its own
-height all around), keep it its own colour, and place it on a clean background.
-Never rotate, stretch, recolour, add shadows/effects, or box it in.
+height all around), keep it its own color, and place it on a clean background.
+Never rotate, stretch, recolor, add shadows/effects, or box it in.
 
 ## Shape & spacing
 
@@ -57,6 +57,6 @@ should feel calm, never cramped.
 dark text on light surfaces (and light on dark) · give elements room with soft
 corners and generous padding.
 
-**Don't** — recolour, rotate, or stretch the logo · add a second accent or
-off-brand colours · swap in arbitrary fonts · crowd elements into tight,
+**Don't** — recolor, rotate, or stretch the logo · add a second accent or
+off-brand colors · swap in arbitrary fonts · crowd elements into tight,
 hard-edged boxes.

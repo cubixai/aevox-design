@@ -176,7 +176,7 @@ const { theme, toggleTheme } = useTheme()`}
     icon: <Palette className="size-4" />,
     collapsible: true,
     blurb:
-      "Plain-language style guide for designers & marketing — real colour swatches (light + dark), the fonts, shape, and spacing for Figma, Canva, slides, social, or print.",
+      "Plain-language style guide for designers & marketing — real color swatches (light + dark), the fonts, shape, and spacing for Figma, Canva, slides, social, or print.",
     body: <BrandGuide />,
   },
   {
