@@ -1,7 +1,7 @@
 import { cn } from "@/lib/utils";
 import { groups, registry } from "@/registry";
 import { Section } from "./Section";
-import { docs } from "./docs";
+import { docGroups } from "./docs";
 import logo from "@/assets/logo-mark.png";
 
 function groupId(name: string) {
@@ -46,55 +46,67 @@ function Hero() {
 
 export function GalleryPage() {
   return (
-    <div className="mx-auto max-w-3xl px-10 pb-32">
+    <div className="mx-auto max-w-4xl px-10 pb-32">
       <Hero />
 
-      <h2
-        id="group-docs"
-        className="scroll-mt-6 flex items-center gap-3 pt-20 pb-2 font-mono text-[12px] font-bold uppercase tracking-[0.2em] text-ink-3"
-      >
-        <span className="size-1.5 rounded-full bg-accent" aria-hidden />
-        Docs
-        <span className="ml-1 h-px flex-1 bg-line" aria-hidden />
-      </h2>
-      {docs.map((d, i) => (
-        <section
-          key={d.slug}
-          id={d.slug}
-          className={cn("scroll-mt-6 py-14", i !== 0 && "border-t border-line")}
-        >
-          <header className="mb-7">
-            <h2 className="font-display text-[30px] font-semibold leading-tight tracking-[-0.02em] text-ink-1">
-              {d.name}
-            </h2>
-            <p className="mt-2 max-w-prose text-[15px] leading-relaxed text-ink-2">
-              {d.blurb}
-            </p>
-          </header>
-          {d.collapsible ? (
-            <details className="group">
-              <summary className="flex w-fit cursor-pointer list-none items-center gap-2 rounded-md border border-line bg-surface-2 px-3 py-1.5 font-mono text-[12px] font-medium uppercase tracking-[0.06em] text-ink-2 transition-colors hover:bg-surface-3 [&::-webkit-details-marker]:hidden">
-                <svg
-                  className="size-3.5 transition-transform group-open:rotate-90"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  aria-hidden
-                >
-                  <path d="m9 6 6 6-6 6" />
-                </svg>
-                <span className="group-open:hidden">Show</span>
-                <span className="hidden group-open:inline">Hide</span>
-              </summary>
-              <div className="mt-6">{d.body}</div>
-            </details>
-          ) : (
-            d.body
+      {docGroups.map((grp) => (
+        <div key={grp.name}>
+          <h2
+            id={groupId(grp.name)}
+            className="scroll-mt-6 flex items-center gap-3 pt-20 pb-2 font-mono text-[12px] font-bold uppercase tracking-[0.2em] text-ink-3"
+          >
+            <span className="size-1.5 rounded-full bg-accent" aria-hidden />
+            {grp.name}
+            <span className="ml-1 h-px flex-1 bg-line" aria-hidden />
+          </h2>
+          {grp.docs.map((d, i) =>
+            d.collapsible ? (
+              <section key={d.slug} id={d.slug} className="scroll-mt-6 pt-3">
+                <details className="group rounded-xl border border-line bg-surface-2 shadow-card transition-shadow open:shadow-card-hi">
+                  <summary className="flex cursor-pointer list-none items-start justify-between gap-4 p-6 [&::-webkit-details-marker]:hidden">
+                    <div>
+                      <h3 className="font-display text-[22px] font-semibold tracking-[-0.02em] text-ink-1">
+                        {d.name}
+                      </h3>
+                      <p className="mt-1.5 max-w-prose text-[14px] leading-relaxed text-ink-2">
+                        {d.blurb}
+                      </p>
+                    </div>
+                    <svg
+                      className="mt-1 size-5 shrink-0 text-ink-3 transition-transform group-open:rotate-180"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      aria-hidden
+                    >
+                      <path d="m6 9 6 6 6-6" />
+                    </svg>
+                  </summary>
+                  <div className="border-t border-line p-6">{d.body}</div>
+                </details>
+              </section>
+            ) : (
+              <section
+                key={d.slug}
+                id={d.slug}
+                className={cn("scroll-mt-6 py-14", i !== 0 && "border-t border-line")}
+              >
+                <header className="mb-7">
+                  <h2 className="font-display text-[30px] font-semibold leading-tight tracking-[-0.02em] text-ink-1">
+                    {d.name}
+                  </h2>
+                  <p className="mt-2 max-w-prose text-[15px] leading-relaxed text-ink-2">
+                    {d.blurb}
+                  </p>
+                </header>
+                {d.body}
+              </section>
+            ),
           )}
-        </section>
+        </div>
       ))}
 
       {groups.map((group) => (

@@ -1,7 +1,7 @@
 import { groups } from "@/registry";
 import { cn } from "@/lib/utils";
 import { useScrollSpy } from "./useScrollSpy";
-import { docs } from "./docs";
+import { docs, docGroups } from "./docs";
 
 export function Sidebar({ onNavigate }: { onNavigate?: () => void }) {
   // Must match the on-page render order (groups), NOT the registry file order,
@@ -15,7 +15,7 @@ export function Sidebar({ onNavigate }: { onNavigate?: () => void }) {
 
   const linkCls = (id: string) =>
     cn(
-      "block rounded-sm px-2 py-1.5 text-[13.5px] transition",
+      "flex items-center gap-2 rounded-sm px-2 py-1.5 text-[13.5px] transition",
       active === id
         ? "bg-accent-ghost font-medium text-accent"
         : "text-ink-2 hover:bg-surface-3 hover:text-ink-1",
@@ -31,24 +31,27 @@ export function Sidebar({ onNavigate }: { onNavigate?: () => void }) {
         Getting started
       </a>
 
-      <div>
-        <div className="px-2 pb-2 text-[11px] font-bold uppercase tracking-[0.12em] text-ink-3">
-          Docs
+      {docGroups.map((grp) => (
+        <div key={grp.name}>
+          <div className="px-2 pb-2 text-[11px] font-bold uppercase tracking-[0.12em] text-ink-3">
+            {grp.name}
+          </div>
+          <ul className="space-y-0.5">
+            {grp.docs.map((d) => (
+              <li key={d.slug}>
+                <a
+                  href={`#${d.slug}`}
+                  onClick={onNavigate}
+                  className={linkCls(d.slug)}
+                >
+                  {d.icon}
+                  {d.name}
+                </a>
+              </li>
+            ))}
+          </ul>
         </div>
-        <ul className="space-y-0.5">
-          {docs.map((d) => (
-            <li key={d.slug}>
-              <a
-                href={`#${d.slug}`}
-                onClick={onNavigate}
-                className={linkCls(d.slug)}
-              >
-                {d.name}
-              </a>
-            </li>
-          ))}
-        </ul>
-      </div>
+      ))}
 
       {groups.map((group) => (
         <div key={group.name}>
