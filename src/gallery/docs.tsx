@@ -302,6 +302,10 @@ const { theme, toggleTheme } = useTheme()`}
     blurb:
       "The complete technical reference (DESIGN.md) — tokens, theming, elevation, the data-slot component model, primitives, motion, and the §12 do/don't conventions. For developers extending the system.",
     collapsible: true,
-    body: <Markdown>{designSpec}</Markdown>,
+    body: (
+      <div className="rounded-xl border border-line bg-surface-2 p-6 shadow-card sm:p-8">
+        <Markdown>{designSpec}</Markdown>
+      </div>
+    ),
   },
 ];

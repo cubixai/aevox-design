@@ -18,7 +18,7 @@ export function Markdown({ children }: { children: string }) {
             </h2>
           ),
           h2: ({ children }) => (
-            <h3 className="mt-10 border-t border-line pt-8 font-display text-[20px] font-semibold tracking-[-0.01em] text-ink-1">
+            <h3 className="mt-10 border-t border-line pt-8 font-display text-[20px] font-semibold tracking-[-0.01em] text-ink-1 first:mt-0 first:border-t-0 first:pt-0">
               {children}
             </h3>
           ),
@@ -73,11 +73,16 @@ export function Markdown({ children }: { children: string }) {
             </blockquote>
           ),
           table: ({ children }) => (
-            <div className="overflow-x-auto rounded-lg border border-line">
+            <div className="my-3 overflow-x-auto rounded-lg border border-line-2 shadow-card">
               <table className="w-full border-collapse text-[13px]">{children}</table>
             </div>
           ),
           thead: ({ children }) => <thead className="bg-surface-3">{children}</thead>,
+          tbody: ({ children }) => (
+            <tbody className="bg-surface-2 [&>tr:hover]:bg-surface-3/60 [&>tr:nth-child(even)]:bg-surface-3/35">
+              {children}
+            </tbody>
+          ),
           th: ({ children }) => (
             <th className="border-b border-line px-3 py-2 text-left font-mono text-[11px] font-bold uppercase tracking-[0.06em] text-ink-3">
               {children}
