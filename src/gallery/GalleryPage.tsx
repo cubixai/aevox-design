@@ -46,7 +46,7 @@ function Hero() {
 
 export function GalleryPage() {
   return (
-    <div className="mx-auto max-w-4xl px-10 pb-32">
+    <div className="mx-auto max-w-5xl px-10 pb-32">
       <Hero />
 
       {docGroups.map((grp) => (

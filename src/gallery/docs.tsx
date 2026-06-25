@@ -4,7 +4,7 @@ import { CodeBlock } from "./CodeBlock";
 import { Markdown } from "./Markdown";
 import themeCss from "@/styles/index.css?raw";
 import designMd from "../../DESIGN.md?raw";
-import brandMd from "../../BRAND.md?raw";
+import { BrandGuide } from "./BrandGuide";
 
 // The full DESIGN.md, minus its title + intro (the doc section header supplies those).
 const designSpec = (() => {
@@ -176,8 +176,8 @@ const { theme, toggleTheme } = useTheme()`}
     icon: <Palette className="size-4" />,
     collapsible: true,
     blurb:
-      "Plain-language style guide for designers & marketing — every colour (copy-paste hex), font + size for Figma, Canva, slides, social, or print. Rendered from BRAND.md.",
-    body: <Markdown>{brandMd}</Markdown>,
+      "Plain-language style guide for designers & marketing — real colour swatches (light + dark), the fonts, shape, and spacing for Figma, Canva, slides, social, or print.",
+    body: <BrandGuide />,
   },
   {
     slug: "design-spec",
