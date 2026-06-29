@@ -36,8 +36,8 @@
   --accent-2: 190 88% 33%;    /* #0a87a0 */
   --accent-deep: 190 86% 27%; /* #0a6d82 */
   --accent-ghost: rgba(10, 156, 184, 0.1);
-  --accent-ghost-2: rgba(10, 156, 184, 0.18);
-  --accent-line: rgba(10, 156, 184, 0.32);
+  --accent-ghost-2: rgba(10, 156, 184, 0.17);
+  --accent-line: rgba(10, 156, 184, 0.3);
   --accent-glow: rgba(10, 156, 184, 0.3);
 
   /* Status (light, vivid + AA on white) */
@@ -46,7 +46,7 @@
   --train: 38 87% 47%;        /* #e0930f */
   --train-ghost: rgba(224, 147, 15, 0.13);
   --warn: 0 75% 59%;          /* #e54848 */
-  --warn-ghost: rgba(229, 72, 72, 0.11);
+  --warn-ghost: rgba(229, 72, 72, 0.12);
   --idle: 239 84% 67%;        /* #6366f1 */
   --idle-ghost: rgba(99, 102, 241, 0.12);
   --pos: 157 79% 35%;         /* #13a06a */
@@ -57,16 +57,24 @@
   /* Demo preview surface */
   --stage: 220 50% 98%;       /* #f6f8fc */
 
-  /* Card elevation — lit-from-above edge + cast shadow */
+  /* Card elevation — flat/linear: hairline border carries structure, no
+     resting shadow; a faint cast lifts only on hover. */
   --edge: rgba(255, 255, 255, 0.03);
   --sh-card: 0 1px 2px rgba(16, 28, 42, 0.05);
   --sh-card-hi: 0 2px 8px rgba(16, 28, 42, 0.08);
+  --sh-card-hover: 0 2px 8px -2px rgba(16, 28, 40, 0.12);
+
+  /* Flat destructive (button-only) — softer than --warn, themed both modes */
+  --danger-text: #d92d20;
+  --danger-line: rgba(217, 45, 32, 0.3);
+  --danger-soft: rgba(217, 45, 32, 0.08);
+  --danger-line-hi: rgba(217, 45, 32, 0.55);
 
   /* Ambient shadows (light) */
   --sh-1: 0 1px 2px rgba(16, 28, 42, 0.06);
   --sh-2: 0 6px 22px rgba(16, 28, 42, 0.1);
   --sh-3: 0 18px 50px rgba(16, 28, 42, 0.16);
-  --sh-glow: 0 0 0 1px rgba(10, 156, 184, 0.22), 0 8px 30px rgba(10, 156, 184, 0.15);
+  --sh-glow: 0 0 0 1px rgba(8, 145, 178, 0.22), 0 8px 30px rgba(8, 145, 178, 0.15);
 
   /* Type / layout (theme-agnostic; radii live in @theme below) */
   --f-display: 'Bricolage Grotesque', sans-serif;
@@ -109,7 +117,7 @@
   --live: 170 74% 54%;        /* #34e0c4 */
   --live-ghost: rgba(52, 224, 196, 0.13);
   --train: 42 93% 65%;        /* #f9c652 */
-  --train-ghost: rgba(249, 198, 82, 0.14);
+  --train-ghost: rgba(249, 198, 82, 0.13);
   --warn: 0 91% 71%;          /* #f87171 */
   --warn-ghost: rgba(248, 113, 113, 0.13);
   --idle: 233 79% 71%;        /* #7c89f0 */
@@ -124,6 +132,12 @@
   --edge: rgba(255, 255, 255, 0.03);
   --sh-card: 0 1px 2px rgba(0, 0, 0, 0.22), 0 2px 6px rgba(0, 0, 0, 0.14);
   --sh-card-hi: 0 2px 6px rgba(0, 0, 0, 0.28), 0 8px 22px rgba(0, 0, 0, 0.22);
+  --sh-card-hover: 0 2px 8px -2px rgba(0, 0, 0, 0.4);
+
+  --danger-text: #ff7b72;
+  --danger-line: rgba(255, 123, 114, 0.32);
+  --danger-soft: rgba(255, 123, 114, 0.14);
+  --danger-line-hi: rgba(255, 123, 114, 0.55);
 
   --sh-1: 0 1px 3px rgba(0, 0, 0, 0.5);
   --sh-2: 0 8px 28px rgba(0, 0, 0, 0.55);
@@ -511,6 +525,12 @@
     border-color: hsl(var(--line-2));
   }
 
+  /* Quieter badges (Redux) — soft fill carries the status; drop the tinted
+     hairline on every filled variant. Only `outline` keeps a border. */
+  [data-slot="badge"]:not([data-variant="outline"]) {
+    border-color: transparent;
+  }
+
   /* ---- Avatar fallback → AeVox gradient orbs ---- */
   [data-slot="avatar-fallback"][data-tone="violet"] {
     background: radial-gradient(circle at 32% 28%, #b3aef9, #7c89f0 70%);
@@ -619,24 +639,19 @@
     animation: skel 1.4s linear infinite;
   }
 
-  /* ---- Elevation & depth ---- */
+  /* ---- Flat surfaces (Redux/linear) — hairline border + bg step carry
+     structure; zero resting shadow, a faint cast lifts only on hover. ---- */
   [data-slot="card"] {
     background-color: hsl(var(--surface-2));
-    border: 1px solid hsl(var(--line-2));
-    box-shadow:
-      var(--sh-card-hi),
-      inset 0 1px 0 var(--edge);
+    border: 1px solid hsl(var(--line));
+    box-shadow: none;
     transition:
-      box-shadow 0.18s ease,
-      transform 0.18s ease,
-      border-color 0.18s ease;
+      box-shadow 0.14s ease,
+      border-color 0.14s ease;
   }
   [data-slot="card"]:hover {
-    box-shadow:
-      var(--sh-2),
-      inset 0 1px 0 var(--edge);
-    border-color: hsl(var(--line-3));
-    transform: translateY(-1px);
+    border-color: hsl(var(--line-2));
+    box-shadow: var(--sh-card-hover);
   }
 
   [data-slot="table-row"]:hover {

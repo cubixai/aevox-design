@@ -11,7 +11,7 @@ Live gallery: https://cubixai.github.io/aevox-design/ · Install: `/aevox-design
 ## 1 · Principles
 
 - **One token source, two themes.** Every color routes through a CSS variable, stored as **HSL channels** (`--ink-1: 214 29% 17%`) so Tailwind alpha modifiers work (`text-ink-2/40`). Light is the base `:root`; dark is opt-in via the `.dark` class. The whole UI flips at once.
-- **Elevation, lit from above.** Surfaces ladder from a deep canvas up to raised cards. Cards carry a lit top edge + a cast shadow and lift on hover. The UI never reads flat.
+- **Flat / linear surfaces.** Structure reads from the surface step + a crisp hairline border — not from light. Surfaces ladder from a deep canvas up to raised cards, but cards rest with **zero shadow**; a faint cast lifts only on hover. No glows, no inset highlights, no radial pools.
 - **Cyan is the one accent.** A single brand cyan for primary actions, focus, links, active states. No second hue competing.
 - **Mono for data + labels.** IBM Plex Mono for numerals, keycaps, status pills, and eyebrow labels — it signals "system."
 - **Motion is purposeful, never decorative.** Hover, press, skeleton shimmer, the sonar pulse, opt-in count-up/reveal. No scroll-fade-everything. Always respects `prefers-reduced-motion`.
@@ -118,11 +118,12 @@ Each tone has a matching `--*-ghost` (≈12% tint) for pill backgrounds.
 
 ## 6 · Elevation & shadows
 
-Cards get a lit-from-above edge (`--edge`, `inset 0 1px 0`) plus a cast shadow, and lift `translateY(-1px)` on hover.
+Cards rest **flat** — hairline `--line` border, no shadow. On hover the border steps to `--line-2` and a faint cast (`--sh-card-hover`) lifts the surface. No `translateY`, no inset highlight.
 
 | Token | Utility | Role |
 |---|---|---|
-| `--sh-card` / `--sh-card-hi` | `shadow-card` / `shadow-card-hi` | resting / raised card |
+| `--sh-card` / `--sh-card-hi` | `shadow-card` / `shadow-card-hi` | legacy elevation (kept for opt-in use) |
+| `--sh-card-hover` | `shadow-[var(--sh-card-hover)]` | faint card hover cast |
 | `--sh-1` `--sh-2` `--sh-3` | `shadow-1/2/3` | popover · modal · max |
 | `--sh-glow` | `shadow-glow` | cyan focus glow |
 
@@ -139,13 +140,13 @@ The `aevox-overrides` cascade layer targets shadcn's `data-slot` attributes and 
 - **Table** → mono uppercase headers, hairline rows, hover highlight.
 - **Kbd** → physical keycap (thick bottom edge + cast shadow).
 - **Skeleton** → cyan-aware shimmer with enough contrast on any surface.
-- **Card** → elevated, lit edge, hover lift.
+- **Card** → flat surface + hairline border; faint cast on hover only.
 - **Dialog / overlay** → raised plane + dimmed overlay.
 
 ### Three enhanced components (ship as files)
 
-- **Button** — variants: `default` (solid cyan gradient + white text, the one loud CTA), `secondary` (solid white/surface + border + shadow), `outline` (transparent + cyan border/text), `ghost`, `destructive` (soft tinted red), `link`. Sizes `xs · sm · default · lg` + icon sizes. **Gradient only on primary.**
-- **Badge** — every variant is a mono-uppercase ghost pill. Status tones: `live · training · idle · warn · accent · neutral`, plus `tag` (metadata).
+- **Button** — variants: `default` (one solid flat cyan `#0b97b6` + white text, the single loud CTA — identical in light & dark), `secondary` (white/surface + border, flat), `outline` (transparent + cyan border/text), `ghost`, `destructive` (flat transparent body + soft red text/hairline, soft red wash on hover via `--danger-*`), `link`. Sizes `xs · sm · default · lg` + icon sizes. **No gradients — flat fills only.**
+- **Badge** — every variant is a mono-uppercase ghost pill, soft fill with **no hairline** (only `outline` keeps a border). Status tones: `live · training · idle · warn · accent · neutral`, plus `tag` (metadata).
 - **Avatar** — photo + initials; `AvatarFallback tone="violet|green|amber|gray|accent"` → gradient orbs.
 
 ---
