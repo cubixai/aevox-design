@@ -407,6 +407,23 @@
     background-color: var(--overlay-bg);
   }
 
+  /* Sonner toasts — force a SOLID raised surface. Stock shadcn wires
+     `--normal-bg: var(--popover)`, but AeVox tokens are raw HSL channels, so
+     that resolves to an invalid color and the toast renders translucent.
+     Pin the sonner vars (and the toast itself) to hsl()-wrapped surfaces. */
+  [data-sonner-toaster] {
+    --normal-bg: hsl(var(--surface-3));
+    --normal-text: hsl(var(--ink-1));
+    --normal-border: hsl(var(--line-3));
+    --border-radius: var(--radius-md);
+  }
+  [data-sonner-toast] {
+    background: hsl(var(--surface-3));
+    color: hsl(var(--ink-1));
+    border: 1px solid hsl(var(--line-3));
+    box-shadow: var(--sh-2);
+  }
+
   /* Tabs → AeVox segmented control. */
   [data-slot="tabs-list"] {
     background-color: hsl(var(--surface-2));
